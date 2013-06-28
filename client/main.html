@@ -1,0 +1,439 @@
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"> 
+  	<title>Fav!</title>  
+
+</head>
+
+<body>
+	
+<table style=" width: 100%;  height: 100%; position: relative; z-index: 1;">	
+	<td>		
+		<div id="MainViewport">
+			<div id="MainContainer">
+				<div id="PageContainer">
+					
+					<div id="page1" class="Page">
+						<div id="header"> 								
+							<span id="showHome" class="pull-left logo" href="#">
+								<p>FAV.VN</p> <small>favorite music</small>
+							</span>
+														
+							{{> currentRoomLogged}}
+							
+							{{#isolate}}							
+								{{#if currentUser}} 								
+									{{> loggInForm}}
+								{{else}}	
+									{{> noLoggInForm}}
+								{{/if}}
+							{{/isolate}} 
+							
+						</div>		
+						
+						<div id="albumList" class="pull-left">
+							<img src="http://img.click.zdn.vn/11758.jpg" alt="" style="margin-bottom: 20px;">	
+					
+							<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
+							
+							<div class="viewport">
+								<div class="overview">											
+									<p id="plLabel">Playlist đang phát</p>
+								
+									<table class="table table-hover ">
+										<tbody id="realTimeAlbumList">
+											
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+							
+						
+					</div>
+					
+					<div id="page2" class="Page">
+						<div class="left">
+							<div class="header">							
+								<span id="closeAlbum">X</span>
+								<span id="siteLogo">&laquo;  FAV.VN</span>
+							</div>
+								
+							<div id="gallery">
+								{{> playlistInfo}}					
+																
+								<img src="img/LOGO Music for Ads BIGGER.jpg">
+							</div>							
+						</div>
+						
+						<div class="right">
+							<div class="slideHeader">
+								{{> video}} 
+								{{> songInfo}} 
+								
+							</div>
+							
+							<div class="slideBody">
+								<div class="tabbable"> <!-- Only required for left/right tabs -->
+									<ul class="nav nav-tabs">
+										<li class="disabled" style="width:180px;margin: 0;padding: 0 10px;">
+											<a>120 nguoi dang nghe</a>
+										</li>
+										<li class="active"><a href="#tab1" data-toggle="tab">PLAYLIST</a></li>
+										<li>
+											<a href="#tab2" data-toggle="tab">CHAT</a>
+										</li>
+									</ul>
+									<div class="tab-content">
+										<div class="tab-pane active playlist" id="tab1">
+											
+											<div id="addSong" class="input-append">  
+												
+												<input id="searchInput"  type="text" data-provide="typeahead" data-items="5"  
+													placeholder="Thêm bài hát vào playlist"/>	
+													
+												<!--<select id="searchChannel">
+													<option>Từ tất cả nguồn</option>
+													<option>Nhaccuatui</option>
+													<option>Nhacso</option>
+													<option>Zing</option>
+													<option>Keeng</option>
+													<option>Youtube</option>
+												</select>-->
+												
+											</div>												
+											
+											{{> playlist}}
+											
+										</div>
+										
+										<div class="tab-pane" id="tab2">
+											
+											
+											<div id="chatlist"> 		
+												<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>		
+												<div class="viewport">
+													<ul class="overview">											
+														
+													</ul>
+												</div>
+											</div>	
+											
+											{{> chatInput}}	
+											
+										</div>
+										
+									</div>
+								</div>
+							</div>
+							
+							<div class="slideFooter">
+								
+							</div>
+							
+						</div>
+							
+					</div>
+					
+				</div>
+				
+				<div id="Nav"></div>
+			</div>
+		</div>
+	</td>
+</table>
+
+{{> createAlbumForm}}
+
+{{> animationBG}}
+
+</body>
+
+
+<template name="animationBG">
+	<div id="AnimationBG">
+		<div id="clouds">
+			<img class="cloud x1" src="cloud/cloud1.png">		
+			<img class="cloud x2" src="cloud/cloud2.png">
+			<img class="cloud x3" src="cloud/cloud3.png">
+			<img class="cloud x4" src="cloud/cloud4.png">
+			<img class="cloud x5" src="cloud/cloud5.png">
+			<img class="cloud x6" src="cloud/cloud1.png">
+			<img class="cloud x7" src="cloud/cloud2.png">
+			<img class="cloud x8" src="cloud/cloud3.png">
+			<img class="cloud x9" src="cloud/cloud4.png">
+			<img class="cloud x10" src="cloud/cloud5.png">
+		</div>
+	</div>
+</template>
+
+
+
+<template name="playlistInfo">
+	{{#with data}}
+	<div id="albumTitle">
+		<p><a class="albump">{{title}}<small> - ({{length}} bài)</small></a></p>
+									
+		<small class="albumDesc">{{timeAgo}} 
+		- <a href="#">{{owner}}</a> 
+		- the loai <a href="#">{{genre}}</a></small>
+	</div>
+	{{/with}}
+</template>
+
+<template name="currentRoomLogged">
+	{{#isolate}}							
+		{{#if currentUser}} 	
+			{{#with data}} 
+			<a  id="showAlbum" href="#" style="padding: 20px 15px 10px;"
+				p="Click to play (share by {{owner}})"> 
+			
+			<marquee behavior="scroll" scrollamount="3" direction="left" width="400">
+				<p> 
+					<span>Bạn đang nghe : </span> 
+					{{title}}<small></small>             
+					<span> 
+							- share by {{owner}} - {{timeAgo}}
+					</span>  
+				</p>
+			</marquee>				      
+		</a> 
+		{{/with}} 
+		{{/if}}
+	{{/isolate}} 
+</template>
+
+
+<template name="video"> 	
+	{{#with source}}	
+		<video id="myVideo" controls="" width="100%" height="100" poster="img/music.jpg">
+			<source src="{{source}}">
+		</video> 		
+	{{/with}}	
+</template>
+
+<template name="songInfo"> 		
+	{{#with data}}	
+		<small id="songInfo"> 
+			<h5><a>{{title}}</a> <small> - ca sĩ: </small> <a>{{artist}}</a> </h5>
+			<h5><small>Add bởi: <a>{{shareby}}</a></small></h5>
+		</small> 
+	{{/with}}
+</template>
+
+
+
+<template name="playlist"> 
+	
+	<a id="header"><h5>{{data.length}} songs in playlist </h5></a> 
+	<ul id="albumPlaylist">  
+		<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>		
+		<div class="viewport">
+			<div class="overview">											
+				{{#each data}}
+					{{> playlistItem}}
+				{{/each}}
+			</div>
+		</div>
+	</ul> 	
+	
+</template>
+
+
+<template name="playlistItem"> 	
+	<li id="{{id}}" index="{{index}}" data-source="{{source}}" class="pull-left">
+		<p class="title"><strong>{{index}} - {{title}}</strong> <small> - {{artist}}</small></p>
+		<small class="pull-left" style="margin-left:18px;opacity: 0.4;">Added by <a>{{shareby}}</a> - {{timeAgo}}</small>   
+	</li>	
+</template>
+
+
+<template name="albumItem">
+   <tr class="playListItem">
+		<td>
+			<a id="joinBtn" class="joinBtn">
+				<img src="img/phone.png" style=" width: 32px;"><b>120</b>
+			</a>
+		</td>						
+		<td style="width: 320px;">
+			<p><a class="albump" href="{{alias}}" room-id="{{_id}}">{{title}}<small> - ({{playlist.length}} bài)</small></a></p>
+			
+				<small class="albumDesc">{{timeAgo}}
+				- <a href="#">{{owner}}</a> 
+				- the loai <a href="#">{{genre}}</a></small>
+			
+		</td>
+		<td><a class="listStatus">Public &raquo;</a></td>
+	</tr>		
+</template>
+
+<template name="chatlist">
+	<div id="chatlist"> 		
+		<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>		
+		<div class="viewport">
+			<ul class="overview">											
+				{{#each data}}
+					{{> messageChat}}
+				{{/each}}
+			</ul>
+		</div>
+	</div>	
+</template>
+
+<template name="messageChat">
+	<li>
+		<a class="thumbnail"><img src="{{owner.avatar}}"></a>		
+		<p class="info" username="{{owner.username}}"><a><b>{{owner.name}}</b></a></p>
+		<small class="message">		
+			{{message}}
+		</small>		
+	</li>
+</template>
+
+
+<template name="chatInput">
+
+<div id="chatInputForm">
+		<textarea id="chatInput" type="text" row="2"></textarea>
+	</div>
+</template>
+
+<!-- component of page -->
+
+<template name="components"> 
+  {{> commentList}} 
+  {{> createAlbumForm}} 
+</template>
+
+
+<template name="mPage">
+  <div id="mPage" class="mPage">
+    <div id="mPageHeader" class="header navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <a id="homeBtn" class="btn btn-navbar" href="{{data.backUrl}}" title="">
+          <i class="icon-home icon-white"></i></a>
+        <a class="brand" href="{{data.backUrl}}">BuzzNew</a>  
+
+        <a class="btn btn-navbar" href="{{data.backUrl}}" title="">
+          <i class="icon-remove icon-white"></i></a>    
+      </div>
+    </div>  
+
+  </div>
+</template>
+
+
+<template name="commentList">
+  <div id="commentList" data-href="" data-toggle="hide">
+    <ul id="header" class="inline">
+      <h4 id="title">Chat room</h4>
+      <a id="closeCommentBtn" class="btn pull-right" title="" href="#">     
+        <span class="icon-remove"></span></a> 
+    </ul>
+
+    <div id="chatlist">
+
+    </div>
+
+    <div id="chatInputForm">
+        <textarea id="chatInput" rows="2"></textarea>      
+    </div>
+
+  </div>  
+</template>
+
+<template name="createAlbumForm">
+
+    <!-- Modal -->
+    <div id="createAlbumForm" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3 id="myModalLabel">Tao album cua ban</h3>
+        </div>
+
+        <div class="modal-body">
+            <input id="title" type="text" placeholder="Chu de album…">
+            <select id="genre">
+              <option>Nhac Trinh</option>
+              <option>Tru Tinh</option>
+              <option>Pop</option>
+              <option>K-pop</option>
+              <option>V-pop</option>
+              <option>Rock</option>
+              <option>Nhac do</option>
+              <option>Nhac vang</option>
+            </select>
+
+            <label class="radio">
+              <input type="radio" name="policy" value="0" checked>
+                  Public -  Bat ki ai cung co the tham gia
+            </label>
+            <label class="radio">
+              <input type="radio" name="policy" value="1" >
+                  Private  -Chi nhung nguoi toi chia se
+            </label>
+
+        </div>
+
+        <div class="modal-footer">
+          <button id="cancelBtn"  class="btn" data-dismiss="modal" aria-hidden="true">
+              Cancel</button>
+          <button id="saveBtn"  type="button" class="btn btn-primary" 
+              data-loading-text="Saving...">Save changes</button>
+        </div>
+    </div>
+
+</template>
+
+
+<template name="header">  
+  <div id="header" class="header navbar navbar-inverse navbar-fixed-top"> 
+    <div class="navbar-inner">
+      <div class="container-pluid">   
+       
+        <a class="brand">Muto</a>
+        
+        <!--<input class="span2 pull-right" id="searchList" type="text" data-provide="typeahead">-->
+
+        <a href="#createAlbum" role="button" class="btn pull-right" data-toggle="modal">+ Create Album 2</a>
+          
+        </div>
+    </div>
+  </div>
+</template>
+
+<template name="footer">
+  <div class="">
+    <p class="muted credit">Copyright@ Muto - Mang xa hoi chia se hinh anh va video hot tren internet<a href="http://martinbean.co.uk"></a></p>
+  </div>
+</template>
+
+
+<template  name="noLoggInForm">
+	<div class="pull-right">
+		Login with: 
+		<a class ="loginIco"  href="#" title="" id="facebook">
+			<img src="/icon/fb.png" alt="" width="32px">
+		</a>
+	</div> 
+</template>
+
+<template  name="loggInForm">
+	<div class="pull-right" style="width:165px">
+		<a id="createAlbum" href="#createAlbumForm" role="button" class="btn pull-left" data-toggle="modal">
+		+ Create Album</a>
+		
+		<a class="thumbnail pull-left" href="#" style="width:24px;height:22px;margin-left:5px;padding:2px">
+			<img class="avatar" src="{{currentUser.profile.picture}}" />
+		</a>
+	</div>
+</template>
+
+
+
+
+
+
+
