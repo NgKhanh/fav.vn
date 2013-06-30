@@ -15,26 +15,12 @@
 				<div id="PageContainer">
 					
 					<div id="page1" class="Page">
-						<div id="header"> 								
-							<span id="showHome" class="pull-left logo" href="#">
-								<p>FAV.VN</p> <small>favorite music</small>
-							</span>
-														
-							{{> currentRoomLogged}}
-							
-							{{#isolate}}							
-								{{#if currentUser}} 								
-									{{> loggInForm}}
-								{{else}}	
-									{{> noLoggInForm}}
-								{{/if}}
-							{{/isolate}} 
-							
-						</div>		
+						{{> header}}	
 						
 						<div id="albumList" class="pull-left">
-							<img src="http://img.click.zdn.vn/11758.jpg" alt="" style="margin-bottom: 20px;">	
-					
+							<!--
+								<img src="http://img.click.zdn.vn/11758.jpg" alt="" style="margin-bottom: 20px;">	
+							-->
 							<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
 							
 							<div class="viewport">
@@ -177,7 +163,7 @@
 									
 		<small class="albumDesc">{{timeAgo}} 
 		- <a href="#">{{owner}}</a> 
-		- the loai <a href="#">{{genre}}</a></small>
+		- thể loại <a href="#">{{genre}}</a></small>
 	</div>
 	{{/with}}
 </template>
@@ -194,7 +180,7 @@
 					<span>Bạn đang nghe : </span> 
 					{{title}}<small></small>             
 					<span> 
-							- share by {{owner}} - {{timeAgo}}
+							- Thêm vào bởi {{owner}} - {{timeAgo}}
 					</span>  
 				</p>
 			</marquee>				      
@@ -217,7 +203,7 @@
 	{{#with data}}	
 		<small id="songInfo"> 
 			<h5><a>{{title}}</a> <small> - ca sĩ: </small> <a>{{artist}}</a> </h5>
-			<h5><small>Add bởi: <a>{{shareby}}</a></small></h5>
+			<h5><small>Thêm vào bởi: <a>{{shareby}}</a></small></h5>
 		</small> 
 	{{/with}}
 </template>
@@ -226,7 +212,7 @@
 
 <template name="playlist"> 
 	
-	<a id="header"><h5>{{data.length}} songs in playlist </h5></a> 
+	<a id="header"><h5>{{data.length}} bài trong list</h5></a> 
 	<ul id="albumPlaylist">  
 		<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>		
 		<div class="viewport">
@@ -244,7 +230,7 @@
 <template name="playlistItem"> 	
 	<li id="{{id}}" index="{{index}}" data-source="{{source}}" class="pull-left">
 		<p class="title"><strong>{{index}} - {{title}}</strong> <small> - {{artist}}</small></p>
-		<small class="pull-left" style="margin-left:18px;opacity: 0.4;">Added by <a>{{shareby}}</a> - {{timeAgo}}</small>   
+		<small class="pull-left" style="margin-left:18px;opacity: 0.4;">Thêm vào bởi<a>{{shareby}}</a> - {{timeAgo}}</small>   
 	</li>	
 </template>
 
@@ -261,7 +247,7 @@
 			
 				<small class="albumDesc">{{timeAgo}}
 				- <a href="#">{{owner}}</a> 
-				- the loai <a href="#">{{genre}}</a></small>
+				- thể loại <a href="#">{{genre}}</a></small>
 			
 		</td>
 		<td><a class="listStatus">Public &raquo;</a></td>
@@ -327,7 +313,7 @@
 <template name="commentList">
   <div id="commentList" data-href="" data-toggle="hide">
     <ul id="header" class="inline">
-      <h4 id="title">Chat room</h4>
+      <h4 id="title">Phòng chat</h4>
       <a id="closeCommentBtn" class="btn pull-right" title="" href="#">     
         <span class="icon-remove"></span></a> 
     </ul>
@@ -344,91 +330,109 @@
 </template>
 
 <template name="createAlbumForm">
-
     <!-- Modal -->
     <div id="createAlbumForm" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3 id="myModalLabel">Tao album cua ban</h3>
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			{{#if currentUser}}
+				<h3 id="myModalLabel">Tạo list bài hát ưu thích</h3>
+			{{else}}
+				<h3 id="myModalLabel">Đăng nhập</h3>
+			{{/if}}
         </div>
 
         <div class="modal-body">
-            <input id="title" type="text" placeholder="Chu de album…">
-            <select id="genre">
-              <option>Nhac Trinh</option>
-              <option>Tru Tinh</option>
-              <option>Pop</option>
-              <option>K-pop</option>
-              <option>V-pop</option>
-              <option>Rock</option>
-              <option>Nhac do</option>
-              <option>Nhac vang</option>
-            </select>
+			
+			{{#if currentUser}}
+				<input id="title" type="text" placeholder="Chu de album…">
+				<select id="genre">
+					<option>Nhạc Trịnh</option>
+					<option>Trữ tình</option>
+					option>Nhạc trẻ</option>
+					<option>Nhac vàng</option>
+					<option>Nhạc đỏ</option>
+					<option>Cải lương</option>
+					<option>Pop</option>
+					<option>K-pop</option>
+					<option>V-pop</option>
+					<option>Rock</option>
+				</select>
 
-            <label class="radio">
-              <input type="radio" name="policy" value="0" checked>
-                  Public -  Bat ki ai cung co the tham gia
-            </label>
-            <label class="radio">
-              <input type="radio" name="policy" value="1" >
-                  Private  -Chi nhung nguoi toi chia se
-            </label>
+				<label class="radio">
+					<input type="radio" name="policy" value="0" checked>
+					Chia sẻ - với tất cả mọi người yêu thích 
+				</label>
+				<label class="radio">
+					<input type="radio" name="policy" value="1" >
+					Riêng tư - Chỉ cho những người tôi muốn chia sẻ
+				</label>
+			{{else}}
+				{{> noLoggInForm}}
+			{{/if}}
 
         </div>
-
-        <div class="modal-footer">
-          <button id="cancelBtn"  class="btn" data-dismiss="modal" aria-hidden="true">
-              Cancel</button>
-          <button id="saveBtn"  type="button" class="btn btn-primary" 
-              data-loading-text="Saving...">Save changes</button>
-        </div>
+		
+		{{#if currentUser}}
+			<div class="modal-footer">
+				<button id="cancelBtn"  class="btn" data-dismiss="modal" aria-hidden="true">
+				  Hủy bỏ</button>
+				<button id="saveBtn"  type="button" class="btn btn-primary" 
+				  data-loading-text="Saving...">Lưu lại</button>
+			</div>
+		{{/if}}
     </div>
 
 </template>
 
 
-<template name="header">  
-  <div id="header" class="header navbar navbar-inverse navbar-fixed-top"> 
-    <div class="navbar-inner">
-      <div class="container-pluid">   
-       
-        <a class="brand">Muto</a>
-        
-        <!--<input class="span2 pull-right" id="searchList" type="text" data-provide="typeahead">-->
-
-        <a href="#createAlbum" role="button" class="btn pull-right" data-toggle="modal">+ Create Album 2</a>
-          
-        </div>
-    </div>
-  </div>
-</template>
 
 <template name="footer">
   <div class="">
-    <p class="muted credit">Copyright@ Muto - Mang xa hoi chia se hinh anh va video hot tren internet<a href="http://martinbean.co.uk"></a></p>
+    <p class="muted credit">Copyright@ Fav.vn - Mạng chia sẻ và nghe nhạc tức thời<a href="http://martinbean.co.uk"></a></p>
   </div>
 </template>
 
 
+
+<template name="header">  
+  <div id="header"> 								
+		<span id="showHome" class="pull-left logo" href="#">
+			<p>FAV.VN</p> <small>favorite music</small>
+		</span>
+									
+		{{> currentRoomLogged}}
+		
+		{{#isolate}}			
+			<div class="pull-right" style="width: 215px;text-align: right">
+				
+				{{#if currentUser}} 		
+					{{> loggInForm}}
+				{{else}}
+					{{> noLoggInForm}}
+				{{/if}}
+				
+				<a id="createAlbum" href="#createAlbumForm" role="button" class="btn" data-toggle="modal">
+					+ Tạo playlist</a>
+								
+			</div> 	
+		{{/isolate}} 
+		
+	</div>	
+</template>
+
 <template  name="noLoggInForm">
-	<div class="pull-right">
-		Login with: 
-		<a class ="loginIco"  href="#" title="" id="facebook">
-			<img src="/icon/fb.png" alt="" width="32px">
-		</a>
-	</div> 
+	<a class ="loginIco pull-left"  href="#" title="" id="facebook">
+		Đăng nhập: 
+		<img src="/icon/fb.png" alt="" width="32px"></a>	
 </template>
 
 <template  name="loggInForm">
-	<div class="pull-right" style="width:165px">
-		<a id="createAlbum" href="#createAlbumForm" role="button" class="btn pull-left" data-toggle="modal">
-		+ Create Album</a>
-		
-		<a class="thumbnail pull-left" href="#" style="width:24px;height:22px;margin-left:5px;padding:2px">
-			<img class="avatar" src="{{currentUser.profile.picture}}" />
-		</a>
-	</div>
+	<a class="thumbnail pull-left" href="#" style="	width: 26px;
+													height: 26px;
+													margin-left: 70px;
+													padding: 2px;">
+		<img class="avatar" src="{{currentUser.profile.picture}}" /></a>	
 </template>
 
 

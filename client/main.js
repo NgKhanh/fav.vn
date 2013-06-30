@@ -309,15 +309,18 @@ Template.animationBG.rendered=function(){
 	
 	$(".cloud").each(function(i){
 		
+		console.log("render cloud",i);
+		
+		
 		var _scale  = 0.7 + Math.random();
 		var _opacity = Math.min(0.8, 0.7 + _scale - 1);
-		var _ran	= -200 + parseInt(1200*Math.random());
-		var _time 	= parseInt((20 + 10*Math.random())/_opacity);
+		var _ran	= $(window).width()*Math.random();
+		var _time 	= (20 + 10*Math.random())/_opacity;
 		var _depth  = parseInt(20*_opacity);
 		var _blur   = 30 - _depth;
 		var _css = { 
-						"left"				: _ran+ "px"
-						,"top"				: "-200px"
+						"left"				: (i-1) * (60 + Math.random() * 60) + "px"
+						,"top"				:  Math.random() * $(window).height() + "px"
 						
 						//,"box-shadow"		: "0px 0px "+_blur+"px " +_blur+"px rgba(255,255,255,1)"
 						,"opacity"			:_opacity
@@ -325,9 +328,9 @@ Template.animationBG.rendered=function(){
 						,"-moz-transform"	: "scale("+_scale+")"
 						,"transform"		: "scale("+_scale+")"
 						
-						,"-webkit-animation": "moveclouds "+_time+"s linear infinite"
+						/*,"-webkit-animation": "moveclouds "+_time+"s linear infinite"
 						,"-moz-animation"	: "moveclouds "+_time+"s linear infinite"
-						,"-o-animation"		: "moveclouds "+_time+"s linear infinite"
+						,"-o-animation"		: "moveclouds "+_time+"s linear infinite"*/
 						,"position"			: "absolute"
 						,"z-index"			: _depth
 		};

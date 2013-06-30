@@ -12,6 +12,8 @@ a{color:#fff;}
 a:hover{color:#ff8800;}
 .brand{font-size:22px;}
 
+.modal a, .modal h3 {color:#444;}
+
 ul, ol {
 	padding: 0;
 	margin: 0;
@@ -139,6 +141,7 @@ ul li{list-style: none;}
 	border: none;
 	color: #fff;
 	text-shadow: none;
+	padding: 6px 10px;
 }
 
 

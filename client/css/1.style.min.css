@@ -3,6 +3,7 @@ h1,h2,h3,h5,p,span,small,td,.navbar .brand{color:#fff;font-weight:normal;padding
 a{color:#fff;}
 a:hover{color:#ff8800;}
 .brand{font-size:22px;}
+.modal a,.modal h3{color:#444;}
 ul,ol{padding:0;margin:0;}
 ul li{list-style:none;}
 #MainViewport,#PageContainer,.Page{width:100%;height:100%;margin:0 auto;overflow:hidden;color:#fff;}
@@ -24,7 +25,7 @@ ul li{list-style:none;}
 #header{margin-bottom:20px;float:left;width:100%;}
 #header #showAlbum{color:#fff;font-size:17px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;position:relative;top:20px;}
 #header #showAlbum span{font-size:12px;}
-#createAlbum{background:rgba(255,255,255,0.3);border:none;color:#fff;text-shadow:none;}
+#createAlbum{background:rgba(255,255,255,0.3);border:none;color:#fff;text-shadow:none;padding:6px 10px;}
 #chatlist .viewport{width:98%;height:100%;overflow:hidden;position:relative;}
 #chatlist .overview{list-style:none;position:absolute;left:0;top:0;}
 #chatlist .thumb .end,#chatlist .thumb{background-color:#ff6600;}

@@ -3,8 +3,7 @@
 */
 Template.noLoggInForm.events={
 	'click .loginIco':function(e){
-		e.preventDefault();		
-		console.log("--> login by facebook");		
+		e.preventDefault();					
 		Meteor.call("requireLoginWithFacebook");
 	}
 }
@@ -12,8 +11,7 @@ Template.noLoggInForm.events={
 
 Template.loggInForm.events={
 	'click .thumbnail':function(e){
-		e.preventDefault();		
-		console.log("--> logout");
+		e.preventDefault();				
 		Meteor.logout();
 	}
 }
