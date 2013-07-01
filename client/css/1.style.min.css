@@ -1,4 +1,4 @@
-html,body{margin:0 auto;padding:0;height:100%;background:-webkit-gradient(linear,left bottom,left top,color-stop(0,rgb(5,61,87)),color-stop(1,rgb(29,123,160)));}
+html,body{margin:0 auto;padding:0;height:100%;background:-webkit-gradient(linear,left bottom,left top,color-stop(0,rgb(5,61,87)),color-stop(1,rgb(29,123,160)));background:-webkit-linear-gradient(left,rgb(5,61,87),rgb(29,123,160));background:-moz-linear-gradient(left,rgb(5,61,87),rgb(29,123,160));background:-ms-linear-gradient(left,rgb(5,61,87),rgb(29,123,160));background:-o-linear-gradient(left,rgb(5,61,87),rgb(29,123,160));}
 h1,h2,h3,h5,p,span,small,td,.navbar .brand{color:#fff;font-weight:normal;padding:0px;margin:0px;}
 a{color:#fff;}
 a:hover{color:#ff8800;}
@@ -7,26 +7,26 @@ a:hover{color:#ff8800;}
 ul,ol{padding:0;margin:0;}
 ul li{list-style:none;}
 #MainViewport,#PageContainer,.Page{width:100%;height:100%;margin:0 auto;overflow:hidden;color:#fff;}
-#MainContainer{width:2000px;float:left;margin:0;padding:0;}
+#MainContainer{width:2000px;float:left;margin:0;padding:0;opacity:0;}
 #PageContainer{float:left;margin:0;}
 #Nav{float:left;height:100%;position:relative;background:rgba(255,255,255,0.1);border-radius:10px;}
 #onMobile{display:none;height:0px;}
 #Nav .slideBody{margin-left:20px;}
 .Page{margin:0;position:relative;float:left;}
 #page1{}
-#page2{}
+#page2{background:rgba(0,0,0,0.4);-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;}
 .Page .header{display:block;height:50px;}
-.Page .header #closeAlbum{border-right:1px solid #ddd;margin-right:20px;padding:10px;padding-left:0;float:left;cursor:pointer;}
-.Page .header #siteLogo{padding:10px;padding-left:0;float:left;cursor:pointer;}
+.Page .header #closeAlbum{border-right:1px solid #ddd;float:left;cursor:pointer;padding:5px 12px;}
+.Page .header #siteLogo{padding:6px;float:left;cursor:pointer;}
 .Page .left{float:left;width:500px;}
 .Page .right{float:right;width:340px;padding:20px;padding-top:0px;}
 .logo{text-align:center;padding-right:20px;}
 .logo p{margin:0px;font-size:22px;}
-#header{margin-bottom:20px;float:left;width:100%;}
+#header{margin-bottom:10px;float:left;width:100%;}
 #header #showAlbum{color:#fff;font-size:17px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;position:relative;top:20px;}
 #header #showAlbum span{font-size:12px;}
 #createAlbum{background:rgba(255,255,255,0.3);border:none;color:#fff;text-shadow:none;padding:6px 10px;}
-#chatlist .viewport{width:98%;height:100%;overflow:hidden;position:relative;}
+#chatlist .viewport{width:98%;height:100%;overflow:hidden;position:relative;float:left;}
 #chatlist .overview{list-style:none;position:absolute;left:0;top:0;}
 #chatlist .thumb .end,#chatlist .thumb{background-color:#ff6600;}
 #chatlist .scrollbar{position:relative;float:right;width:2px;}
@@ -34,7 +34,7 @@ ul li{list-style:none;}
 #chatlist .thumb{height:20px;width:3px;cursor:pointer;overflow:hidden;position:absolute;top:0;left:-2px;}
 #chatlist .thumb .end{overflow:hidden;height:5px;width:13px;}
 #chatlist .disable{display:none;}
-#albumPlaylist .viewport{width:98%;height:500px;overflow:hidden;position:relative;}
+#albumPlaylist .viewport{width:98%;height:500px;overflow:hidden;position:relative;float:left;}
 #albumPlaylist .overview{list-style:none;position:absolute;left:0;top:0;}
 #albumPlaylist .thumb .end,#albumPlaylist .thumb{background-color:#ff6600;}
 #albumPlaylist .scrollbar{position:relative;float:right;width:2px;}
@@ -42,7 +42,7 @@ ul li{list-style:none;}
 #albumPlaylist .thumb{height:20px;width:3px;cursor:pointer;overflow:hidden;position:absolute;top:0;left:-2px;}
 #albumPlaylist .thumb .end{overflow:hidden;height:5px;width:13px;}
 #albumPlaylist .disable{display:none;}
-#albumList{width:540px;clear:both;}
+#albumList{width:540px;clear:both;margin-top:20px;}
 #albumList .viewport{width:500px;height:400px;overflow:hidden;position:relative;}
 #albumList .overview{list-style:none;position:absolute;left:0;top:0;}
 #albumList .thumb .end,#albumList .thumb{background-color:#ff6600;}
@@ -54,7 +54,8 @@ ul li{list-style:none;}
 .noSelect{user-select:none;-o-user-select:none;-moz-user-select:none;-khtml-user-select:none;-webkit-user-select:none;}
 #albumList p{margin-bottom:0px;}
 #albumList small{font-size:80%;}
-.playListItem{cursor:pointer;font-size:14px;}
+.playListItem,.albumItem{cursor:pointer;font-size:14px;}
+.playListItem .remove{float:right;}
 #albumList #plLabel{margin-bottom:10px;}
 #albumTitle{margin-bottom:20px;}
 #albumTitle p{margin:0px;}
@@ -65,24 +66,31 @@ ul li{list-style:none;}
 #Nav .slidebody{margin:20px}
 #Nav .slideHeader{margin:20px;}
 #Nav .slideHeader #songInfo{float:left;width:100%;}
-#page2 #gallery{width:100%;padding:20px;}
+#page2 #gallery{width:100%;height:100%;padding:20px;padding-top:0px;max-height:420px;overflow:hidden;}
+#page2 #gallery #cover:hover #changeCover{display:block;}
+#page2 #gallery #changeCover{position:relative;z-index:10;top:-30px;left:10px;display:none;background:rgba(0,0,0,0.6);width:90%;height:12px;font-size:11px;color:#fff;}
 .nav-tabs>.active>a,.nav-tabs>.active>a:hover,.nav-tabs>.active>a:focus{color:#fff;background:rgba(225,225,225,0.2);border:1px solid #ddd;border-bottom-color:transparent;cursor:default;}
 .nav-tabs>li>a:hover,.nav-tabs>li>a:focus{border-color:#eeeeee #eeeeee #dddddd;background:rgba(225,225,225,0.1);border-bottom-color:transparent;}
 .nav-tabs>li>a{padding:0 10px;}
-#albumPlaylist li{padding:4px 10px;font-size:13px;cursor:pointer;line-height:17px;width:100%;}
+#albumPlaylist li{padding:4px 10px;font-size:13px;cursor:pointer;line-height:17px;width:100%;float:left;}
 #albumPlaylist li .title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:300px;}
+#albumPlaylist li .remove{float:right;margin-right:12px;padding:0 5px;margin-top:-22px;display:none;}
+#albumPlaylist li .remove:hover{background:rgba(225,225,225,0.3);}
 #albumPlaylist .active{background:rgba(225,225,225,0.2);}
 #albumPlaylist li:hover{background:rgba(225,225,225,0.1);}
+#albumPlaylist li:hover .remove{display:block;}
 .tab-content{overflow:hidden;}
 .nav{margin-bottom:10px;font-size:12px;}
 #addSong{width:100%;}
 #searchChannel{width:145px;position:relative;z-index:0;left:-5px;}
-#chatlist{height:385px;margin-bottom:20px;}
+#chatlist{height:385px;margin-bottom:10px;}
 #chatlist li{margin-bottom:10px;display:block;float:left;}
 #chatlist li .thumbnail{float:left;width:28px;height:28px;padding:2px;}
 #chatlist li .info{float:left;display:block;width:280px;margin-left:10px;margin-top:-5px;}
 #chatlist li .message{float:left;display:block;width:280px;margin-left:10px;}
-#chatInputForm #chatInput,#searchInput{width:95%;background:rgba(225,225,225,0.1);color:#fff;border:none;box-shadow:0px 0px 2px #fff;margin:1px;overflow:hidden;resize:none;}
+#chatlist .popover{width:230px;margin-top:-10px;padding:5px;padding-top:0px;}
+#chatlist .popover a{color:#3b5998;font-weight:bold;}
+#chatInputForm #chatInput,#searchInput{width:95%;background:rgba(0,0,0,0.5);color:#fff;border:none;box-shadow:0px 0px 2px #fff;margin:1px;overflow:hidden;resize:none;}
 #joinBtn{width:60px;float:left;}
 .listStatus{line-height:45px;font-size:13px;}
 .typeahead{width:100%;max-width:530px;}

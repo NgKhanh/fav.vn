@@ -3,6 +3,13 @@ Meteor.publish("Album", function () { return Album.find({},{sort:{createTime:-1}
 Meteor.publish("OneAlbum", function (_roomID) { 
 	return [	Album.find({_id:_roomID},{limit:1})
 				,Message.find({roomID:_roomID})
+				,Song.find({albumID:_roomID})
+			]
+});
+
+Meteor.publish("MessageAndSong", function (_roomID) { 
+	return [	Message.find({roomID:_roomID})
+				,Song.find({albumID:_roomID})
 			]
 });
 
@@ -38,43 +45,61 @@ Meteor.startup(function(){
 			}		
 
 			return mp3;
-		},
+		}
 
-		createAlbum:function(_album){
+		,createAlbum:function(_album){
+			
 			var album = Album.insert({				
-										title 		: _album.title,
-										genre 		: _album.genre,
-										owner 		: _album.owner,
-										policy		: _album.policy,
-										createTime 	: Date.now(),
-										liked		: 0,
-										unlike		: 0,				
-										playlist	:[],
-										currentSong : 0,
-										startSongTime:0,
-										online		: 0
+										title 		: _album.title
+										,genre 		: _album.genre
+										,owner 		: _album.owner
+										,policy		: _album.policy
+										,cover		: _album.cover
+										,createTime : Date.now()
+										,liked		: 0
+										,unlike		: 0			
+										,playlist	: []
+										,numSong 	: 0
+										,currentSong : 0
+										,startSongTime:0
+										,online		: 0
+
 			})
 
 			console.log("insert success", album);
 			return album;
-		},
+		}
+		
+		,updateAlbumCover:function(_cover,_albumID){
+			Album.update({_id:_albumID},{$set :{cover:_cover}});
+		}
 
-		addSongToPlaylist:function(_song,_albumID){
+		,addSongToPlaylist:function(_song,_albumID){
 
 			console.log(" ----> addSongToPlaylist", _song.title,_albumID);
 			
-			_song.createTime	=	Date.now();
-			_song.liked			=	0;
-			_song.unlike		=	0;
-			_song.shareby		=	Meteor.user().profile.name;
+			Song.insert({	title		: _song.title
+							,artist		: _song.artist	
+							,shareBy	: {"name":Meteor.user().profile.name,"username":Meteor.user().username,"avatar":Meteor.user().profile.picture}
+							,domain		:_song.domain
+							,source		:_song.source
+							,albumID 	:_albumID
+							,createTime :Date.now()
+							,like 		:0
+							,unlike 	:0
+			});
+			
+			Album.update({_id:_albumID},{ $inc: { numSong: 1 }});
 
+		}
+		
+		,removeSongFromPlaylist:function(_songID,_albumID){
+			console.log(" ----> remove song from list", _songID);
+			Song.remove({_id:_songID});
+			Album.update({_id:_albumID},{ $inc: { numSong: -1 }});
+		}
 
-			var album = Album.update({_id:_albumID},{$addToSet:{playlist:_song}});
-
-			//return album.title;
-		},
-
-		searchMp3:function(_key){
+		,searchMp3:function(_key){
 			var result = Meteor.http.get("http://j.ginggong.com//jOut.ashx?code=7868d0b1-da9a-494c-80cd-5fcde436b0f2&h=nhaccuatui.com&k="+_key);
 
 			console.log("#######################");
@@ -125,6 +150,8 @@ Meteor.startup(function(){
 			
 			return data;
 		}
+		
+		
 		
 		,chat:function(_message,_roomID, _objectID){
 			//var user = ["KhacThanh","KhanhNguyen","BaTung","LeY","LeNhu","KhoaDo","ThienNguyen"];

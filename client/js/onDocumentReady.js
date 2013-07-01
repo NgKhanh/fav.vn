@@ -15,15 +15,19 @@ onDocumentReady = function (templatePage) {
 	$("#page2").css("height",$("#PageContainer").height());
 	$("#page1").css("height",$("#PageContainer").height());	
 	
-	$('#albumList .viewport').css("height",$('#PageContainer').height()-150);
+	$('#albumList .viewport').css("height",$('#PageContainer').height()-90);
 	$('#albumList').tinyscrollbar();
 	
 	$("#page2 .header").click( function(){
 		$("#page2").transition({y:$("#page1").height()});
 		$("#page1").transition({y:0});
-		$("#Nav").transition({x:0});
+		$("#Nav").transition({x:0});		
+		
 	});
 		
+	// show PageContainer
+	$("#MainContainer").transition({opacity:1});
+	
 	console.log("ON READY");
 }
 
@@ -33,7 +37,8 @@ appendAlbumList =function(){
 			Album.find({},{	sort:{createTime:-1}}),			
 			function(album) {	
 				if(album.title)	album.alias  	= "album/"+title2Alias(album.title) +"."+album._id;
-								album.timeAgo 	= timeAgo(album.createTime);		
+								album.timeAgo 	= timeAgo(album.createTime);	
+								album.length    = album.numSong;
 			return Template["albumItem"](album);	   
 			    
   	});	
@@ -42,64 +47,54 @@ appendAlbumList =function(){
 }
 
 gotoAlbum = function(_albumID){
+	// check song is subscribe	
+	if(Song.find({albumID:_albumID}).count()>0 ||  Message.find({roomID:_albumID}).count()>0){
+		getAllRoomData(_albumID);
+	}else{		
+		Meteor.subscribe('MessageAndSong', _albumID, function () {
+			getAllRoomData(_albumID);
+		})
+	}
+}
+
+getAllRoomData=function(_albumID){
 	
-	Meteor.subscribe('OneAlbum', _albumID, function () {
+	joinTime    = Date.now();
+	
+	console.log(" ->>> joint room",_albumID);	
+		
+	if(_albumID!=Session.get('currentRoom')){
 		
 		var _album =  Album.findOne({_id: _albumID});
 			_album.alias   = AbsoluteUrl() + "album/"+title2Alias(_album.title) +"."+_album._id;    
 			_album.timeAgo = timeAgo(_album.createTime);
 		
-		//Template["playlist"](_album.playlist);
+		// admin room ?		
+		if(Meteor.userId() && Meteor.user().profile.name==_album.owner)
+			Session.set("isAdmin",true);
+		else 
+			Session.set("isAdmin",false);
 		
-		console.log(" ->>> joint room",_albumID);	
+		
+		// vao phong chat khac;		
+		// xoa het noi dung trong phong chat
+		$('#chatlist #realtimeChat li').remove();		
+		// current Room
 		Session.set('currentRoom',_albumID);
-				
-		// show Room				
-		$("#page2").transition({y:-$("#page1").height()});
-		$("#page1").transition({y:-$("#page1").height()});
-		$("#Nav").transition({x:-$("#Nav").width()});
-		
-		
-		joinTime    = Date.now();
-		
+	}	
 	
-		// clear chatlist & update chatlist scrollbar
-		$("#chatlist .overview").html("");		
-		$('#chatlist').tinyscrollbar();
-		$('#chatlist').tinyscrollbar_update();
-		
-		// append list chat				
-		var _chatMsg =  Meteor.renderList(
-				Message.find({roomID:Session.get("currentRoom")},{sort:{createTime:1}})
-				,function(_msg) {
-					
-					// find lasted chat owner
-					var li = $('#chatlist ul li').last();
-					var info = li.find(".info");
-					var username = info.attr("username");
-					
-					if(_msg.owner.username==username){
-						// append vao itemchat truoc do			
-						li.find(".message").append('<p>'+_msg.message+'</p>');	
-						$('#chatlist').tinyscrollbar_update('bottom');
-						return '';
-					}else{
-						return Template["messageChat"](_msg);
-					}
-				}
-			);
-						
-		$("#chatlist .overview").append(_chatMsg);
-	});
-	
+			
+	// show Room				
+	$("#page2").transition({y:-$("#page1").height()});
+	$("#page1").transition({y:-$("#page1").height()});
+	$("#Nav").transition({x:-$("#Nav").width()});
+
 }
 
 
 var timeOut;
 
 initTypeAHead=function(){ 
-	
-console.log(" -------------> initTypeAHead");
 
 	var searchkey="";
 	var resultData=[];
@@ -112,16 +107,31 @@ console.log(" -------------> initTypeAHead");
 			map = {};
 			
 			window.clearTimeout(timeOut);
-			timeOut = window.setTimeout(function(){				
+			timeOut = window.setTimeout(function(){	
 				
-				Meteor.call("autoCompleteSearch",query,function(err,res){
+				Meteor.call("searchMp3",query,function(err,res){
+				//Meteor.call("autoCompleteSearch",query,function(err,res){
 					if(res){
 						var data = $.parseJSON(res);						
 						var result = [];
 						
-						console.log("search complete",query,data.song.list);
+						console.log("search complete",query,data);
 						
-						$.each(data.song.list, function (i, song) {
+						// search from j.search api
+						$.each(data, function (i, song) {
+							if(i<10){															
+								song.title 		= song.Id;														
+								song.artist 	= song.Artist;	
+								song.domain 	= song.HostName;						
+								song.name 		= song.Title;	
+								song.source 	= song.UrlJunDownload;						
+								map[song.title] = song;
+								result.push(song.title);
+							}	
+						});		
+						
+						// search from zing
+						/*$.each(data.song.list, function (i, song) {
 							if(i<10){															
 								if(song.name.lastIndexOf("+")>-1)song.name = song.name.substring(0,song.name.lastIndexOf("+"));	
 								song.title = song.object_id;	
@@ -129,7 +139,7 @@ console.log(" -------------> initTypeAHead");
 								map[song.title] = song;
 								result.push(song.title);
 							}	
-						});						
+						});	*/			
 						resultData = result;
 						
 						return process(result);
@@ -143,13 +153,24 @@ console.log(" -------------> initTypeAHead");
 		updater:function (item) {
 			console.log("select item >>",item,map[item]);
 			
-			Meteor.call("getSongInfo",map[item].object_id, map[item].domain,function(err, res){
+			var _song={};						
+				_song.title 	= map[item].name;
+				_song.artist 	= map[item].artist;
+				_song.domain 	= map[item].domain;
+				_song.source  	= map[item].source;
+			
+				Meteor.call("addSongToPlaylist",_song,Session.get("currentRoom"),function(err,res){
+					if(res){
+						console.log(">> addSongToPlaylist success");
+					}
+				});
+			
+			return _song.title + " - "+ _song.artist;
+					
+			/*Meteor.call("getSongInfo",map[item].object_id, map[item].domain,function(err, res){
 				if(res){
 					
-					console.log(" get source complete >>",res);
-					
-					var _song={};
-						_song.id 		= map[item].object_id;
+					var _song={};						
 						_song.title 	= map[item].name;
 						_song.artist 	= map[item].artist;
 						_song.domain 	= map[item].domain;
@@ -165,36 +186,33 @@ console.log(" -------------> initTypeAHead");
 				}				
 			});
 			
-			return map[item].name + " - "+map[item].artist;
+			return map[item].name + " - "+map[item].artist;*/	
 		},
 
 		highlighter: function (item) {
-			//var regex = new RegExp( '(' + this.query + ')', 'gi' );
-			//item.replace( regex, "<strong>$1</strong>" );
-			//console.log("highlighter item >>",item,map[item]);
-			return map[item].name + ' - <span>'+map[item].artist+'</span>' + '<small class="pull-right" style="color:#ddd">'+map[item].domain+'</small>';
+			return map[item].name + ' - <span>'+map[item].artist+'</span>' + '<small class="pull-right" style="color:#ddd">'+map[item].domain+'</small>';			
 		}
 	});
 
 }
 
 nextSong = function(){	
-	var next = Session.get("currentSong") + 1;	
-	if(next==Album.findOne({_id:Session.get("currentRoom")}).playlist.length)	
+	var next = parseInt($("#albumPlaylist").find("#"+Session.get("currentSong")).attr("index")) + 1;	
+	if(next==listSongInMyListeningAlbum.length)	
 		next = 0;	
 	
-	var song = Album.findOne({_id:Session.get("currentRoom")}).playlist[next];	
+	var song = listSongInMyListeningAlbum[next];	
 	
 	console.log(" ---> end song >> next", next);
 	
-	Session.set("currentSong", next);
+	Session.set("currentSong", song._id);
 	Session.set('currentSongSource', song.source);
 	activePlaylistItem();
 }
 
 activePlaylistItem=function(){
 	var scroll =  $("#albumPlaylist").find("li").each(function(index){
-   			if(parseInt($(this).attr("id")) == Session.get("currentSong")){
+   			if($(this).attr("id") == Session.get("currentSong")){
    				$(this).addClass("active");
    			}else{
    				$(this).removeClass("active");
@@ -212,4 +230,47 @@ parseMp3Source = function(_id, _domain){
 	]
 	var ran = parseInt(Math.random()*arr.length);
 	return arr[ran];
+}
+
+getCoverAlbum = function(_genre){
+	_genre = title2Alias(_genre);
+	
+	switch(_genre){
+		case "nhactrinh":
+		case "nhac-trinh":
+			return "covers/Trinh1.jpg"; break
+			
+		case "trutinh":
+		case "tru-tinh":
+			return "covers/trutinh2.jpg" || "covers/trutinh2.png"; break;
+			
+		case "nhactre":
+		case "nhac-tre":
+			return "covers/nhactre.jpg"; break;
+		
+		case "nhacvang":
+		case "nhac-vang":
+			return "covers/nhacvang1.jpg" || "covers/nhacvang.jpg"; break;		
+		
+		case "nhacdo":
+		case "nhac-do":
+			return "covers/nhac-do.jpg"; break;		
+		
+		case "cailuong":
+		case "cai-luong":
+			return "covers/cai-luong.jpg"; break;
+			
+		case "rock":		
+			return "covers/rock3.jpg" || "covers/rock2.jpg"||  "covers/rock1.jpg"; break;
+			
+		case "piano":		
+			return "covers/piano.jpg"; break;
+		
+		case "guitar":		
+			return "covers/guitar.jpg"; break;
+		
+		default:
+			return "covers/cover.jpg";break;
+		
+	}
 }

@@ -4,9 +4,12 @@ Message = new Meteor.Collection("message");
 
 /**
 Song = {};
+					
 	title
-	singer
+	artist
 	shareBy
+	domain
+	source
 	albumID 
 	createTime 
 	like 
