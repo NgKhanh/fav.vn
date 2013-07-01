@@ -191,7 +191,7 @@ Template.playlistItem.events = {
 	'click li':function(e){
 		e.preventDefault();		
 		
-		console.log("click to play",Meteor.userId());
+		console.log("click to play",Meteor.userId(),Session.get("isAdmin"));
 		
 		if(Meteor.userId()==null){
 			// chưa đăng nhập > cho phép nghe tự do
