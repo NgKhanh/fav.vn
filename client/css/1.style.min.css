@@ -6,7 +6,7 @@ a:hover{color:#ff8800;}
 .modal a,.modal h3{color:#444;}
 ul,ol{padding:0;margin:0;}
 ul li{list-style:none;}
-#MainViewport,#PageContainer,.Page{width:100%;height:100%;margin:0 auto;overflow:hidden;color:#fff;}
+#MainViewport,#PageContainer,.Page{width:100%;height:100%;max-height:560px;margin:0 auto;overflow:hidden;color:#fff;}
 #MainContainer{width:2000px;float:left;margin:0;padding:0;opacity:0;}
 #PageContainer{float:left;margin:0;}
 #Nav{float:left;height:100%;position:relative;background:rgba(255,255,255,0.1);border-radius:10px;}
@@ -18,8 +18,8 @@ ul li{list-style:none;}
 .Page .header{display:block;height:50px;}
 .Page .header #closeAlbum{border-right:1px solid #ddd;float:left;cursor:pointer;padding:5px 12px;}
 .Page .header #siteLogo{padding:6px;float:left;cursor:pointer;}
-.Page .left{float:left;width:500px;}
-.Page .right{float:right;width:340px;padding:20px;padding-top:0px;}
+.Page .left{float:left;width:450px;}
+.Page .right{float:right;width:380px;padding:20px;padding-top:0px;}
 .logo{text-align:center;padding-right:20px;}
 .logo p{margin:0px;font-size:22px;}
 #header{margin-bottom:10px;float:left;width:100%;}
@@ -43,7 +43,7 @@ ul li{list-style:none;}
 #albumPlaylist .thumb .end{overflow:hidden;height:5px;width:13px;}
 #albumPlaylist .disable{display:none;}
 #albumList{width:540px;clear:both;margin-top:20px;}
-#albumList .viewport{width:500px;height:400px;overflow:hidden;position:relative;}
+#albumList .viewport{width:500px;height:480px;overflow:hidden;position:relative;}
 #albumList .overview{list-style:none;position:absolute;left:0;top:0;}
 #albumList .thumb .end,#albumList .thumb{background-color:#ff6600;}
 #albumList .scrollbar{float:right;}
@@ -57,16 +57,17 @@ ul li{list-style:none;}
 .playListItem,.albumItem{cursor:pointer;font-size:14px;}
 .playListItem .remove{float:right;}
 #albumList #plLabel{margin-bottom:10px;}
-#albumTitle{margin-bottom:20px;}
-#albumTitle p{margin:0px;}
+#albumTitle{margin-bottom:20px;float:left;}
+#albumTitle p{margin:0px;font-size:22px;margin-bottom:5px;}
 #albumTitle small{font-size:80%;}
+#albumTitle #fbLike{float:left;margin-left:20px;}
 .table td{border:none;}
 .table th,.table td{padding:8px;line-height:20px;text-align:left;vertical-align:top;border-top:none;}
 .table-hover tbody tr:hover>td,.table-hover tbody tr:hover>th{background:rgba(225,225,225,0.1);}
 #Nav .slidebody{margin:20px}
 #Nav .slideHeader{margin:20px;}
 #Nav .slideHeader #songInfo{float:left;width:100%;}
-#page2 #gallery{width:100%;height:100%;padding:20px;padding-top:0px;max-height:420px;overflow:hidden;}
+#page2 #gallery{width:100%;height:100%;padding:20px;padding-top:0px;max-height:475px;overflow:hidden;}
 #page2 #gallery #cover:hover #changeCover{display:block;}
 #page2 #gallery #changeCover{position:relative;z-index:10;top:-30px;left:10px;display:none;background:rgba(0,0,0,0.6);width:90%;height:12px;font-size:11px;color:#fff;}
 .nav-tabs>.active>a,.nav-tabs>.active>a:hover,.nav-tabs>.active>a:focus{color:#fff;background:rgba(225,225,225,0.2);border:1px solid #ddd;border-bottom-color:transparent;cursor:default;}
@@ -83,7 +84,8 @@ ul li{list-style:none;}
 .nav{margin-bottom:10px;font-size:12px;}
 #addSong{width:100%;}
 #searchChannel{width:145px;position:relative;z-index:0;left:-5px;}
-#chatlist{height:385px;margin-bottom:10px;}
+#gallery .playlist{max-width:500px;}
+#chatlist{height:310px;margin-bottom:10px;margin-top:20px;border-top:1px solid #ddd;padding-top:10px;}
 #chatlist li{margin-bottom:10px;display:block;float:left;}
 #chatlist li .thumbnail{float:left;width:28px;height:28px;padding:2px;}
 #chatlist li .info{float:left;display:block;width:280px;margin-left:10px;margin-top:-5px;}
@@ -101,12 +103,11 @@ ul li{list-style:none;}
 .dropdown-menu li:hover span,.dropdown-menu .active span{color:#fff;}
 @media (max-width:978px){#MainViewport,#PageContainer,.Page{max-width:800px;max-height:500px;margin-bottom:0px;}
 #Nav{width:240px;}}
-@media (max-width:1024px){#MainViewport,#PageContainer,.Page{max-width:950px;max-height:500px;}
+@media (max-width:1024px){#MainViewport,#PageContainer,.Page{max-width:950px;}
 #MainViewport{margin-bottom:0px;}
-#Nav{width:400px;}
-#chatlist{height:250px;}}
-@media (min-width:1200px){#MainViewport,#PageContainer,.Page{max-width:1180px;max-height:640px;}
-#MainViewport{margin-bottom:100px;}
+#Nav{width:400px;}}
+@media (min-width:1200px){#MainViewport,#PageContainer,.Page{max-width:1180px;}
+#MainViewport{margin-bottom:30px;}
 #Nav{width:640px;}
 .Page .left{width:740px;}}
 #AnimationBG,#clouds{position:fixed;z-index:0;width:100%;height:1000px;top:0;left:0;}

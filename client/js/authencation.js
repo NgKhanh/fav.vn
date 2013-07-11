@@ -28,6 +28,9 @@ Meteor.methods({
 				console.log("login loginWithFacebook is err ",err);
 			}else{
 				console.log("login loginWithFacebook >>>>> ");
+				// login thanh cong > subrible myAlbum
+				getMyAlbum();
+				
 			}
 
 		})

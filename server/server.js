@@ -1,4 +1,10 @@
-Meteor.publish("Album", function () { return Album.find({},{sort:{createTime:-1},limit:10}); });
+Meteor.publish("Album", function (_step) { 
+	return Album.find({},{sort:{createTime:-1},limit:10});	
+});
+
+Meteor.publish("myAlbum", function (_username) { 	
+	return Album.find({"owner.username":_username},{sort:{createTime:-1}});	
+});
 
 Meteor.publish("OneAlbum", function (_roomID) { 
 	return [	Album.find({_id:_roomID},{limit:1})
@@ -52,7 +58,7 @@ Meteor.startup(function(){
 			var album = Album.insert({				
 										title 		: _album.title
 										,genre 		: _album.genre
-										,owner 		: _album.owner
+										,owner 		:  {"name":Meteor.user().profile.name,"username":Meteor.user().username,"avatar":Meteor.user().profile.picture}
 										,policy		: _album.policy
 										,cover		: _album.cover
 										,createTime : Date.now()
@@ -100,7 +106,7 @@ Meteor.startup(function(){
 		}
 
 		,searchMp3:function(_key){
-			var result = Meteor.http.get("http://j.ginggong.com//jOut.ashx?code=7868d0b1-da9a-494c-80cd-5fcde436b0f2&h=nhaccuatui.com&k="+_key);
+			var result = Meteor.http.get("http://j.ginggong.com//jOut.ashx?code=7868d0b1-da9a-494c-80cd-5fcde436b0f2&h=mp3.zing.vn&k="+_key);
 
 			console.log("#######################");
 			console.log(result);

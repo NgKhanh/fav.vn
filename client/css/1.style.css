@@ -36,6 +36,7 @@ ul li{list-style: none;}
 #MainViewport, #PageContainer, .Page{
 	width: 100%;
 	height: 100%;	
+	max-height: 560px;
 	margin: 0 auto;
 	overflow: hidden;
 	color: #fff;
@@ -109,12 +110,12 @@ ul li{list-style: none;}
 
 .Page .left{
 	float:left;
-	width:500px;
+	width:450px;
 }
 
 .Page .right{
 	float:right;
-	width:340px;
+	width:380px;
 	padding:20px;
 	padding-top:0px;
 }
@@ -178,7 +179,7 @@ ul li{list-style: none;}
 
 
 #albumList { width: 540px; clear: both; margin-top: 20px;}
-#albumList .viewport { width: 500px; height: 400px; overflow: hidden; position: relative; }
+#albumList .viewport { width: 500px; height: 480px; overflow: hidden; position: relative; }
 #albumList .overview { list-style: none; position: absolute; left: 0; top: 0; }
 #albumList .thumb .end, #albumList .thumb { background-color: #ff6600; }
 #albumList .scrollbar {float: right;}
@@ -202,14 +203,19 @@ ul li{list-style: none;}
 
 #albumTitle{
 	margin-bottom:20px;
+	float: left;
 }
 
 #albumTitle p{
 	margin:0px;
+	font-size: 22px;
+	margin-bottom: 5px;
 }
 #albumTitle small{
 	font-size:80%;
 }
+
+#albumTitle #fbLike{ float:left; margin-left:20px;} 
 
 .table td {
 	border: none;
@@ -241,7 +247,7 @@ ul li{list-style: none;}
 	height:100%;
 	padding: 20px;
 	padding-top: 0px;
-	max-height: 420px;
+	max-height: 475px;
 	overflow: hidden;
 }
 
@@ -325,9 +331,14 @@ ul li{list-style: none;}
 	left: -5px;
 }
 
+#gallery .playlist{max-width:500px;}
+
 #chatlist{
-	height: 385px;
+	height: 310px;
 	margin-bottom: 10px;	
+	margin-top: 20px;
+	border-top: 1px solid #ddd;
+	padding-top: 10px;
 }
 
 #chatlist li{
@@ -445,8 +456,7 @@ ul li{list-style: none;}
 @media (max-width: 1024px) {
   	
 	#MainViewport, #PageContainer, .Page{		
-		max-width: 950px;		
-		max-height: 500px;
+		max-width: 950px;	
 	}
 	
 	#MainViewport{	
@@ -457,21 +467,16 @@ ul li{list-style: none;}
 	#Nav{		
 		width:400px;		
 	}
-	
-	#chatlist{
-		height: 250px;		
-	}
 }
 
 
 @media (min-width: 1200px) {
   #MainViewport, #PageContainer, .Page{
 		max-width: 1180px;	
-		max-height: 640px;	
 	}
 	
 	#MainViewport{	
-		margin-bottom:100px;
+		margin-bottom:30px;
 	}
 
 	#Nav{		

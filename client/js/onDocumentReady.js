@@ -1,10 +1,32 @@
-loadTopAlbumList =function(){
-	Meteor.subscribe(	'Album', 						
-						loadStep,
+loadTopAlbumList =function(){	
+	Meteor.subscribe(	'Album', loadStep,
 						function () {
 							onDocumentReady();
 							appendAlbumList();
+							Backbone.history.start({pushState: true});
 						});
+}
+
+getMyAlbum = function(){
+	Meteor.subscribe(	'myAlbum',Meteor.user().username,
+						function () {
+							
+							console.log("subscribe My Album");
+							
+							var myAlbumTemp = Meteor.renderList(
+								Album.find({"owner.username":Meteor.user().username},{sort:{createTime:-1}}),			
+								function(album) {	
+									if(album.title)	album.alias  	= "a/"+title2Alias(album.title) +"."+album._id;
+														album.timeAgo 	= timeAgo(album.createTime);	
+														album.length    = album.numSong;
+									return Template["albumItem"](album);
+							});	
+							
+							$("#myAlbumList").append(myAlbumTemp);	
+						});
+						
+	// hiện label
+	$("#myPlLabel").css("display","block");
 }
 
 onDocumentReady = function (templatePage) {  
@@ -15,14 +37,10 @@ onDocumentReady = function (templatePage) {
 	$("#page2").css("height",$("#PageContainer").height());
 	$("#page1").css("height",$("#PageContainer").height());	
 	
-	$('#albumList .viewport').css("height",$('#PageContainer').height()-90);
 	$('#albumList').tinyscrollbar();
 	
 	$("#page2 .header").click( function(){
-		$("#page2").transition({y:$("#page1").height()});
-		$("#page1").transition({y:0});
-		$("#Nav").transition({x:0});		
-		
+		Router.navigate('',{trigger: true}); 
 	});
 		
 	// show PageContainer
@@ -31,19 +49,38 @@ onDocumentReady = function (templatePage) {
 	console.log("ON READY");
 }
 
-appendAlbumList =function(){
+returnHome = function(){
+	$("#page2").transition({y:$("#page1").height()});
+	$("#page1").transition({y:0});
+	$("#Nav").transition({x:0});	
+}
+
+appendAlbumList =function(){	
 	
-	var templatePost = Meteor.renderList(
-			Album.find({},{	sort:{createTime:-1}}),			
+	if(Meteor.user()){
+		var templatePost = Meteor.renderList(
+			Album.find({'owner.username':{ $ne: Meteor.user().username }},{	sort:{createTime:-1}}),			
 			function(album) {	
-				if(album.title)	album.alias  	= "album/"+title2Alias(album.title) +"."+album._id;
+				if(album.title)	album.alias  	= "a/"+title2Alias(album.title) +"."+album._id;
 								album.timeAgo 	= timeAgo(album.createTime);	
 								album.length    = album.numSong;
 			return Template["albumItem"](album);	   
 			    
-  	});	
+		});	
+		getMyAlbum();
+	}else{
+		var templatePost = Meteor.renderList(
+			Album.find({},{	sort:{createTime:-1}}),			
+			function(album) {	
+				if(album.title)	album.alias  	= "a/"+title2Alias(album.title) +"."+album._id;
+								album.timeAgo 	= timeAgo(album.createTime);	
+								album.length    = album.numSong;
+			return Template["albumItem"](album);	   
+			    
+		});	
+	}
 	
-  	$("#realTimeAlbumList").append(templatePost);		
+	$("#realTimeAlbumList").append(templatePost);	
 }
 
 gotoAlbum = function(_albumID){
@@ -66,11 +103,11 @@ getAllRoomData=function(_albumID){
 	if(_albumID!=Session.get('currentRoom')){
 		
 		var _album =  Album.findOne({_id: _albumID});
-			_album.alias   = AbsoluteUrl() + "album/"+title2Alias(_album.title) +"."+_album._id;    
+			_album.alias   = AbsoluteUrl() + "a/"+title2Alias(_album.title) +"."+_album._id;    
 			_album.timeAgo = timeAgo(_album.createTime);
 		
 		// admin room ?		
-		if(Meteor.userId() && Meteor.user().profile.name==_album.owner)
+		if(Meteor.userId() && Meteor.user().profile.username==_album.owner.username)
 			Session.set("isAdmin",true);
 		else 
 			Session.set("isAdmin",false);
@@ -88,7 +125,7 @@ getAllRoomData=function(_albumID){
 	$("#page2").transition({y:-$("#page1").height()});
 	$("#page1").transition({y:-$("#page1").height()});
 	$("#Nav").transition({x:-$("#Nav").width()});
-
+	
 }
 
 
@@ -236,41 +273,46 @@ getCoverAlbum = function(_genre){
 	_genre = title2Alias(_genre);
 	
 	switch(_genre){
+		
+		case "tonghop":
+		case "tong-hop":
+			return "/covers/nhactre.jpg"; break
+			
 		case "nhactrinh":
 		case "nhac-trinh":
-			return "covers/Trinh1.jpg"; break
+			return "/covers/Trinh1.jpg"; break
 			
 		case "trutinh":
 		case "tru-tinh":
-			return "covers/trutinh2.jpg" || "covers/trutinh2.png"; break;
+			return "/covers/trutinh2.jpg" || "/covers/trutinh2.png"; break;
 			
 		case "nhactre":
 		case "nhac-tre":
-			return "covers/nhactre.jpg"; break;
+			return "/covers/nhactre.jpg"; break;
 		
 		case "nhacvang":
 		case "nhac-vang":
-			return "covers/nhacvang1.jpg" || "covers/nhacvang.jpg"; break;		
+			return "/covers/nhacvang1.jpg" || "/covers/nhacvang.jpg"; break;		
 		
 		case "nhacdo":
 		case "nhac-do":
-			return "covers/nhac-do.jpg"; break;		
+			return "/covers/nhac-do.jpg"; break;		
 		
 		case "cailuong":
 		case "cai-luong":
-			return "covers/cai-luong.jpg"; break;
+			return "/covers/cai-luong.jpg"; break;
 			
 		case "rock":		
-			return "covers/rock3.jpg" || "covers/rock2.jpg"||  "covers/rock1.jpg"; break;
+			return "/covers/rock3.jpg" || "/covers/rock2.jpg"||  "/covers/rock1.jpg"; break;
 			
 		case "piano":		
-			return "covers/piano.jpg"; break;
+			return "/covers/piano.jpg"; break;
 		
 		case "guitar":		
-			return "covers/guitar.jpg"; break;
+			return "/covers/guitar.jpg"; break;
 		
 		default:
-			return "covers/cover.jpg";break;
+			return "/covers/cover.jpg";break;
 		
 	}
 }

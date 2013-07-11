@@ -12,8 +12,8 @@ Template.albumItem.rendered=function(){
 Template.albumItem.events = {
 	'click .albumItem':function(e){
 		e.preventDefault();	
-		gotoAlbum($(e.currentTarget).find(".albump").attr("room-id"));			
-		//Router.navigate($(e.currentTarget).attr("href"),{trigger: true});   
+		//gotoAlbum($(e.currentTarget).find(".albump").attr("href"));			
+		Router.navigate($(e.currentTarget).find(".albump").attr("href"),{trigger: true});   
 	}
 }
 
@@ -66,15 +66,15 @@ Template.albumDetail.albumList=function(){
 #################################################################################
 */
 
-Template.playlistInfo.data=function(){
+Template.playlistInfo.info=function(){
 	if(Session.get("currentRoom")=="")return null;
 	
 	var _album =  Album.findOne({_id:Session.get("currentRoom")});	
-		_album.timeAgo 	=  timeAgo(_album.createTime);		
-		_album.length 	= _album.numSong;
-		_album.cover 	= (_album.cover)?_album.cover:getCoverAlbum(_album.genre);
-		_album.isAdmin   = Session.get("isAdmin");
-		
+		_album.timeAgo 		=  timeAgo(_album.createTime);		
+		_album.length 		= _album.numSong;
+		_album.cover 		= (_album.cover)?_album.cover:getCoverAlbum(_album.genre);
+		_album.isAdmin   	= Session.get("isAdmin");		
+		_album.url   		= AbsoluteUrl() + "a/"+title2Alias(_album.title) +"."+_album._id;    
 	return _album;
 }
 
@@ -83,8 +83,16 @@ Template.playlistInfo.created=function(){
 }
 
 Template.playlistInfo.rendered=function(){
-	//console.log(" --- > playlistInfo Rendered");
+	if(Session.get("currentRoom")=="")return null;
+	var _album 		=  Album.findOne({_id:Session.get("currentRoom")});	
+		_album.url  = AbsoluteUrl() + "a/"+title2Alias(_album.title) +"."+_album._id;  
+		
+	var fbLikeDiv = $("#fbLike");	
+		fbLikeDiv.html('<div class="fb-like" data-href="'+_album.url+'" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false"></div>');
+		if(FB)FB.XFBML.parse(fbLikeDiv[0]); 
+	
 }
+
 
 Template.playlistInfo.events = {
 	'keydown #changeCover':function(e){				
@@ -149,11 +157,12 @@ Template.playlist.data=function(){
 	listSongInMyListeningAlbum = [];
 	var song;
 	for (var i=0;i<playlist.length;i++) {
-		song 		= playlist[i];		
-		song.index	= i;
-		song.index1 = i+1;
-		song.isAdmin = Session.get("isAdmin");
-		song.timeAgo= timeAgo(song.createTime);	
+		song 				= playlist[i];		
+		song.index			= i;
+		song.index1 		= i+1;
+		song.isAdmin 		= Session.get("isAdmin");
+		song.allowRemove  	= (Session.get("isAdmin") || Meteor.user().username == song.shareBy.username)?true:false;		
+		song.timeAgo		= timeAgo(song.createTime);	
 		listSongInMyListeningAlbum.push(song);
 	}	
 	return listSongInMyListeningAlbum;
@@ -164,7 +173,6 @@ Template.playlist.created=function(){
 }
 
 Template.playlist.rendered=function(){	
-	$('#albumPlaylist .viewport').css("height",$("#PageContainer").height()-260);
 	$('#albumPlaylist').tinyscrollbar();
 	$('#albumPlaylist').tinyscrollbar_update('bottom');
 	
@@ -199,7 +207,7 @@ Template.playlistItem.events = {
 			Session.set('currentSongSource',$(e.currentTarget).attr("data-source"));
 			activePlaylistItem();
 		}else{
-			if(Session.get("isAdmin")==false) return false;
+			//if(Session.get("isAdmin")==false) return false;
 			
 			if($(e.target).attr("class")=="remove"){
 				console.log("remove song from playlist",$(e.target).attr("id"));
@@ -306,31 +314,6 @@ Template.messageChat.rendered=function(){
 	}
 }
 
-Template.tablist.events={
-	'click li':function(e){
-		
-		switch($(e.currentTarget).attr("id")){
-			case "memberTab": break;
-				
-			
-			case "playlistTab":				
-				setTimeout(function(){
-					$('#albumPlaylist').tinyscrollbar({ sizethumb: 50});
-					$('#albumPlaylist').tinyscrollbar_update();
-				},200);
-			break;
-			
-			case "chatTab":
-				setTimeout(function(){
-					$('#chatlist').tinyscrollbar({ sizethumb: 50});
-					$('#chatlist').tinyscrollbar_update('bottom');	
-				},200);
-			break;
-			
-		}
-		
-	}
-}
 /**
 #################################################################################
 */
@@ -404,6 +387,7 @@ Template.currentRoomLogged.data= function(){
 	var _album =  Album.findOne({_id:Session.get("currentRoom")});
 	var _info = {};
 		_info.title 	= _album.title;
+		_info.alias 	= "a/"+title2Alias(_album.title) +"."+_album._id;
 		_info.timeAgo 	=  timeAgo(_album.createTime);
 		_info.owner 	= _album.owner;
 		_info.genre 	= _album.genre;
@@ -415,9 +399,7 @@ Template.currentRoomLogged.events={
 	'click #showAlbum':function(e){
 		e.preventDefault();
 		// show Room				
-		$("#page2").transition({y:-$("#page1").height()});
-		$("#page1").transition({y:-$("#page1").height()});
-		$("#Nav").transition({x:-$("#Nav").width()});
+		Router.navigate($(e.currentTarget).attr("href"),{trigger: true});  
 	}
 }
 		
@@ -427,9 +409,7 @@ Template.currentRoomLogged.events={
 
 
 // start-up when load all js
-Meteor.startup(function () {
-	 
-	Session.set('currentPage',"home");	 
-	//Backbone.history.start({pushState: true});
-	loadTopAlbumList();	
+Meteor.startup(function () {	 
+	Session.set('currentPage',"home");
+	loadTopAlbumList();		
 });

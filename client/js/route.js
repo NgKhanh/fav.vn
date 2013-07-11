@@ -10,17 +10,16 @@ var MyRouter = Backbone.Router.extend({
       case "":
       case "undefined":
       case undefined:       
-        Session.set('currentPage',"home");
+        // trở về trang chính
+		returnHome();
       break;
 
-      case "album":
-          if(_url.segment(2)){
-              var _albumID = _url.segment(2).substring(_url.segment(2).lastIndexOf(".")+1,_url.segment(2).length);
-              
-			  Session.set('currentRoom',_albumID);
-			  
-              gotoAlbum(_albumID);
-          }  
+	case "a":
+		// đến trang album
+        if(_url.segment(2)){			  
+            var _albumID = _url.segment(2).substring(_url.segment(2).lastIndexOf(".")+1,_url.segment(2).length);            
+            gotoAlbum(_albumID);
+        }  
       break;
     }
 
