@@ -88,6 +88,7 @@ Template.playlistInfo.rendered=function(){
 		_album.url  = AbsoluteUrl() + "a/"+title2Alias(_album.title) +"."+_album._id;  
 		
 	var fbLikeDiv = $("#fbLike");	
+		fbLikeDiv.html('');
 		fbLikeDiv.html('<div class="fb-like" data-href="'+_album.url+'" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false"></div>');
 		if(FB)FB.XFBML.parse(fbLikeDiv[0]); 
 	
@@ -161,7 +162,7 @@ Template.playlist.data=function(){
 		song.index			= i;
 		song.index1 		= i+1;
 		song.isAdmin 		= Session.get("isAdmin");
-		song.allowRemove  	= (Session.get("isAdmin") || Meteor.user().username == song.shareBy.username)?true:false;		
+		song.allowRemove  	= (Session.get("isAdmin") || (Meteor.user() && Meteor.user().username == song.shareBy.username))?true:false;		
 		song.timeAgo		= timeAgo(song.createTime);	
 		listSongInMyListeningAlbum.push(song);
 	}	
@@ -260,15 +261,21 @@ Template.chatInput.events = {
 Template.oldchat.data=function(){
 	if(Session.get("currentRoom")=="")return null;
 	
-	var _arr =  Message.find({roomID:Session.get("currentRoom"),createTime:{$lt:joinTime}},{sort:{createTime:1}}).fetch();
+	var _arr =  Message.find({roomID:Session.get("currentRoom"),createTime:{$lt:joinTime},"owner.username":{$ne:"SYS"}},{sort:{createTime:1}}).fetch();
 	
 	if(_arr.length < 1) return [];	
 	var _chat = _arr[0];	
+		_chat.message = emoticon(_chat.message);
+		_chat.old=true;
+		
 	var _listChat=[];
 		_listChat.push(_chat);
 		
 	for(var i = 1;i<_arr.length;i++){
 		_chat = _arr[i];		
+		_chat.message = emoticon(_chat.message);
+		_chat.old=true;
+		
 		if(_chat.owner.username == _listChat[_listChat.length-1].owner.username){
 			_listChat[_listChat.length-1].message += '<p>'+_chat.message+'</p>';
 		}else{			
@@ -291,23 +298,29 @@ Template.realtimeChat.rendered=function(){
 
 Template.messageChat.created=function(){
 	if(this.data){
-		//console.log("-----------> messageChat created");
+		console.log("-----------> messageChat created",this.data.owner.name,this.data.owner.name!="SYS");
 		
+		if(!this.data.old)this.data.message = emoticon(this.data.message);
+		this.data.timeAgo = timeAgo(this.data.createTime);
+				
 		var li = $('#chatlist #realtimeChat li').last();
 		var info = li.find(".info");
 		var username = info.attr("username");
-		
-		if(this.data.owner.username==username){			
+			
+		if(this.data.owner.username==username && this.data.owner.name!="SYS"){				
 			li.find(".message").append('<p>'+this.data.message+'</p>');			
 			this.data.message = "";
-		}		
+		}
 	}
 }
 
 Template.messageChat.rendered=function(){
 	if(this.data){
-		if(this.data.message==""){
-			$("#"+this.lastNode.id).remove();
+		
+		console.log("-----------> messageChat rendered", this.data.message=="");
+		
+		if(this.data.message==""){			
+			$("#"+this.data._id).remove();
 		}
 		
 		$("#"+this.lastNode.id +" .thumbnail").popover({"content":'<a href="https://www.facebook.com/'+this.data.owner.username+'" target="_blank">Xem profile trên facebook</a>',"html":true});
@@ -339,10 +352,21 @@ Template.createAlbumForm.events={
 				_album.owner = Meteor.user().profile.name;
 				_album.cover = getCoverAlbum(_album.genre);
 
+			if(_album.title==""){
+				$("#createAlbumForm .alert-error").css('display','block');
+				return false;
+			}
+			
+			$("#createAlbumForm .alert-error").css('display','none');
+			 
 			Meteor.call("createAlbum", _album,function(err,res){
 				if(res){				
 					// close modal
 					$('#createAlbumForm').modal('hide')
+					
+					// goto Album
+					console.log("goto album", res);
+					Router.navigate("a/"+title2Alias(_album.title)+"."+res,{trigger: true});
 				}			
 			});
 		}
@@ -407,9 +431,24 @@ Template.currentRoomLogged.events={
 #################################################################################
 */
 
+Handlebars.registerHelper('equal', function(lvalue, rvalue, options) {    
+   
+	console.log("#############################################",lvalue,rvalue,lvalue!=rvalue);
+	
+	if( lvalue!=rvalue ) {
+        return options.inverse(this);
+    } else {
+        return options.fn(this);
+    }
+});
 
+
+/**
+#################################################################################
+*/
 // start-up when load all js
 Meteor.startup(function () {	 
 	Session.set('currentPage',"home");
 	loadTopAlbumList();		
 });
+

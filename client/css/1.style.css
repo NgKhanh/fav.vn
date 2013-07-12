@@ -168,7 +168,7 @@ ul li{list-style: none;}
 #chatlist .thumb .end { overflow: hidden; height: 5px; width: 13px; }
 #chatlist .disable{ display: none; }
 
-#albumPlaylist .viewport { width: 98%; height: 500px; overflow: hidden; position: relative; float:left;}
+#albumPlaylist .viewport { width: 98%; height: 355px; overflow: hidden; position: relative; float:left;}
 #albumPlaylist .overview { list-style: none; position: absolute; left: 0; top: 0; }
 #albumPlaylist .thumb .end, #albumPlaylist .thumb { background-color: #ff6600; }
 #albumPlaylist .scrollbar { position: relative; float: right; width: 2px; }
@@ -282,6 +282,8 @@ ul li{list-style: none;}
 .nav-tabs>li>a{
 	padding:0 10px;
 }
+
+#albumPlaylist {height:385px;}
 
 #albumPlaylist li{
 	padding: 4px 10px;

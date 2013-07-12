@@ -1,4 +1,15 @@
 Meteor.publish("Album", function (_step) { 
+	// thêm 1 user online
+	if(this.userId){
+		console.log("user login ->>> ", this.userId);
+	}else{
+		console.log("one user in site");
+	}
+	// 1 user out 
+	this._session.socket.on("close", function() {
+		console.log("User out", this.userId);
+	});
+	
 	return Album.find({},{sort:{createTime:-1},limit:10});	
 });
 
@@ -175,6 +186,17 @@ Meteor.startup(function(){
 						,createTime: Date.now()
 			})
 			
+		}
+		
+		,sysMsg:function(_messageID,_roomID, _objectID){
+			return Message.insert({
+						owner 		: {"username":'SYS',"name":'SYS'}
+						,sys 		: true
+						,message 	: _messageID
+						,objectID	: _objectID
+						,roomID 	: _roomID
+						,createTime : Date.now()
+			})
 		}
 
 	})

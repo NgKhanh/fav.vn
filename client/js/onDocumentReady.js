@@ -13,12 +13,14 @@ getMyAlbum = function(){
 							
 							console.log("subscribe My Album");
 							
+							$("#myAlbumList").html("");
+							
 							var myAlbumTemp = Meteor.renderList(
 								Album.find({"owner.username":Meteor.user().username},{sort:{createTime:-1}}),			
 								function(album) {	
 									if(album.title)	album.alias  	= "a/"+title2Alias(album.title) +"."+album._id;
-														album.timeAgo 	= timeAgo(album.createTime);	
-														album.length    = album.numSong;
+										album.timeAgo 	= timeAgo(album.createTime);	
+										album.length    = album.numSong;
 									return Template["albumItem"](album);
 							});	
 							
@@ -118,6 +120,14 @@ getAllRoomData=function(_albumID){
 		$('#chatlist #realtimeChat li').remove();		
 		// current Room
 		Session.set('currentRoom',_albumID);
+		
+		// update message SYS > usser join room
+		var _sysMsg = '';
+		if(Meteor.userId())	_sysMsg = Meteor.user().profile.name + ' vừa mới vào';
+		else 				_sysMsg = 'Có một khách không biết tên vừa mới vào';			
+		Meteor.call("sysMsg", _sysMsg , Session.get("currentRoom"), Session.get("currentSong"), function(err, res){
+			// complete
+		})
 	}	
 	
 			
@@ -160,7 +170,7 @@ initTypeAHead=function(){
 								song.title 		= song.Id;														
 								song.artist 	= song.Artist;	
 								song.domain 	= song.HostName;						
-								song.name 		= song.Title;	
+								song.name 		= (song.Title.lastIndexOf("+")>-1)?song.Title.substring(0,song.Title.lastIndexOf("+")):song.Title;	
 								song.source 	= song.UrlJunDownload;						
 								map[song.title] = song;
 								result.push(song.title);
@@ -316,3 +326,4 @@ getCoverAlbum = function(_genre){
 		
 	}
 }
+

@@ -7,7 +7,7 @@
 	<meta property="og:url" content="http://fav.vn" />
 	<meta property="og:site_name" content="FAVorite music" />
 	<meta property="og:type" content="music" />
-	<meta property="og:image" content="/img/tsc.jpg"/>
+	<meta property="og:image" content="/img/tcs.jpg"/>
 	<meta property="og:title" content="FAV.VN - FAVorite music"/>
 	<meta property="og:description" content="Trang web nghe nhạc dành cho người tự kỉ cấp độ cao nhất nhất" />
    
@@ -88,8 +88,13 @@
 								<div class="tab-pane active playlist" id="tab1">
 											
 									<div id="addSong" class="input-append"> 
+										{{#if currentUser}}
 										<input id="searchInput"  type="text" data-provide="typeahead" data-items="5"  
-											placeholder="Thêm bài hát vào playlist"/>	
+											placeholder="Nhập tên bài hát để thêm vào playlist"/>	
+										{{else}}
+										<input id="searchInput"  type="text" data-provide="typeahead" data-items="5"  
+											placeholder="Đăng nhập để thêm vào playlist"/>
+										{{/if}}
 									</div>	
 									{{> playlist}}
 								</div>
@@ -190,13 +195,13 @@
 		{{#if currentUser}} 	
 			{{#with data}} 
 			<a  id="showAlbum" href="{{alias}}" style="padding: 20px 15px 10px;"
-				p="Click to play (share by {{owner}})"> 
+				p="Click to play (share by {{owner.name}})"> 
 			
 			<marquee behavior="scroll" scrollamount="3" direction="left" width="400">
 				<p> 
 					<span>Bạn đang nghe : </span> 
 					{{title}}         
-					<span> - Thể loại {{genre}} - Tạo bởi {{owner}} - {{timeAgo}} </span>  
+					<span> - Thể loại {{genre}} - Tạo bởi {{owner.name}} - {{timeAgo}} </span>  
 				</p>
 			</marquee>				      
 		</a> 
@@ -307,7 +312,7 @@
 		<div class="viewport">
 			<ul class="overview">	
 				{{#isolate}}					
-					{{#each data}}
+					{{#each data}}						
 						{{> messageChat}}
 					{{/each}}
 				{{/isolate}}	
@@ -317,14 +322,22 @@
 </template>
 
 <template name="messageChat">
-	<li id="{{_id}}" style="display:block">
-		<a class="thumbnail" data-toggle="popover" data-placement="right">
-			<img src="{{owner.avatar}}"></a>		
-		<p class="info" username="{{owner.username}}"><a><b>{{owner.name}}</b></a></p>
-		<small class="message">		
-			{{{message}}}
-		</small>		
-	</li>
+	{{#if sys}}
+		<li id="{{_id}}" style="display:block;float: right;font-size: 12px;opacity: 0.5;text-align: right;">		
+			<small class="message">		
+				{{{message}}} ...
+			</small>		
+		</li>
+	{{else}}
+		<li id="{{_id}}" style="display:block">
+			<a class="thumbnail" data-toggle="popover" data-placement="right">
+				<img src="{{owner.avatar}}"></a>		
+			<p class="info" username="{{owner.username}}"><a><b>{{owner.name}}</b></a></p>
+			<small class="message">		
+				{{{message}}}
+			</small>		
+		</li>
+	{{/if}}
 </template>
 
 
@@ -408,6 +421,10 @@
 					Rất mong các bạn thông cảm và chờ bản hoàn thiện trong thời gian sớm nhất!
 				</div>
 				
+				<div class="alert alert-error" style="display:none">				 
+				  <strong>Hi!</strong> Bạn chưa nhập tiêu đề cho playlist
+				</div>	
+				
 				<input id="title" type="text" placeholder="Chủ đề album…">
 				<select id="genre">
 					<option value="tong-hop">Tổng hợp</option>
@@ -433,6 +450,7 @@
 					<input type="radio" name="policy" value="1" >
 					Riêng tư - Chỉ cho những người tôi muốn chia sẻ
 				</label>
+				
 			{{else}}
 				{{> noLoggInForm}}
 			{{/if}}
