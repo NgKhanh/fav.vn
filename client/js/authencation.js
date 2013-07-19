@@ -31,7 +31,7 @@ Meteor.methods({
 				// login thanh cong > subrible myAlbum
 				getMyAlbum();
 				// hide modal 
-				$('.modal').modal('hide');
+				//$('.modal').modal('hide');
 				
 			}
 
