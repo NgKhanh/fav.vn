@@ -39,7 +39,10 @@ onDocumentReady = function (templatePage) {
 	$("#page2").css("height",$("#PageContainer").height());
 	$("#page1").css("height",$("#PageContainer").height());	
 	
-	$('#albumList').tinyscrollbar();
+	$('#albumList').slimScroll({
+		width: '540px',		
+		height: '495px'
+	});
 	
 	$("#page2 .header").click( function(){
 		Router.navigate('',{trigger: true}); 
@@ -127,7 +130,7 @@ getAllRoomData=function(_albumID){
 		else 				_sysMsg = 'Có một khách không biết tên vừa mới vào';			
 		Meteor.call("sysMsg", _sysMsg , Session.get("currentRoom"), Session.get("currentSong"), function(err, res){
 			// complete
-		})
+		});
 	}	
 	
 			

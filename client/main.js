@@ -5,7 +5,11 @@ Template.albumItem.created=function(){
 Template.albumItem.rendered=function(){
 	if(this.data){
 		//console.log("on rendered > albumItem ",this.data.title);
-		$('#albumList').tinyscrollbar_update();
+			
+		$('#albumList').slimScroll({
+			width: '540px',		
+			height: '495px'
+		});
 	}
 }
 
@@ -174,10 +178,13 @@ Template.playlist.created=function(){
 }
 
 Template.playlist.rendered=function(){	
-	$('#albumPlaylist').tinyscrollbar();
-	$('#albumPlaylist').tinyscrollbar_update('bottom');
 	
-	activePlaylistItem();
+	$('#albumPlaylist').slimScroll({
+		width: '515px',		
+		height: '355px'
+	});
+	
+	activePlaylistItem();	
 }
 
 /**
@@ -239,10 +246,10 @@ Template.chatInput.events = {
 				Meteor.call("chat", $(e.currentTarget).val() , Session.get("currentRoom"), Session.get("currentSong"), function(err, res){
 					if(res){
 						// chat thanh cong
-						//console.log("Chat ok", res);					
+						//console.log("Chat ok", res);								
 					}
 				})				
-				$(e.currentTarget).val('');
+				$(e.currentTarget).val('');				
 			}	
 			
 			// chan enter line
@@ -292,8 +299,10 @@ Template.realtimeChat.data=function(){
 }
 
 Template.realtimeChat.rendered=function(){	
-	$('#chatlist').tinyscrollbar({ sizethumb: 50});
-	$('#chatlist').tinyscrollbar_update('bottom');	
+	$('#chatlist').slimScroll({	
+		height: '310px'		
+	});
+	$('#chatlist').slimScroll({scrollTo:$("#chatContent").height() + 'px'});	
 }
 
 Template.messageChat.created=function(){

@@ -1,6 +1,6 @@
 Meteor.publish("Album", function (_step) { 
 	// thêm 1 user online
-	if(this.userId){
+	/*if(this.userId){
 		console.log("user login ->>> ", this.userId);
 	}else{
 		console.log("one user in site");
@@ -8,9 +8,9 @@ Meteor.publish("Album", function (_step) {
 	// 1 user out 
 	this._session.socket.on("close", function() {
 		console.log("User out", this.userId);
-	});
+	});*/
 	
-	return Album.find({},{sort:{createTime:-1},limit:10});	
+	return Album.find({policy:0},{sort:{createTime:-1},limit:10});	
 });
 
 Meteor.publish("myAlbum", function (_username) { 	
@@ -117,7 +117,7 @@ Meteor.startup(function(){
 		}
 
 		,searchMp3:function(_key){
-			var result = Meteor.http.get("http://j.ginggong.com//jOut.ashx?code=7868d0b1-da9a-494c-80cd-5fcde436b0f2&h=mp3.zing.vn&k="+_key);
+			var result = Meteor.http.get("http://j.ginggong.com//jOut.ashx?code=7868d0b1-da9a-494c-80cd-5fcde436b0f2&k="+_key);
 
 			console.log("#######################");
 			console.log(result);

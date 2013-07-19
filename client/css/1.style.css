@@ -70,6 +70,7 @@ ul li{list-style: none;}
 
 #Nav .slideBody{
 	margin-left:20px;
+	float:left;
 }
 
 .Page{
@@ -158,40 +159,10 @@ ul li{list-style: none;}
 	padding: 6px 10px;
 }
 
-
-#chatlist .viewport { width: 98%; height: 100%; overflow: hidden; position: relative;float:left; }
-#chatlist .overview { list-style: none; position: absolute; left: 0; top: 0; }
-#chatlist .thumb .end, #chatlist .thumb { background-color: #ff6600; }
-#chatlist .scrollbar { position: relative; float: right; width: 2px; }
-#chatlist .track {height: 100%;width: 1px;position: relative;border-left: 1px solid #ddd;}
-#chatlist .thumb { height: 20px; width: 3px; cursor: pointer; overflow: hidden; position: absolute; top: 0; left: -2px;}
-#chatlist .thumb .end { overflow: hidden; height: 5px; width: 13px; }
-#chatlist .disable{ display: none; }
-
-#albumPlaylist .viewport { width: 98%; height: 355px; overflow: hidden; position: relative; float:left;}
-#albumPlaylist .overview { list-style: none; position: absolute; left: 0; top: 0; }
-#albumPlaylist .thumb .end, #albumPlaylist .thumb { background-color: #ff6600; }
-#albumPlaylist .scrollbar { position: relative; float: right; width: 2px; }
-#albumPlaylist .track {height: 100%;width: 1px;position: relative;border-left: 1px solid #ddd;}
-#albumPlaylist .thumb { height: 20px; width: 3px; cursor: pointer; overflow: hidden; position: absolute; top: 0; left: -2px;}
-#albumPlaylist .thumb .end { overflow: hidden; height: 5px; width: 13px; }
-#albumPlaylist .disable{ display: none; }
-
-
-#albumList { width: 540px; clear: both; margin-top: 20px;}
-#albumList .viewport { width: 500px; height: 480px; overflow: hidden; position: relative; }
-#albumList .overview { list-style: none; position: absolute; left: 0; top: 0; }
-#albumList .thumb .end, #albumList .thumb { background-color: #ff6600; }
-#albumList .scrollbar {float: right;}
-#albumList .track {height: 100%;width: 1px;position: relative;border-left: 1px solid #ddd;}
-#albumList .thumb { height: 20px; width: 3px; cursor: pointer; overflow: hidden; position: absolute; top: 0; left: -2px;}
-#albumList .thumb .end { overflow: hidden; height: 5px; width: 13px; }
-#albumList .disable{ display: none; }
-
-
 .noSelect { user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; }
 
 #albumList p{margin-bottom:0px;}
+#albumList #plLabel{margin-bottom:10px;}
 #albumList small{font-size:80%;}
 
 .playListItem , .albumItem{cursor:pointer;font-size: 14px;}
@@ -199,7 +170,7 @@ ul li{list-style: none;}
 	float:right;
 }
 
-#albumList #plLabel{margin-bottom:10px;}
+
 
 #albumTitle{
 	margin-bottom:20px;
@@ -335,16 +306,14 @@ ul li{list-style: none;}
 
 #gallery .playlist{max-width:500px;}
 
-#chatlist{
-	height: 310px;
-	margin-bottom: 10px;	
-	margin-top: 20px;
-	border-top: 1px solid #ddd;
-	padding-top: 10px;
-}
+#page2 .slideHeader{ margin-bottom:20px;border-bottom: 1px solid #ddd;}
+#page2 .slideBody{ margin-bottom:20px;float:left;}
+
+#chatlist{width:380px;}
 
 #chatlist li{
 	margin-bottom:10px;
+	margin-right: 10px;
 	display:block;
 	float:left;
 }
@@ -362,6 +331,12 @@ ul li{list-style: none;}
 	width: 280px;
 	margin-left: 10px;
 	margin-top: -5px;
+	font-size: 12px;
+}
+
+#chatlist li .info a{
+	color: rgb(21, 172, 219);
+	font-weight: normal;
 }
 
 #chatlist li .message{
@@ -384,7 +359,7 @@ ul li{list-style: none;}
 }
 
 #chatInputForm #chatInput, #searchInput{
-	width: 95%;
+	width: 100%;
 	background: rgba(0, 0, 0, 0.5);
 	color: #fff;
 	border: none;
@@ -444,8 +419,7 @@ ul li{list-style: none;}
 
 @media (max-width: 978px) {
   #MainViewport, #PageContainer, .Page{		
-		max-width: 800px;		
-		max-height: 500px;	
+		max-width: 950px;				
 		margin-bottom:0px;
 	}
 
@@ -454,8 +428,7 @@ ul li{list-style: none;}
 	}
 }
 
-
-@media (max-width: 1024px) {
+@media (min-width: 979px) and (max-width: 1279px) {
   	
 	#MainViewport, #PageContainer, .Page{		
 		max-width: 950px;	
@@ -489,7 +462,7 @@ ul li{list-style: none;}
 }
 
 
-
+.slimScrollDiv {float:left;}
 
 /*##########################################################################*/
 

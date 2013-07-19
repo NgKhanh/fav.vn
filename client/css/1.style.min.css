@@ -1,0 +1,97 @@
+html,body{margin:0 auto;padding:0;height:100%;background:-webkit-gradient(linear,left bottom,left top,color-stop(0,rgb(5,61,87)),color-stop(1,rgb(29,123,160)));background:-webkit-linear-gradient(left,rgb(5,61,87),rgb(29,123,160));background:-moz-linear-gradient(left,rgb(5,61,87),rgb(29,123,160));background:-ms-linear-gradient(left,rgb(5,61,87),rgb(29,123,160));background:-o-linear-gradient(left,rgb(5,61,87),rgb(29,123,160));}
+h1,h2,h3,h5,p,span,small,td,.navbar .brand{color:#fff;font-weight:normal;padding:0px;margin:0px;}
+a{color:#fff;}
+a:hover{color:#ff8800;}
+.brand{font-size:22px;}
+.modal a,.modal h3{color:#444;}
+ul,ol{padding:0;margin:0;}
+ul li{list-style:none;}
+#MainViewport,#PageContainer,.Page{width:100%;height:100%;max-height:560px;margin:0 auto;overflow:hidden;color:#fff;}
+#MainContainer{width:2000px;float:left;margin:0;padding:0;opacity:0;}
+#PageContainer{float:left;margin:0;}
+#Nav{float:left;height:100%;position:relative;background:rgba(255,255,255,0.1);border-radius:10px;}
+#onMobile{display:none;height:0px;}
+#Nav .slideBody{margin-left:20px;float:left;}
+.Page{margin:0;position:relative;float:left;}
+#page1{}
+#page2{background:rgba(0,0,0,0.4);-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;}
+.Page .header{display:block;height:50px;}
+.Page .header #closeAlbum{border-right:1px solid #ddd;float:left;cursor:pointer;padding:5px 12px;}
+.Page .header #siteLogo{padding:6px;float:left;cursor:pointer;}
+.Page .left{float:left;width:450px;}
+.Page .right{float:right;width:380px;padding:20px;padding-top:0px;}
+.logo{text-align:center;padding-right:20px;}
+.logo p{margin:0px;font-size:22px;}
+#header{margin-bottom:10px;float:left;width:100%;}
+#header #showAlbum{color:#fff;font-size:17px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;position:relative;top:20px;}
+#header #showAlbum span{font-size:12px;}
+#createAlbum{background:rgba(255,255,255,0.3);border:none;color:#fff;text-shadow:none;padding:6px 10px;}
+.noSelect{user-select:none;-o-user-select:none;-moz-user-select:none;-khtml-user-select:none;-webkit-user-select:none;}
+#albumList p{margin-bottom:0px;}
+#albumList #plLabel{margin-bottom:10px;}
+#albumList small{font-size:80%;}
+.playListItem,.albumItem{cursor:pointer;font-size:14px;}
+.playListItem .remove{float:right;}
+#albumTitle{margin-bottom:20px;float:left;}
+#albumTitle p{margin:0px;font-size:22px;margin-bottom:5px;}
+#albumTitle small{font-size:80%;}
+#albumTitle #fbLike{float:left;margin-left:20px;}
+.table td{border:none;}
+.table th,.table td{padding:8px;line-height:20px;text-align:left;vertical-align:top;border-top:none;}
+.table-hover tbody tr:hover>td,.table-hover tbody tr:hover>th{background:rgba(225,225,225,0.1);}
+#Nav .slidebody{margin:20px}
+#Nav .slideHeader{margin:20px;}
+#Nav .slideHeader #songInfo{float:left;width:100%;}
+#page2 #gallery{width:100%;height:100%;padding:20px;padding-top:0px;max-height:475px;overflow:hidden;}
+#page2 #gallery #cover:hover #changeCover{display:block;}
+#page2 #gallery #changeCover{position:relative;z-index:10;top:-30px;left:10px;display:none;background:rgba(0,0,0,0.6);width:90%;height:12px;font-size:11px;color:#fff;}
+.nav-tabs>.active>a,.nav-tabs>.active>a:hover,.nav-tabs>.active>a:focus{color:#fff;background:rgba(225,225,225,0.2);border:1px solid #ddd;border-bottom-color:transparent;cursor:default;}
+.nav-tabs>li>a:hover,.nav-tabs>li>a:focus{border-color:#eeeeee #eeeeee #dddddd;background:rgba(225,225,225,0.1);border-bottom-color:transparent;}
+.nav-tabs>li>a{padding:0 10px;}
+#albumPlaylist{height:385px;}
+#albumPlaylist li{padding:4px 10px;font-size:13px;cursor:pointer;line-height:17px;width:100%;float:left;}
+#albumPlaylist li .title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:300px;}
+#albumPlaylist li .remove{float:right;margin-right:12px;padding:0 5px;margin-top:-22px;display:none;}
+#albumPlaylist li .remove:hover{background:rgba(225,225,225,0.3);}
+#albumPlaylist .active{background:rgba(225,225,225,0.2);}
+#albumPlaylist li:hover{background:rgba(225,225,225,0.1);}
+#albumPlaylist li:hover .remove{display:block;}
+.tab-content{overflow:hidden;}
+.nav{margin-bottom:10px;font-size:12px;}
+#addSong{width:100%;}
+#searchChannel{width:145px;position:relative;z-index:0;left:-5px;}
+#gallery .playlist{max-width:500px;}
+#page2 .slideHeader{margin-bottom:20px;border-bottom:1px solid #ddd;}
+#page2 .slideBody{margin-bottom:20px;float:left;}
+#chatlist{width:380px;}
+#chatlist li{margin-bottom:10px;margin-right:10px;display:block;float:left;}
+#chatlist li .thumbnail{float:left;width:28px;height:28px;padding:2px;}
+#chatlist li .info{float:left;display:block;width:280px;margin-left:10px;margin-top:-5px;font-size:12px;}
+#chatlist li .info a{color:rgb(21,172,219);font-weight:normal;}
+#chatlist li .message{float:left;display:block;width:280px;margin-left:10px;}
+#chatlist .popover{width:230px;margin-top:-10px;padding:5px;padding-top:0px;}
+#chatlist .popover a{color:#3b5998;font-weight:bold;}
+#chatInputForm #chatInput,#searchInput{width:100%;background:rgba(0,0,0,0.5);color:#fff;border:none;box-shadow:0px 0px 2px #fff;margin:1px;overflow:hidden;resize:none;}
+#joinBtn{width:60px;float:left;}
+.listStatus{line-height:45px;font-size:13px;}
+.typeahead{width:100%;max-width:530px;}
+.typeahead a{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.dropdown-menu:before{position:absolute;top:-7px;left:9px;display:inline-block;border-right:7px solid transparent;border-bottom:7px solid #ccc;border-left:7px solid transparent;border-bottom-color:rgba(0,0,0,0.2);content:'';}
+.dropdown-menu:after{position:absolute;top:-6px;left:10px;display:inline-block;border-right:6px solid transparent;border-bottom:6px solid #ffffff;border-left:6px solid transparent;content:'';}
+.dropdown-menu li span{color:#666;}
+.dropdown-menu li:hover span,.dropdown-menu .active span{color:#fff;}
+@media (max-width:978px){#MainViewport,#PageContainer,.Page{max-width:950px;margin-bottom:0px;}
+#Nav{width:240px;}}
+@media (min-width:979px) and (max-width:1279px){#MainViewport,#PageContainer,.Page{max-width:950px;}
+#MainViewport{margin-bottom:0px;}
+#Nav{width:400px;}}
+@media (min-width:1200px){#MainViewport,#PageContainer,.Page{max-width:1180px;}
+#MainViewport{margin-bottom:30px;}
+#Nav{width:640px;}
+.Page .left{width:740px;}}
+.slimScrollDiv{float:left;}
+#AnimationBG,#clouds{position:fixed;z-index:0;width:100%;height:1000px;top:0;left:0;}
+.cloud{position:relative;}
+@-webkit-keyframes moveclouds{0%{margin-top:1300px;}}
+@-moz-keyframes moveclouds{0%{margin-top:1300px;}}
+@-o-keyframes moveclouds{0%{margin-top:1300px;}}

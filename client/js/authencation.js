@@ -30,6 +30,8 @@ Meteor.methods({
 				console.log("login loginWithFacebook >>>>> ");
 				// login thanh cong > subrible myAlbum
 				getMyAlbum();
+				// hide modal 
+				$('.modal').modal('hide');
 				
 			}
 

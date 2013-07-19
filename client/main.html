@@ -11,7 +11,7 @@
 	<meta property="og:title" content="FAV.VN - FAVorite music"/>
 	<meta property="og:description" content="Trang web nghe nhạc dành cho người tự kỉ cấp độ cao nhất nhất" />
    
-		
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.js"></script>
 	
 	<script>
 	
@@ -49,27 +49,18 @@
 						{{> header}}	
 						
 						<div id="albumList" class="pull-left">
-							<!--
-								<img src="http://img.click.zdn.vn/11758.jpg" alt="" style="margin-bottom: 20px;">	
-							-->
-							<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
+									
+							<table class="table table-hover ">	
+								<p id="myPlLabel" style="display:none">PLAYLIST CỦA BẠN : </p>	
+								<tbody id="myAlbumList"></tbody>										
+							</table>
 							
-							<div class="viewport">
-								<div class="overview">	
-									
-									<table class="table table-hover ">	
-										<p id="myPlLabel" style="display:none">PLAYLIST CỦA BẠN : </p>	
-										<tbody id="myAlbumList"></tbody>										
-									</table>
-									
-									
-									<table class="table table-hover ">
-										<p id="plLabel">PLAYLIST ĐANG PHÁT : </p>										
-										<tbody id="realTimeAlbumList"></tbody>										
-									</table>
-									
-								</div>
-							</div>
+							
+							<table class="table table-hover ">
+								<p id="plLabel">PLAYLIST ĐANG PHÁT : </p>										
+								<tbody id="realTimeAlbumList"></tbody>										
+							</table>
+							
 						</div>
 							
 						
@@ -86,7 +77,8 @@
 								{{> playlistInfo}}	
 								
 								<div class="tab-pane active playlist" id="tab1">
-											
+									
+									{{#isolate}}
 									<div id="addSong" class="input-append"> 
 										{{#if currentUser}}
 										<input id="searchInput"  type="text" data-provide="typeahead" data-items="5"  
@@ -96,6 +88,8 @@
 											placeholder="Đăng nhập để thêm vào playlist"/>
 										{{/if}}
 									</div>	
+									{{/isolate}}
+									
 									{{> playlist}}
 								</div>
 							</div>							
@@ -110,21 +104,15 @@
 							
 							<div class="slideBody">									
 								<div id="chatlist"> 		
-									<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>		
-									<div class="viewport">
-										<div class="overview">	
-											{{> oldchat}}
-											{{> realtimeChat}}
-											
-											</ul>	
-										</div>
+									<div id="chatContent" class="pull-left">
+										{{> oldchat}}
+										{{> realtimeChat}}
 									</div>
-								</div>									
-								{{> chatInput}}	
+								</div>	
 							</div>
 							
 							<div class="slideFooter">
-								
+								{{> chatInput}}	
 							</div>
 							
 						</div>
@@ -197,14 +185,14 @@
 			<a  id="showAlbum" href="{{alias}}" style="padding: 20px 15px 10px;"
 				p="Click to play (share by {{owner.name}})"> 
 			
-			<marquee behavior="scroll" scrollamount="3" direction="left" width="400">
-				<p> 
-					<span>Bạn đang nghe : </span> 
-					{{title}}         
-					<span> - Thể loại {{genre}} - Tạo bởi {{owner.name}} - {{timeAgo}} </span>  
-				</p>
-			</marquee>				      
-		</a> 
+				<marquee behavior="scroll" scrollamount="3" direction="left" width="400">
+					<p> 
+						<span>Bạn đang nghe : </span> 
+						{{title}}         
+						<span> - Thể loại {{genre}} - Tạo bởi {{owner.name}} - {{timeAgo}} </span>  
+					</p>
+				</marquee>				      
+			</a> 
 		{{/with}} 
 		{{/if}}
 	{{/isolate}} 
@@ -231,16 +219,15 @@
 <template name="playlist"> 
 	
 	<a id="header"><h5>{{data.length}} bài trong list</h5></a> 
-	<ul id="albumPlaylist">  
-		<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>		
-		<div class="viewport">
-			<div class="overview">											
+	<div>			
+		<ul id="albumPlaylist">  
+			{{#isolate}}
 				{{#each data}}
 					{{> playlistItem}}
 				{{/each}}
-			</div>
-		</div>
-	</ul> 	
+			{{/isolate}}	
+		</ul> 		
+	</div>
 	
 </template>
 
@@ -303,23 +290,7 @@
 	{{/each}}
 	</ul>
 </template>
-	
-	
-<template name="chatlist">
-	
-	<div id="chatlist"> 		
-		<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>		
-		<div class="viewport">
-			<ul class="overview">	
-				{{#isolate}}					
-					{{#each data}}						
-						{{> messageChat}}
-					{{/each}}
-				{{/isolate}}	
-			</ul>
-		</div>
-	</div>	
-</template>
+
 
 <template name="messageChat">
 	{{#if sys}}
@@ -344,12 +315,14 @@
 <template name="chatInput">
 
 <div id="chatInputForm">
-	{{#if currentUser}}
-		<textarea id="chatInput" type="text" row="2"></textarea>
-	{{else}}
-		<textarea id="chatInput" type="text" row="2" placeholder="Đăng nhập để chat"></textarea>
-	{{/if}}
-	</div>
+	{{#isolate}}
+		{{#if currentUser}}
+			<textarea id="chatInput" type="text" row="2"></textarea>
+		{{else}}
+			<textarea id="chatInput" type="text" row="2" placeholder="Đăng nhập để chat"></textarea>
+		{{/if}}
+	{{/isolate}}
+</div>
 </template>
 
 <!-- component of page -->
@@ -402,16 +375,18 @@
         
         <div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			{{#if currentUser}}
-				<h3 id="myModalLabel">Tạo list bài hát ưu thích</h3>
-				
-			{{else}}
-				<h3 id="myModalLabel">Đăng nhập</h3>
-			{{/if}}
+			{{#isolate}}
+				{{#if currentUser}}
+					<h3 id="myModalLabel">Tạo list bài hát ưu thích</h3>
+					
+				{{else}}
+					<h3 id="myModalLabel">Đăng nhập</h3>
+				{{/if}}
+			{{/isolate}}
         </div>
 
         <div class="modal-body">
-			
+			{{#isolate}}
 			{{#if currentUser}}
 				
 				<div class="alert">
@@ -454,17 +429,18 @@
 			{{else}}
 				{{> noLoggInForm}}
 			{{/if}}
-
+			{{/isolate}}
         </div>
-		
-		{{#if currentUser}}
-			<div class="modal-footer">
-				<button id="cancelBtn"  class="btn" data-dismiss="modal" aria-hidden="true">
-				  Hủy bỏ</button>
-				<button id="saveBtn"  type="button" class="btn btn-primary" 
-				  data-loading-text="Saving...">Lưu lại</button>
-			</div>
-		{{/if}}
+		{{#isolate}}
+			{{#if currentUser}}
+				<div class="modal-footer">
+					<button id="cancelBtn"  class="btn" data-dismiss="modal" aria-hidden="true">
+					  Hủy bỏ</button>
+					<button id="saveBtn"  type="button" class="btn btn-primary" 
+					  data-loading-text="Saving...">Lưu lại</button>
+				</div>
+			{{/if}}
+		{{/isolate}}
     </div>
 
 </template>
