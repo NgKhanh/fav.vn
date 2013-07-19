@@ -179,8 +179,7 @@ Template.playlist.created=function(){
 
 Template.playlist.rendered=function(){	
 	
-	$('#albumPlaylist').slimScroll({
-		width: '515px',		
+	$('#albumPlaylist').slimScroll({			
 		height: '355px'
 	});
 	
@@ -300,7 +299,7 @@ Template.realtimeChat.data=function(){
 
 Template.realtimeChat.rendered=function(){	
 	$('#chatlist').slimScroll({	
-		height: '310px'		
+		height: '300px'		
 	});
 	$('#chatlist').slimScroll({scrollTo:$("#chatContent").height() + 'px'});	
 }

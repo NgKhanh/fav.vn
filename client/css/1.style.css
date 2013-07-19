@@ -254,7 +254,7 @@ ul li{list-style: none;}
 	padding:0 10px;
 }
 
-#albumPlaylist {height:385px;}
+#albumPlaylist {height:385px;width:515px;}
 
 #albumPlaylist li{
 	padding: 4px 10px;
@@ -306,7 +306,7 @@ ul li{list-style: none;}
 
 #gallery .playlist{max-width:500px;}
 
-#page2 .slideHeader{ margin-bottom:20px;border-bottom: 1px solid #ddd;}
+#page2 .slideHeader{ margin-bottom:20px;border-bottom: 1px solid #ddd;padding-bottom: 10px;}
 #page2 .slideBody{ margin-bottom:20px;float:left;}
 
 #chatlist{width:380px;}
@@ -426,6 +426,8 @@ ul li{list-style: none;}
 	#Nav{		
 		width:240px;	
 	}
+	
+	#albumPlaylist {height:385px;width:460px}
 }
 
 @media (min-width: 979px) and (max-width: 1279px) {

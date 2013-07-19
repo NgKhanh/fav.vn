@@ -48,7 +48,7 @@ ul li{list-style:none;}
 .nav-tabs>.active>a,.nav-tabs>.active>a:hover,.nav-tabs>.active>a:focus{color:#fff;background:rgba(225,225,225,0.2);border:1px solid #ddd;border-bottom-color:transparent;cursor:default;}
 .nav-tabs>li>a:hover,.nav-tabs>li>a:focus{border-color:#eeeeee #eeeeee #dddddd;background:rgba(225,225,225,0.1);border-bottom-color:transparent;}
 .nav-tabs>li>a{padding:0 10px;}
-#albumPlaylist{height:385px;}
+#albumPlaylist{height:385px;width:515px;}
 #albumPlaylist li{padding:4px 10px;font-size:13px;cursor:pointer;line-height:17px;width:100%;float:left;}
 #albumPlaylist li .title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:300px;}
 #albumPlaylist li .remove{float:right;margin-right:12px;padding:0 5px;margin-top:-22px;display:none;}
@@ -61,7 +61,7 @@ ul li{list-style:none;}
 #addSong{width:100%;}
 #searchChannel{width:145px;position:relative;z-index:0;left:-5px;}
 #gallery .playlist{max-width:500px;}
-#page2 .slideHeader{margin-bottom:20px;border-bottom:1px solid #ddd;}
+#page2 .slideHeader{margin-bottom:20px;border-bottom:1px solid #ddd;padding-bottom:10px;}
 #page2 .slideBody{margin-bottom:20px;float:left;}
 #chatlist{width:380px;}
 #chatlist li{margin-bottom:10px;margin-right:10px;display:block;float:left;}
@@ -81,7 +81,8 @@ ul li{list-style:none;}
 .dropdown-menu li span{color:#666;}
 .dropdown-menu li:hover span,.dropdown-menu .active span{color:#fff;}
 @media (max-width:978px){#MainViewport,#PageContainer,.Page{max-width:950px;margin-bottom:0px;}
-#Nav{width:240px;}}
+#Nav{width:240px;}
+#albumPlaylist{height:385px;width:460px}}
 @media (min-width:979px) and (max-width:1279px){#MainViewport,#PageContainer,.Page{max-width:950px;}
 #MainViewport{margin-bottom:0px;}
 #Nav{width:400px;}}

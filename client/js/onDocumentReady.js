@@ -57,7 +57,16 @@ onDocumentReady = function (templatePage) {
 returnHome = function(){
 	$("#page2").transition({y:$("#page1").height()});
 	$("#page1").transition({y:0});
-	$("#Nav").transition({x:0});	
+	$("#Nav").transition({x:0});
+	
+	// update message SYS > usser join room
+	var _sysMsg = '';
+	if(Meteor.userId())	_sysMsg = Meteor.user().profile.name + ' ra khỏi phòng';
+	else 				_sysMsg = 'Có một khách không biết tên vừa ra khỏi phòng';			
+	Meteor.call("sysMsg", _sysMsg , Session.get("currentRoom"), Session.get("currentSong"), function(err, res){
+		// complete
+	});
+		
 }
 
 appendAlbumList =function(){	
