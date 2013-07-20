@@ -154,9 +154,23 @@ Meteor.startup(function(){
 				switch(_domain){
 					case "mp3.zing.vn": 
 						data.source = str.substring(str.lastIndexOf("http://mp3.zing.vn/html5/song/"),str.lastIndexOf("http://mp3.zing.vn/html5/song/")+51);
+						data.title 	= str.substring(str.lastIndexOf("<title>")+7, str.lastIndexOf("</title>"));
+						data.title 	= data.title.substring(0,data.title.lastIndexOf('|'));
+						
+						data.artist	= data.title.substring(data.title.lastIndexOf('-')+1,data.title.length);
+						data.title 	= data.title.substring(0,data.title.lastIndexOf('-'));
+						
 					break;
 					case "nhaccuatui.com": 
-						data.source = str.substring(str.lastIndexOf('<source src="http://s82.stream.nixcdn.com'),str.lastIndexOf('.mp3" type="audio/mpeg">') + 4);
+						console.log("##########",str.lastIndexOf('.stream.nixcdn.com'),str.lastIndexOf('.mp3'));
+						data.source = str.substring(str.lastIndexOf('.stream.nixcdn.com')-10,str.lastIndexOf('.mp3') + 4);
+						
+						data.title = str.substring(str.lastIndexOf("<title>")+7, str.lastIndexOf("</title>"));
+						data.title 	= data.title.substring(0,data.title.indexOf('-'));
+						
+						data.artist = str.substring(str.lastIndexOf("<title>")+7, str.lastIndexOf("</title>"));
+						data.artist = data.artist.substring(data.artist.indexOf("-")+1, data.artist.lastIndexOf("-"));
+						data.artist = data.artist.substring(0, data.artist.lastIndexOf("-"));
 					break;				
 				}
 			}

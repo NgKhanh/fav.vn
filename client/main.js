@@ -25,6 +25,7 @@ Template.albumItem.events = {
 #################################################################################
 */
 
+
 /**
 
 Template.albumDetail.rendered=function(){
@@ -116,23 +117,6 @@ Template.playlistInfo.events = {
 ##############################################################################################
 */
 
-Template.video.source = function(){	
-	return Session.get("currentSongSource");
-}
-
-Template.video.created = function(){	
-	//console.log("-------> video created");
-}
-
-Template.video.rendered = function(){
-	//console.log("-------> video rendered");
-	setTimeout(function(){
-		var myVideo=document.getElementById("myVideo"); 			
-			myVideo.load();
-			myVideo.play();
-			myVideo.addEventListener('ended',nextSong,false);
-	},500);
-}
 
 /**
 ##############################################################################################
@@ -177,13 +161,13 @@ Template.playlist.created=function(){
 	//console.log("-------------------------> playlist created");
 }
 
-Template.playlist.rendered=function(){	
+Template.playlist.rendered=function(){
+	
+	console.log("-------------------------> Template.playlist.rendered");
 	
 	$('#albumPlaylist').slimScroll({			
 		height: '355px'
 	});
-	
-	activePlaylistItem();	
 }
 
 /**
@@ -206,7 +190,7 @@ Template.playlistItem.events = {
 	'click li':function(e){
 		e.preventDefault();		
 		
-		console.log("click to play",Meteor.userId(),Session.get("isAdmin"));
+		console.log("Template.playlistItem.events --> ",$(e.target).attr("class"),Session.get("isAdmin"));
 		
 		if(Meteor.userId()==null){
 			// chưa đăng nhập > cho phép nghe tự do
@@ -219,10 +203,12 @@ Template.playlistItem.events = {
 			if($(e.target).attr("class")=="remove"){
 				console.log("remove song from playlist",$(e.target).attr("id"));
 				Meteor.call("removeSongFromPlaylist", $(e.target).attr("id"),Session.get("currentRoom"));
-			}else{
-				console.log(" --->  play",$(e.currentTarget).attr("id"));
+			}else{				
 				Session.set("currentSong", $(e.currentTarget).attr("id"));
 				Session.set('currentSongSource',$(e.currentTarget).attr("data-source"));
+				
+				console.log(" --->  play",$(e.currentTarget).attr("id"), " >> ",Session.get('currentSongSource'));
+				
 				activePlaylistItem();
 			}	
 		}		
@@ -298,15 +284,16 @@ Template.realtimeChat.data=function(){
 }
 
 Template.realtimeChat.rendered=function(){	
+	console.log("-----------> RealtimeChat rendered");
 	$('#chatlist').slimScroll({	
-		height: '300px'		
-	});
-	$('#chatlist').slimScroll({scrollTo:$("#chatContent").height() + 'px'});	
+		height: '300px',
+		scrollTo:$("#chatContent").height() + 'px'
+	});	
 }
 
 Template.messageChat.created=function(){
 	if(this.data){
-		console.log("-----------> messageChat created",this.data.owner.name,this.data.owner.name!="SYS");
+		//console.log("-----------> messageChat created",this.data.owner.name,this.data.owner.name!="SYS");
 		
 		if(!this.data.old)this.data.message = emoticon(this.data.message);
 		this.data.timeAgo = timeAgo(this.data.createTime);

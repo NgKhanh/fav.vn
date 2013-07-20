@@ -1,0 +1,14 @@
+<template name="player"> 	
+	{{> adPlayer}}
+	{{#constant}}
+		 <audio class="audiojs" preload></audio>
+		<!-- src="" preload="auto" autoplay -->
+	{{/constant}}	
+</template>
+
+<template name="video"> 	
+	<video id="myVideo" controls="" width="100%" height="100" poster="/img/music.jpg">
+		<source src="{{source}}" type="audio/mpeg">
+	</video> 		
+</template>
+

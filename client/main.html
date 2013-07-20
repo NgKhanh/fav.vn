@@ -14,7 +14,7 @@
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.js"></script>
 	
 	<script>
-	
+		
 		(function(d, s, id) {
 		  var js, fjs = d.getElementsByTagName(s)[0];
 		  if (d.getElementById(id)) return;
@@ -79,25 +79,26 @@
 								<div class="tab-pane active playlist" id="tab1">
 									
 									{{#isolate}}
-									<div id="addSong" class="input-append"> 
-										{{#if currentUser}}
-										<input id="searchInput"  type="text" data-provide="typeahead" data-items="5"  
-											placeholder="Nhập tên bài hát để thêm vào playlist"/>	
-										{{else}}
-										<input id="searchInput"  type="text" data-provide="typeahead" data-items="5"  
-											placeholder="Đăng nhập để thêm vào playlist"/>
-										{{/if}}
-									</div>	
+										<div id="addSong" class="input-append"> 
+											{{#if currentUser}}
+											<input id="searchInput"  type="text" data-provide="typeahead" data-items="5"  
+												placeholder="Nhập tên bài hát để thêm vào playlist"/>	
+											{{else}}
+											<input id="searchInput"  type="text" data-provide="typeahead" data-items="5"  
+												placeholder="Đăng nhập để thêm vào playlist"/>
+											{{/if}}
+										</div>	
 									{{/isolate}}
 									
 									{{> playlist}}
+									
 								</div>
 							</div>							
 						</div>
 						
 						<div class="right">
-							<div class="slideHeader" style="height:145px">
-								{{> video}} 
+							<div class="slideHeader" style="height:130px">
+								{{> player}} 
 								{{> songInfo}} 
 								
 							</div>
@@ -199,12 +200,6 @@
 </template>
 
 
-<template name="video"> 	
-	<video id="myVideo" controls="" width="100%" height="100" poster="/img/music.jpg">
-		<source src="{{source}}" type="audio/mpeg">
-	</video> 		
-</template>
-
 <template name="songInfo"> 		
 	{{#with data}}	
 		<small id="songInfo"> 
@@ -217,18 +212,16 @@
 
 
 <template name="playlist"> 
-	
-	<a id="header"><h5>{{data.length}} bài trong list</h5></a> 
-	<div>			
-		<ul id="albumPlaylist">  
-			{{#isolate}}
-				{{#each data}}
-					{{> playlistItem}}
-				{{/each}}
-			{{/isolate}}	
-		</ul> 		
+	<div>		
+		{{#isolate}}
+		<a id="header"><h5>{{data.length}} bài trong list</h5></a> 
+		<ul id="albumPlaylist">				
+			{{#each data}}
+				{{> playlistItem}}
+			{{/each}}
+		</ul> 	
+		{{/isolate}} 
 	</div>
-	
 </template>
 
 
@@ -276,7 +269,7 @@
 </template>
 
 <template name="oldchat">
-	<ul id="oldChat"> 
+	<ul id="oldChat"> ...
 	{{#each data}}
 		{{> messageChat}}
 	{{/each}}
