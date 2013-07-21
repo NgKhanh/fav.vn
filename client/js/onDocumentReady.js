@@ -57,7 +57,7 @@ onDocumentReady = function (templatePage) {
 returnHome = function(){
 	$("#page2").transition({y:$("#page1").height()});
 	$("#page1").transition({y:0});
-	$("#Nav").transition({x:0});
+	$("#Nav").transition({x:-$("#Nav").width()});
 	
 	// update message SYS > usser join room
 	var _sysMsg = '';
@@ -78,6 +78,7 @@ appendAlbumList =function(){
 				if(album.title)	album.alias  	= "a/"+title2Alias(album.title) +"."+album._id;
 								album.timeAgo 	= timeAgo(album.createTime);	
 								album.length    = album.numSong;
+								album.active  	= album._id == Session.get("reviewRoom")?true:false;
 			return Template["albumItem"](album);	   
 			    
 		});	
@@ -132,6 +133,7 @@ getAllRoomData=function(_albumID){
 		$('#chatlist #realtimeChat li').remove();		
 		// current Room
 		Session.set('currentRoom',_albumID);
+		//Session.set('reviewRoom','');
 		
 		// update message SYS > usser join room
 		var _sysMsg = '';
@@ -146,10 +148,29 @@ getAllRoomData=function(_albumID){
 	// show Room				
 	$("#page2").transition({y:-$("#page1").height()});
 	$("#page1").transition({y:-$("#page1").height()});
-	$("#Nav").transition({x:-$("#Nav").width()});
+	$("#Nav").transition({x:0});
 	
 }
 
+openReview=function(_albumID){
+	
+	if(Session.get('reviewRoom')==_albumID){
+		$("#Nav").transition({x:0},function(){
+			Session.set('reviewRoom','');
+		});		
+	}else{
+		
+		$("#Nav").transition({x:-$("#Nav").width(),delay:500});
+		
+		if(Song.find({albumID:_albumID}).count()>0 ||  Message.find({roomID:_albumID}).count()>0){
+			Session.set('reviewRoom',_albumID);		
+		}else{		
+			Meteor.subscribe('MessageAndSong', _albumID, function () {			
+				Session.set('reviewRoom',_albumID);		
+			})
+		}	
+	}
+}
 
 
 parseMp3Source = function(_id, _domain){

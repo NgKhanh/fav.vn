@@ -17,6 +17,7 @@ Session.set('currentPage',"");
 Session.set('currentIndex', loadStep); 
 Session.set('pageIndex',1);
 Session.set('currentRoom',"");
+Session.set('reviewRoom',"");
 Session.set('currentSong',"");
 Session.set('currentSongSource',"");
 Session.set('isAdmin',false);

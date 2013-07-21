@@ -1,3 +1,11 @@
+Meteor.headly.config({tagsForRequest: function(req) {
+	var url = __meteor_bootstrap__.require('url'); 
+	console.log("###############################");
+	console.log("facebook request url",url, "  --> request :",req);
+	console.log("###############################");
+  return '<meta property="og:title" content="FAV.VN - nghe nhac va chat realtime" />';
+}});
+
 Meteor.publish("Album", function (_step) { 
 	// thêm 1 user online
 	/*if(this.userId){

@@ -5,7 +5,6 @@ Template.albumItem.created=function(){
 Template.albumItem.rendered=function(){
 	if(this.data){
 		//console.log("on rendered > albumItem ",this.data.title);
-			
 		$('#albumList').slimScroll({
 			width: '540px',		
 			height: '495px'
@@ -17,59 +16,18 @@ Template.albumItem.events = {
 	'click .albumItem':function(e){
 		e.preventDefault();	
 		//gotoAlbum($(e.currentTarget).find(".albump").attr("href"));			
-		Router.navigate($(e.currentTarget).find(".albump").attr("href"),{trigger: true});   
-	}
-}
-
-/**
-#################################################################################
-*/
-
-
-/**
-
-Template.albumDetail.rendered=function(){
-	console.log("-------------------------> Render albumDetail");
-
-	if(Session.get("currentSong")==-1){
-		Session.set("currentSong",0);
-	}
-}
-
-Template.albumDetail.info=function(){
-	
-	if(Session.get("currentRoom")=="")return null;
-	
-	var _album =  Album.findOne({_id:Session.get("currentRoom")});
-
-	var _info = {};
-		_info.title 	= _album.title;
-		_info.timeAgo 	=  timeAgo(_album.createTime);
-		_info.owner 	= _album.owner;
-		_info.genre 	= _album.genre;
-
-		console.log(" --- > playlistInfo get info ",_info);
 		
-	return _info;
+		if(Session.get("reviewRoom")!=$(e.currentTarget).find(".albump").attr("room-id"))
+			openReview($(e.currentTarget).find(".albump").attr("room-id"));
+		else	
+			Router.navigate($(e.currentTarget).find(".albump").attr("href"),{trigger: true}); 
+	}
 }
 
-
-Template.albumDetail.song=function(){
-	if(Session.get("currentRoom")=="")return null;
-	
-	var _playlist = Album.findOne({_id:Session.get("currentRoom")}).playlist;
-	if(_playlist.length==0 || Session.get("currentSong") < 0) return;
-	return _playlist[Session.get("currentSong")];
-}
-
-Template.albumDetail.albumList=function(){
-	if(Session.get("currentRoom")=="")return null;
-	return Album.findOne({_id:Session.get("currentRoom")}).playlist;
-	//return  Album.findOne({_id:Session.get("currentRoom")});	
-}
-
+/**
 #################################################################################
 */
+
 
 Template.playlistInfo.info=function(){
 	if(Session.get("currentRoom")=="")return null;

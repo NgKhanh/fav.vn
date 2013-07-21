@@ -57,9 +57,12 @@ ul li{list-style: none;}
 
 #Nav{
 	float:left;	
-	height:100%;
+	height: 445px;
+	width: 400px;
+    margin-top: 65px;
+    padding: 20px;
 	position:relative;
-	background: rgba(255, 255, 255, 0.1);
+	background: rgba(0, 0, 0, 0.4);
 	border-radius:10px;	
 }
 
@@ -164,17 +167,19 @@ ul li{list-style: none;}
 #albumList p{margin-bottom:0px;}
 #albumList #plLabel{margin-bottom:10px;}
 #albumList small{font-size:80%;}
+#albumList .active{background: rgba(0, 0, 0, 0.2);}
 
 .playListItem , .albumItem{cursor:pointer;font-size: 14px;}
-.playListItem .remove {
-	float:right;
-}
+.playListItem .remove {float:right;}
 
 
 
 #albumTitle{
-	margin-bottom:20px;
+	margin-bottom: 15px;
 	float: left;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #aaa;
+	width: 100%;
 }
 
 #albumTitle p{
@@ -254,9 +259,9 @@ ul li{list-style: none;}
 	padding:0 10px;
 }
 
-#albumPlaylist {height:385px;width:515px;}
+.albumList {height:385px;width:515px;}
 
-#albumPlaylist li{
+.albumList li{
 	padding: 4px 10px;
 	font-size: 13px;
 	cursor:pointer;
@@ -266,14 +271,14 @@ ul li{list-style: none;}
 }
 
 
-#albumPlaylist li .title{
+.albumList li .title{
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	width: 300px;
 }
 
-#albumPlaylist li .remove{
+.albumList li .remove{
 	float: right;
 	margin-right: 12px;
 	padding: 0 5px;
@@ -281,11 +286,10 @@ ul li{list-style: none;}
 	display:none;
 }
 
-#albumPlaylist li .remove:hover{background:rgba(225, 225, 225, 0.3);}
-
-#albumPlaylist .active{	background:rgba(225, 225, 225, 0.2);}
-#albumPlaylist li:hover{background:rgba(225, 225, 225, 0.1);}
-#albumPlaylist li:hover .remove{display:block;}
+.albumList li .remove:hover{background:rgba(225, 225, 225, 0.3);}
+.albumList .active{	background:rgba(225, 225, 225, 0.2);}
+.albumList li:hover{background:rgba(225, 225, 225, 0.1);}
+.albumList li:hover .remove{display:block;}
 
 .tab-content {
 	overflow: hidden;
@@ -359,7 +363,7 @@ ul li{list-style: none;}
 }
 
 #chatInputForm #chatInput, #searchInput{
-	width: 100%;
+	width: 97%;
 	background: rgba(0, 0, 0, 0.5);
 	color: #fff;
 	border: none;
@@ -372,6 +376,15 @@ ul li{list-style: none;}
 #joinBtn{
 	width: 60px;
 	float: left;
+}
+
+.joinRoomBtn{
+	background: rgba(73,175,205,0.3);
+	margin-top: 7px;
+}
+
+.joinRoomBtn:hover{
+	background: rgba(73,175,205,0.5);	
 }
 
 .listStatus {

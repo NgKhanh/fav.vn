@@ -72,56 +72,53 @@ initTypeAHead=function(){
 						return process(result);
 					}
 				});
-			}		
+				
+			}else{
 			
-			return;
-			
-			
-			
-			window.clearTimeout(timeOut);
-			timeOut = window.setTimeout(function(){	
+				window.clearTimeout(timeOut);
+				timeOut = window.setTimeout(function(){	
 				
 				
-				Meteor.call("searchMp3",query,function(err,res){
+					Meteor.call("searchMp3",query,function(err,res){
+						
+					//Meteor.call("autoCompleteSearch",query,function(err,res){
+						if(res){
+							var data = $.parseJSON(res);						
+							var result = [];
+							
+							console.log("search complete",query,data);
+							
+							// search from j.search api
+							$.each(data, function (i, song) {
+								if(i<10){															
+									song.title 		= song.Id;														
+									song.artist 	= song.Artist;	
+									song.domain 	= song.HostName;						
+									song.name 		= (song.Title.lastIndexOf("+")>-1)?song.Title.substring(0,song.Title.lastIndexOf("+")):song.Title;	
+									song.source 	= song.UrlJunDownload;						
+									map[song.title] = song;
+									result.push(song.title);
+								}	
+							});		
+							
+							// search from zing
+							/*$.each(data.song.list, function (i, song) {
+								if(i<10){															
+									if(song.name.lastIndexOf("+")>-1)song.name = song.name.substring(0,song.name.lastIndexOf("+"));	
+									song.title = song.object_id;	
+									song.domain = "mp3.zing.vn";							
+									map[song.title] = song;
+									result.push(song.title);
+								}	
+							});	*/			
+							resultData = result;
+							
+							return process(result);
+						}
+					})
 					
-				//Meteor.call("autoCompleteSearch",query,function(err,res){
-					if(res){
-						var data = $.parseJSON(res);						
-						var result = [];
-						
-						console.log("search complete",query,data);
-						
-						// search from j.search api
-						$.each(data, function (i, song) {
-							if(i<10){															
-								song.title 		= song.Id;														
-								song.artist 	= song.Artist;	
-								song.domain 	= song.HostName;						
-								song.name 		= (song.Title.lastIndexOf("+")>-1)?song.Title.substring(0,song.Title.lastIndexOf("+")):song.Title;	
-								song.source 	= song.UrlJunDownload;						
-								map[song.title] = song;
-								result.push(song.title);
-							}	
-						});		
-						
-						// search from zing
-						/*$.each(data.song.list, function (i, song) {
-							if(i<10){															
-								if(song.name.lastIndexOf("+")>-1)song.name = song.name.substring(0,song.name.lastIndexOf("+"));	
-								song.title = song.object_id;	
-								song.domain = "mp3.zing.vn";							
-								map[song.title] = song;
-								result.push(song.title);
-							}	
-						});	*/			
-						resultData = result;
-						
-						return process(result);
-					}
-				})
-				
-			},300); 
-		 
+				},300); 
+			}
 		},
 		
 		updater:function (item) {

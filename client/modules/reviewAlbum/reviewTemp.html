@@ -1,0 +1,24 @@
+<template name="reviewPlaylistInfo">
+	{{#with info}}
+	<div id="albumTitle">
+		<p><a class="albump">{{title}}<small> - ({{length}} bài)</small></a></p>
+									
+		<small class="albumDesc pull-left">{{timeAgo}} 
+		- <a href="#">{{owner.name}}</a> 
+		- thể loại <a href="#">{{genre}}</a></small>			
+	</div>
+	{{/with}}
+</template>
+
+<template name="reviewPlaylist"> 
+	<div>		
+		{{#isolate}}		
+		<ul id="reviewPlaylist" class="albumList">				
+			{{#each data}}
+				{{> playlistItem}}
+			{{/each}}
+		</ul> 	
+		{{/isolate}} 
+	</div>
+</template>
+

@@ -122,7 +122,10 @@
 					
 				</div>
 				
-				<div id="Nav"></div>
+				<div id="Nav">
+					{{> reviewPlaylistInfo}}					
+					{{> reviewPlaylist}}		
+				</div>
 			</div>
 		</div>
 	</td>
@@ -215,7 +218,7 @@
 	<div>		
 		{{#isolate}}
 		<a id="header"><h5>{{data.length}} bài trong list</h5></a> 
-		<ul id="albumPlaylist">				
+		<ul id="albumPlaylist" class="albumList">				
 			{{#each data}}
 				{{> playlistItem}}
 			{{/each}}
@@ -237,7 +240,11 @@
 
 
 <template name="albumItem">
-   <tr class="albumItem">
+	{{#if active}}
+	<tr class="albumItem active">
+	{{else}}
+	<tr class="albumItem">
+	{{/if}}
 		<td>
 			<a id="joinBtn" class="joinBtn">
 				<img src="/img/phone.png" style=" width: 32px;"><b>120</b>
@@ -251,7 +258,11 @@
 				- thể loại <a href="#">{{genre}}</a></small>
 			
 		</td>
-		<td><a class="listStatus"> &raquo;</a></td>
+		<td style="width: 120px;">
+			{{#if active}}
+				<button type="button" class="btn btn-info joinRoomBtn">Vào nghe &raquo;</button>	
+			{{/if}}
+		</td>
 	</tr>		
 </template>	
 
