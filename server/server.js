@@ -91,7 +91,7 @@ Meteor.startup(function(){
 
 			})
 
-			console.log("insert success", album);
+			console.log(Meteor.user().profile.name , " create album", _album.title);
 			return album;
 		}
 		
@@ -101,7 +101,7 @@ Meteor.startup(function(){
 
 		,addSongToPlaylist:function(_song,_albumID){
 
-			console.log(" ----> addSongToPlaylist", _song.title,_albumID);
+			console.log(Meteor.user().profile.name ,"  add song",_song.title," to playlist",_albumID);
 			
 			Song.insert({	title		: _song.title
 							,artist		: _song.artist	
@@ -119,18 +119,14 @@ Meteor.startup(function(){
 		}
 		
 		,removeSongFromPlaylist:function(_songID,_albumID){
-			console.log(" ----> remove song from list", _songID);
+			console.log(Meteor.user().profile.name, " remove song from list", _songID);
 			Song.remove({_id:_songID});
 			Album.update({_id:_albumID},{ $inc: { numSong: -1 }});
 		}
 
 		,searchMp3:function(_key){
+			console.log(Meteor.user().profile.name, " search",_key);		
 			var result = Meteor.http.get("http://j.ginggong.com//jOut.ashx?code=7868d0b1-da9a-494c-80cd-5fcde436b0f2&k="+_key);
-
-			console.log("#######################");
-			console.log(result);
-			console.log("#######################");
-
 			return result.content;
 		}
 		
@@ -170,7 +166,6 @@ Meteor.startup(function(){
 						
 					break;
 					case "nhaccuatui.com": 
-						console.log("##########",str.lastIndexOf('.stream.nixcdn.com'),str.lastIndexOf('.mp3'));
 						data.source = str.substring(str.lastIndexOf('.stream.nixcdn.com')-10,str.lastIndexOf('.mp3') + 4);
 						
 						data.title = str.substring(str.lastIndexOf("<title>")+7, str.lastIndexOf("</title>"));
@@ -182,11 +177,8 @@ Meteor.startup(function(){
 					break;				
 				}
 			}
-						
-			console.log("########## GET SOURCE #############");
-			console.log(_id," >>> ",data);
-			console.log("########## END GET SOURCE #############");
 			
+			console.log(Meteor.user().profile.name," add link from", _domain, " > ",_id);			
 			return data;
 		}
 		

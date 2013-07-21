@@ -245,6 +245,8 @@ Template.realtimeChat.rendered=function(){
 	console.log("-----------> RealtimeChat rendered");
 	$('#chatlist').slimScroll({	
 		height: '300px',
+		opacity:1,
+		railOpacity:1,
 		scrollTo:$("#chatContent").height() + 'px'
 	});	
 }
