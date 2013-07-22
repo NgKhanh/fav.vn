@@ -3,7 +3,7 @@ likeCountToGetTopComment = 2;
 
 
 maxPost     = 0;
-loadStep    = 10;
+loadStep    = 50;
 pageOffset  = 15;
 fromPostID	= 0;
 joinTime    = Date.now();
