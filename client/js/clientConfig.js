@@ -31,4 +31,7 @@ AbsoluteUrl = function(){
 
 listSongInMyListeningAlbum=[];
 
+isActive = true;
+onRoom = false;
 
+defaultTitle = 'FAV.VN - Favorite music';

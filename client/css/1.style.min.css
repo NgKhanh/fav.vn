@@ -70,9 +70,13 @@ ul li{list-style:none;}
 #chatlist li .info{float:left;display:block;width:280px;margin-left:10px;margin-top:-5px;font-size:12px;}
 #chatlist li .info a{color:rgb(21,172,219);font-weight:normal;}
 #chatlist li .message{float:left;display:block;width:280px;margin-left:10px;}
+#chatlist .sysMsg{width:100%;margin-bottom:0px;text-align:right;font-size:10px;opacity:0.3;float:right;}
+#chatlist .sysMsg .message{width:100%;margin-bottom:0px;}
 #chatlist .popover{width:230px;margin-top:-10px;padding:5px;padding-top:0px;}
 #chatlist .popover a{color:#3b5998;font-weight:bold;}
 #chatInputForm #chatInput,#searchInput{width:97%;background:rgba(0,0,0,0.5);color:#fff;border:none;box-shadow:0px 0px 2px #fff;margin:1px;overflow:hidden;resize:none;}
+#notification{float:right;font-size:11px;margin-top:5px;display:none;}
+#notification button{font-size:11px;padding:0 4px;font-weight:bold;}
 #joinBtn{width:60px;float:left;}
 .joinRoomBtn{background:rgba(73,175,205,0.3);margin-top:7px;}
 .joinRoomBtn:hover{background:rgba(73,175,205,0.5);}

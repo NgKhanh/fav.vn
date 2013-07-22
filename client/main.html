@@ -2,7 +2,7 @@
 
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"> 
-  	<title>Fav!</title>  
+  	<title>FAV.VN - Favorite music</title>  
 	
 	<meta property="og:url" content="http://fav.vn" />
 	<meta property="og:site_name" content="FAVorite music" />
@@ -304,10 +304,8 @@
 
 <template name="messageChat">
 	{{#if sys}}
-		<li id="{{_id}}" style="display:block;float: right;font-size: 12px;opacity: 0.5;text-align: right;">		
-			<small class="message">		
-				{{{message}}}
-			</small>		
+		<li id="{{_id}}" class="sysMsg">	
+			{{{message}}}
 		</li>
 	{{else}}
 		<li id="{{_id}}" style="display:block">
@@ -491,6 +489,8 @@
 			</div> 	
 		{{/isolate}} 
 		
+		<p id="notification"> Chat <button type="button" class="btn btn-danger">(!)</button> <p>
+		
 	</div>	
 </template>
 
@@ -500,7 +500,7 @@
 		<img src="/icon/fb.png" alt="" width="32px"></a>	
 </template>
 
-<template  name="loggInForm">
+<template  name="loggInForm">	
 	<a class="thumbnail pull-left" href="#" style="	width: 26px;
 													height: 26px;
 													margin-left: 70px;

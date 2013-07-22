@@ -32,6 +32,7 @@ getMyAlbum = function(){
 	$("#myPlLabel").css("display","block");
 }
 
+
 onDocumentReady = function (templatePage) {  
 	currentPath = window.location.pathname;
 	initTypeAHead();
@@ -52,6 +53,17 @@ onDocumentReady = function (templatePage) {
 	// show PageContainer
 	$("#MainContainer").transition({opacity:1});
 	
+	
+
+	window.onfocus = function () { isActive = true; document.title = defaultTitle }; 
+	window.onblur = function () { isActive = false; }; 
+
+	$("#notification").click(function(){
+		$("#notification").hide();
+		if(Session.get("currentRoom")!="")
+			Router.navigate($("#showAlbum").attr("href"),{trigger: true});  
+	});
+
 	console.log("ON READY");
 }
 
@@ -103,6 +115,8 @@ gotoAlbum = function(_albumID){
 
 userJoinRoom=function(_albumID){
 
+	onRoom = true;
+	
 	// show Room				
 	$("#page2").transition({y:-$("#page1").height()});
 	$("#page1").transition({y:-$("#page1").height()});
@@ -181,6 +195,7 @@ parseMp3Source = function(_id, _domain){
 
 
 returnHome = function(){
+	onRoom = false;
 	$("#page2").transition({y:$("#page1").height()});
 	$("#page1").transition({y:0});
 	$("#Nav").transition({x:-$("#Nav").width()});
@@ -201,4 +216,9 @@ userExitRoom=function(){
 onPrepareExitApp=function(){
 	returnHome();
 	userExitRoom();
+}
+
+notiSound = function() {
+    $("#notiSound").remove();
+    $('body').append('<embed id="notiSound" autostart="true" hidden="true" src="https://christiaanconover.com/wp-content/uploads/2011/03/GTalkNotify.mp3" />');
 }

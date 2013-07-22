@@ -269,8 +269,8 @@ Template.messageChat.created=function(){
 		var info = li.find(".info");
 		var username = info.attr("username");
 			
-		if(this.data.owner.username==username && this.data.owner.name!="SYS"){				
-			li.find(".message").append('<p>'+this.data.message+'</p>');			
+		if(this.data.owner.username==username && this.data.owner.name!="SYS"){			
+			li.find(".message").append('<p>'+this.data.message+'</p>');	
 			this.data.message = "";
 		}
 	}
@@ -278,14 +278,26 @@ Template.messageChat.created=function(){
 
 Template.messageChat.rendered=function(){
 	if(this.data){
-		
-		console.log("-----------> messageChat rendered", this.data.message=="");
-		
 		if(this.data.message==""){			
 			$("#"+this.data._id).remove();
 		}
 		
-		$("#"+this.lastNode.id +" .thumbnail").popover({"content":'<a href="https://www.facebook.com/'+this.data.owner.username+'" target="_blank">Xem profile trên facebook</a>',"html":true});
+		if(!this.data.old && Meteor.userId() && Meteor.user().username != this.data.owner.username){				
+			//console.log("Thong bao chat moi tu",this.data.owner.name, isActive, onRoom);
+			// Nếu khác thông báo hệ thống && user không vào phòng hoặc tab bị deActive
+			if(this.data.owner.username!="SYS" && (isActive==false || onRoom==false)){							
+				document.title = '(1) ' + defaultTitle;			
+				$.titleAlert(this.data.owner.name + ' vừa chát');
+			}			
+			// add sound
+			if(this.data.owner.username!="SYS")notiSound();			
+			
+			// show notification
+			$("#notification").show();
+			
+		}
+		
+		//$("#"+this.lastNode.id +" .thumbnail").popover({"content":'<a href="https://www.facebook.com/'+this.data.owner.username+'" target="_blank">Xem profile trên facebook</a>',"html":true});
 	}
 }
 

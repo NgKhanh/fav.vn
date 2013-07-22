@@ -350,6 +350,16 @@ ul li{list-style: none;}
 	margin-left: 10px;
 }
 
+#chatlist .sysMsg{
+	width: 100%;
+	margin-bottom: 0px;
+	text-align: right;
+	font-size: 10px;
+	opacity: 0.3;
+	float: right;
+}
+#chatlist .sysMsg .message{width:100%;margin-bottom:0px;}
+
 #chatlist .popover{
 	width: 230px;
 	margin-top: -10px;
@@ -371,6 +381,19 @@ ul li{list-style: none;}
 	margin: 1px;
 	overflow:hidden;
 	resize:none;
+}
+
+#notification{
+	float: right;
+	font-size: 11px;
+	margin-top: 5px;
+	display:none;
+}
+
+#notification button{	
+	font-size: 11px;
+	padding:0 4px;
+	font-weight: bold;
 }
 
 #joinBtn{
