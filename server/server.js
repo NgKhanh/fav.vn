@@ -9,7 +9,7 @@ Meteor.headly.config({tagsForRequest: function(req) {
 	
 	var meta='';
 		meta += '<meta property="og:site_name" content="FAVorite music" />';
-		meta += '<meta property="og:type" content="music" />';
+	
 		
 	if(parts.length>1){
 		// re turn custome
@@ -23,7 +23,7 @@ Meteor.headly.config({tagsForRequest: function(req) {
 				meta += '<meta property="og:url" 		content="http://fav.vn/a/'+parts[2]+'" />';
 				meta += '<meta property="og:image" 		content="http://fav.vn'+getCoverAlbum(_album.genre)+'"/>';
 				meta += '<meta property="og:title" 		content="Album: '+_album.title+' - tạo bởi '+_album.owner.name+'"/>';
-				meta += '<meta property="og:description" content="Nghe nhạc và chia sẻ cảm xúc cùng '+_album.owner.name+'" />';
+				meta += '<meta property="og:description" content="Nghe nhạc và chia sẻ cảm xúc cùng '+_album.owner.name+' tại FAV.VN" />';
 			break;			
 		}
 	}else{

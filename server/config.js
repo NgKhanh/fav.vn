@@ -16,8 +16,9 @@ Accounts.loginServiceConfiguration.insert({
 	service : "facebook",
 	
 	// fav.vn 
-	/*appId	: "338611759532006",
-	secret	:"08883488037ebc2491933b3ee3358fa0"*/
+	
+	//appId	: "338611759532006",
+	//secret	:"08883488037ebc2491933b3ee3358fa0"
 	
 	// test in localhost 
 	appId	: "111166028942194",
