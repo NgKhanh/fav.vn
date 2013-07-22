@@ -25,6 +25,8 @@ Accounts.onCreateUser(function(options, user) {
 	user.role 		= ""
 	user.username 	= _profile.username;
 	user.profile 	= _profile;
+	user.currentRoom= "";
+	user.online		= 1;
 
 	console.log("################### profile user #############################" );
 	console.log(user);

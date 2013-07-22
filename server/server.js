@@ -1,24 +1,19 @@
-Meteor.headly.config({tagsForRequest: function(req) {
-	var url = __meteor_bootstrap__.require('url'); 
-	console.log("###############################");
-	console.log("facebook request url",url, "  --> request :",req);
-	console.log("###############################");
-  return '<meta property="og:title" content="FAV.VN - nghe nhac va chat realtime" />';
-}});
-
 Meteor.publish("Album", function (_step) { 
 	// thêm 1 user online
-	/*if(this.userId){
-		console.log("user login ->>> ", this.userId);
+	if(this.userId){
+		console.log(this.userId, " --> login");
 	}else{
-		console.log("one user in site");
+		console.log( " --> one user go in site");
 	}
 	// 1 user out 
 	this._session.socket.on("close", function() {
-		console.log("User out", this.userId);
-	});*/
+		//console.log("One user out", this);
+		console.log("One user out");
+	});
 	
-	return Album.find({policy:0},{sort:{createTime:-1},limit:10});	
+	return [	Album.find({policy:0},{sort:{createTime:-1},limit:_step})
+				,Meteor.users.find({currentRoom:{ $ne: "" }},{fields:{username:1,profile:1,role:1,currentRoom:1}})
+			]
 });
 
 Meteor.publish("myAlbum", function (_username) { 	
@@ -26,15 +21,15 @@ Meteor.publish("myAlbum", function (_username) {
 });
 
 Meteor.publish("OneAlbum", function (_roomID) { 
-	return [	Album.find({_id:_roomID},{limit:1})
-				,Message.find({roomID:_roomID})
-				,Song.find({albumID:_roomID})
+	return [	Song.find({albumID:_roomID})
+				,Message.find({roomID:_roomID})				
+				,Meteor.users.find({},{fields:{username:1,profile:1,role:1,currentRoom:1}})
 			]
 });
 
-Meteor.publish("MessageAndSong", function (_roomID) { 
-	return [	Message.find({roomID:_roomID})
-				,Song.find({albumID:_roomID})
+Meteor.publish("MessageAndSong", function (_roomID) {	
+	return [	Message.find({roomID:_roomID})				
+				,Meteor.users.find({},{fields:{username:1,profile:1,role:1,currentRoom:1}})
 			]
 });
 
@@ -70,6 +65,35 @@ Meteor.startup(function(){
 			}		
 
 			return mp3;
+		}
+		
+			
+		,userJoinRoom:function(roomID){		
+			if(Meteor.userId()){
+				
+				// Kiểm tra phòng hiện tại > thông báo thoát khỏi phòng
+				if(Meteor.user().currentRoom!=""){
+					Meteor.call("sysMsg", Meteor.user().profile.name + ' ra khỏi phòng' , Meteor.user().currentRoom);
+				}
+				// Update phòng mới
+				Meteor.users.update({_id:Meteor.userId()},{$set:{currentRoom:roomID}});				
+			}
+			
+			var _sysMsg = '';
+			if(Meteor.userId())	_sysMsg = Meteor.user().profile.name + ' vừa mới vào';
+			else 				_sysMsg = 'Có một khách không biết tên vừa mới vào';			
+			Meteor.call("sysMsg", _sysMsg , roomID);
+		}
+		
+		,userExitRoom:function(roomID){			
+			if(Meteor.userId()){
+				Meteor.users.update({_id:Meteor.userId()},{$set:{currentRoom:''}});					
+			}
+			
+			var _sysMsg = '';
+			if(Meteor.userId())	_sysMsg = Meteor.user().profile.name + ' ra khỏi phòng';
+			else 				_sysMsg = 'Có một khách không biết tên vừa ra khỏi phòng';			
+			Meteor.call("sysMsg", _sysMsg , roomID);
 		}
 
 		,createAlbum:function(_album){
@@ -115,13 +139,18 @@ Meteor.startup(function(){
 			});
 			
 			Album.update({_id:_albumID},{ $inc: { numSong: 1 }});
+			
+			Meteor.call('sysMsg',Meteor.user().profile.name + " vừa thêm bài bát :  " + _song.title ,_albumID);
 
 		}
 		
 		,removeSongFromPlaylist:function(_songID,_albumID){
 			console.log(Meteor.user().profile.name, " remove song from list", _songID);
+			var song = Song.findOne({_id:_songID});
 			Song.remove({_id:_songID});
 			Album.update({_id:_albumID},{ $inc: { numSong: -1 }});
+			
+			Meteor.call('sysMsg',Meteor.user().profile.name + " vừa xóa bài bát :  " + song.title ,_albumID);
 		}
 
 		,searchMp3:function(_key){
@@ -202,12 +231,11 @@ Meteor.startup(function(){
 			
 		}
 		
-		,sysMsg:function(_messageID,_roomID, _objectID){
+		,sysMsg:function(_messageID,_roomID){
 			return Message.insert({
 						owner 		: {"username":'SYS',"name":'SYS'}
 						,sys 		: true
 						,message 	: _messageID
-						,objectID	: _objectID
 						,roomID 	: _roomID
 						,createTime : Date.now()
 			})

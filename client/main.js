@@ -1,5 +1,5 @@
 Template.albumItem.created=function(){
-	//if(this.data)console.log("on create > albumItem ",this.data.title);
+	//if(this.data)console.log("on create > albumItem ",this.data.title);	
 }
 
 Template.albumItem.rendered=function(){
@@ -15,7 +15,14 @@ Template.albumItem.rendered=function(){
 Template.albumItem.events = {
 	'click .albumItem':function(e){
 		e.preventDefault();	
-		//gotoAlbum($(e.currentTarget).find(".albump").attr("href"));			
+		//gotoAlbum($(e.currentTarget).find(".albump").attr("href"));	
+		
+		console.log("select album",$(e.currentTarget).attr("id"),$(e.currentTarget).parent().attr("id"));
+		
+		if($(e.currentTarget).parent().attr("id")=="myAlbumList"){
+			Router.navigate($(e.currentTarget).find(".albump").attr("href"),{trigger: true}); 
+			return;
+		}
 		
 		if(Session.get("reviewRoom")!=$(e.currentTarget).find(".albump").attr("room-id"))
 			openReview($(e.currentTarget).find(".albump").attr("room-id"));

@@ -31,6 +31,12 @@
 
 		  ga('create', 'UA-42126906-1', 'fav.vn');
 		  ga('send', 'pageview');
+		  
+		  
+		window.onbeforeunload = function() {
+			onPrepareExitApp();
+			return 'Bạn thật sự muốn thoát khỏi trang web!!';
+		}
 
 	</script>
 
@@ -247,7 +253,7 @@
 	{{/if}}
 		<td>
 			<a id="joinBtn" class="joinBtn">
-				<img src="/img/phone.png" style=" width: 32px;"><b>120</b>
+				<img src="/img/phone.png" style=" width: 32px;"><b>{{users}}</b>
 			</a>
 		</td>						
 		<td style="width: 400px;">
@@ -280,7 +286,7 @@
 </template>
 
 <template name="oldchat">
-	<ul id="oldChat"> ...
+	<ul id="oldChat"> 
 	{{#each data}}
 		{{> messageChat}}
 	{{/each}}
@@ -300,7 +306,7 @@
 	{{#if sys}}
 		<li id="{{_id}}" style="display:block;float: right;font-size: 12px;opacity: 0.5;text-align: right;">		
 			<small class="message">		
-				{{{message}}} ...
+				{{{message}}}
 			</small>		
 		</li>
 	{{else}}

@@ -21,6 +21,7 @@ getMyAlbum = function(){
 									if(album.title)	album.alias  	= "a/"+title2Alias(album.title) +"."+album._id;
 										album.timeAgo 	= timeAgo(album.createTime);	
 										album.length    = album.numSong;
+										album.users		= Meteor.users.find({currentRoom:album._id}).count();
 									return Template["albumItem"](album);
 							});	
 							
@@ -54,20 +55,6 @@ onDocumentReady = function (templatePage) {
 	console.log("ON READY");
 }
 
-returnHome = function(){
-	$("#page2").transition({y:$("#page1").height()});
-	$("#page1").transition({y:0});
-	$("#Nav").transition({x:-$("#Nav").width()});
-	
-	// update message SYS > usser join room
-	var _sysMsg = '';
-	if(Meteor.userId())	_sysMsg = Meteor.user().profile.name + ' ra khỏi phòng';
-	else 				_sysMsg = 'Có một khách không biết tên vừa ra khỏi phòng';			
-	Meteor.call("sysMsg", _sysMsg , Session.get("currentRoom"), Session.get("currentSong"), function(err, res){
-		// complete
-	});
-		
-}
 
 appendAlbumList =function(){	
 	
@@ -79,6 +66,7 @@ appendAlbumList =function(){
 								album.timeAgo 	= timeAgo(album.createTime);	
 								album.length    = album.numSong;
 								album.active  	= album._id == Session.get("reviewRoom")?true:false;
+								album.users		= Meteor.users.find({currentRoom:album._id}).count();
 			return Template["albumItem"](album);	   
 			    
 		});	
@@ -99,22 +87,40 @@ appendAlbumList =function(){
 }
 
 gotoAlbum = function(_albumID){
-	// check song is subscribe	
+		
+	//userJoinRoom(_albumID);
+	
+	
 	if(Song.find({albumID:_albumID}).count()>0 ||  Message.find({roomID:_albumID}).count()>0){
-		getAllRoomData(_albumID);
+		userJoinRoom(_albumID);
 	}else{		
-		Meteor.subscribe('MessageAndSong', _albumID, function () {
-			getAllRoomData(_albumID);
+		Meteor.subscribe('OneAlbum', _albumID, function () {
+			userJoinRoom(_albumID);
 		})
 	}
+	
 }
 
-getAllRoomData=function(_albumID){
+userJoinRoom=function(_albumID){
+
+	// show Room				
+	$("#page2").transition({y:-$("#page1").height()});
+	$("#page1").transition({y:-$("#page1").height()});
+	$("#Nav").transition({x:0});
+	
+	if(_albumID!='' && _albumID==Session.get('currentRoom')){return false;}
+		
+	if(Meteor.userId()){		
+		Meteor.call('userJoinRoom',_albumID,function(err,res){
+			console.log(Meteor.user().profile.name, "login room");			
+		});
+	}else{
+		console.log('Update mot guest vao list user room');
+	}	
+	
 	
 	joinTime    = Date.now();
 	
-	console.log(" ->>> joint room",_albumID);	
-		
 	if(_albumID!=Session.get('currentRoom')){
 		
 		var _album =  Album.findOne({_id: _albumID});
@@ -135,20 +141,7 @@ getAllRoomData=function(_albumID){
 		Session.set('currentRoom',_albumID);
 		//Session.set('reviewRoom','');
 		
-		// update message SYS > usser join room
-		var _sysMsg = '';
-		if(Meteor.userId())	_sysMsg = Meteor.user().profile.name + ' vừa mới vào';
-		else 				_sysMsg = 'Có một khách không biết tên vừa mới vào';			
-		Meteor.call("sysMsg", _sysMsg , Session.get("currentRoom"), Session.get("currentSong"), function(err, res){
-			// complete
-		});
 	}	
-	
-			
-	// show Room				
-	$("#page2").transition({y:-$("#page1").height()});
-	$("#page1").transition({y:-$("#page1").height()});
-	$("#Nav").transition({x:0});
 	
 }
 
@@ -165,7 +158,7 @@ openReview=function(_albumID){
 		if(Song.find({albumID:_albumID}).count()>0 ||  Message.find({roomID:_albumID}).count()>0){
 			Session.set('reviewRoom',_albumID);		
 		}else{		
-			Meteor.subscribe('MessageAndSong', _albumID, function () {			
+			Meteor.subscribe('OneAlbum', _albumID, function () {			
 				Session.set('reviewRoom',_albumID);		
 			})
 		}	
@@ -185,51 +178,27 @@ parseMp3Source = function(_id, _domain){
 	return arr[ran];
 }
 
-getCoverAlbum = function(_genre){
-	_genre = title2Alias(_genre);
+
+
+returnHome = function(){
+	$("#page2").transition({y:$("#page1").height()});
+	$("#page1").transition({y:0});
+	$("#Nav").transition({x:-$("#Nav").width()});
 	
-	switch(_genre){
-		
-		case "tonghop":
-		case "tong-hop":
-			return "/covers/nhactre.jpg"; break
-			
-		case "nhactrinh":
-		case "nhac-trinh":
-			return "/covers/Trinh1.jpg"; break
-			
-		case "trutinh":
-		case "tru-tinh":
-			return "/covers/trutinh2.jpg" || "/covers/trutinh2.png"; break;
-			
-		case "nhactre":
-		case "nhac-tre":
-			return "/covers/nhactre.jpg"; break;
-		
-		case "nhacvang":
-		case "nhac-vang":
-			return "/covers/nhacvang1.jpg" || "/covers/nhacvang.jpg"; break;		
-		
-		case "nhacdo":
-		case "nhac-do":
-			return "/covers/nhac-do.jpg"; break;		
-		
-		case "cailuong":
-		case "cai-luong":
-			return "/covers/cai-luong.jpg"; break;
-			
-		case "rock":		
-			return "/covers/rock3.jpg" || "/covers/rock2.jpg"||  "/covers/rock1.jpg"; break;
-			
-		case "piano":		
-			return "/covers/piano.jpg"; break;
-		
-		case "guitar":		
-			return "/covers/guitar.jpg"; break;
-		
-		default:
-			return "/covers/cover.jpg";break;
-		
-	}
+	if(Session.get('reviewRoom')!=Session.get('currentRoom'))
+		Session.set('reviewRoom',Session.get('currentRoom'));
 }
 
+userExitRoom=function(){
+	if(Meteor.userId()){
+		Meteor.call('userExitRoom',Session.get('currentRoom'),function(err,res){
+			console.log(Meteor.user().profile.name, "exit room");
+		});
+	}	
+	
+}
+
+onPrepareExitApp=function(){
+	returnHome();
+	userExitRoom();
+}
