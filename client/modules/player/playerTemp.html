@@ -1,8 +1,14 @@
 <template name="player"> 	
 	{{> adPlayer}}
+	<div id="mediaContainer">
 	{{#constant}}
-		 <audio class="audiojs" preload></audio>
-		<!-- src="" preload="auto" autoplay -->
+		<audio class="audiojs" preload></audio>
+				
+		<div id="ytapiplayer" style="display:none">
+			You need Flash player 8+ and JavaScript enabled to view this video.
+		</div>
+						
+	</div>	
 	{{/constant}}	
 </template>
 

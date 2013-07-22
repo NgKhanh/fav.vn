@@ -89,9 +89,9 @@ ul li{list-style: none;}
 
 #page2{
 	background: rgba(0, 0, 0, 0.4);
-	-webkit-border-radius: 10px;
+	/*-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
-	border-radius: 10px;
+	border-radius: 10px;*/
 }
 
 .Page .header{
@@ -114,14 +114,13 @@ ul li{list-style: none;}
 
 .Page .left{
 	float:left;
-	width:450px;
+	width:430px;
 }
 
 .Page .right{
 	float:right;
-	width:380px;
-	padding:20px;
-	padding-top:0px;
+	width:450px;
+	padding:0px;
 }
 
 .logo{	

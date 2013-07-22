@@ -118,8 +118,8 @@ userJoinRoom=function(_albumID){
 	onRoom = true;
 	
 	// show Room				
-	$("#page2").transition({y:-$("#page1").height()});
-	$("#page1").transition({y:-$("#page1").height()});
+	$("#page2").transition({y:0});
+	$("#page1").transition({y:0});
 	$("#Nav").transition({x:0});
 	
 	if(_albumID!='' && _albumID==Session.get('currentRoom')){return false;}
@@ -196,8 +196,8 @@ parseMp3Source = function(_id, _domain){
 
 returnHome = function(){
 	onRoom = false;
-	$("#page2").transition({y:$("#page1").height()});
-	$("#page1").transition({y:0});
+	$("#page2").transition({y:-$("#page2").height()});
+	$("#page1").transition({y:-$("#page1").height()});
 	$("#Nav").transition({x:-$("#Nav").width()});
 	
 	if(Session.get('reviewRoom')!=Session.get('currentRoom'))

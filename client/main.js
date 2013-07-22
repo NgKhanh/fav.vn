@@ -250,12 +250,11 @@ Template.realtimeChat.data=function(){
 
 Template.realtimeChat.rendered=function(){	
 	console.log("-----------> RealtimeChat rendered");
-	$('#chatlist').slimScroll({	
-		height: '300px',
+	/*$('#chatlist').slimScroll({			
 		opacity:1,
 		railOpacity:1,
 		scrollTo:$("#chatContent").height() + 'px'
-	});	
+	});	*/
 }
 
 Template.messageChat.created=function(){

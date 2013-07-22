@@ -14,12 +14,12 @@ ul li{list-style:none;}
 #Nav .slideBody{margin-left:20px;float:left;}
 .Page{margin:0;position:relative;float:left;}
 #page1{}
-#page2{background:rgba(0,0,0,0.4);-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;}
+#page2{background:rgba(0,0,0,0.4);}
 .Page .header{display:block;height:50px;}
 .Page .header #closeAlbum{border-right:1px solid #ddd;float:left;cursor:pointer;padding:5px 12px;}
 .Page .header #siteLogo{padding:6px;float:left;cursor:pointer;}
-.Page .left{float:left;width:450px;}
-.Page .right{float:right;width:380px;padding:20px;padding-top:0px;}
+.Page .left{float:left;width:430px;}
+.Page .right{float:right;width:450px;padding:0px;}
 .logo{text-align:center;padding-right:20px;}
 .logo p{margin:0px;font-size:22px;}
 #header{margin-bottom:10px;float:left;width:100%;}

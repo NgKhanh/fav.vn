@@ -35,6 +35,7 @@ Template.player.rendered = function(){
 
 // Khai bao bien audio
 var audio;
+var player;
 Template.player.rendered = function(){	
 	console.log("-------------------------------------------> Template.player.rendered");
 	audiojs.events.ready(function() {
@@ -49,6 +50,51 @@ Template.player.rendered = function(){
 		});		
 		audio = a[0];		
 	});	
+	
+	$(".audiojs").hide();
+	$("#adPlayer").hide();
+	
+	// Youtube
+	var params = { allowScriptAccess: "always" };
+	var atts = { id: "myytplayer" };
+	swfobject.embedSWF("http://www.youtube.com/v/M7lc1UVf-VE?enablejsapi=1&playerapiid=ytplayer&version=3",
+						"ytapiplayer", "448", "252", "8", null, null, params, atts);
+						
+	
+					
+}
+
+	
+onYouTubePlayerReady = function (playerId) {
+	console.log("##################### VIDEO READY #########################");
+	player = document.getElementById("myytplayer");
+	player.loadVideoById('5cn1qTKwBCc');	
+	
+	$("#myytplayer").show();
+	$("#ytapiplayer").show();
+	
+	setTimeout(function(){
+		$("#page2 .slideHeader").css("height","330px");
+		$('#chatlist').slimScroll({	
+			height: '150px',
+			opacity:1,
+			railOpacity:1
+		});	
+	},2500);
+}
+	  
+stopVideo = function () {
+    player.stopVideo();
+}	  
+	  
+onPlayerStateChange = function(event){
+	console.log("Player's new state: " + event);
+	
+	/*if (event.data == YT.PlayerState.PLAYING && !done) {
+		setTimeout(stopVideo, 6000);
+		done = true;
+	}*/
+		
 }
 
 playSong=function(_source){	
