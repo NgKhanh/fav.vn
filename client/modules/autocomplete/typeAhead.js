@@ -29,7 +29,7 @@ checkURL = function(str){
 	
 	}else if( str.lastIndexOf("youtube.com")>-1){
 		urlObj.domain	=	'youtube.com';
-		urlObj.ID = str.substring(str.lastIndexOf("watch?v=") + 1,str.length);		
+		urlObj.ID = str.substring(str.lastIndexOf("watch?v=") + 8,str.length);		
 	}else{
 		urlObj.idUrl	=	false;
 	}
@@ -61,9 +61,9 @@ initTypeAHead=function(){
 				Meteor.call('getSongInfo',objUrl.ID, objUrl.domain, function(err,song){
 					if(song){											
 						var result = [];						
-						
+						song.id		= objUrl.ID;
 						song.domain = objUrl.domain;
-						song.name 		= (song.title.lastIndexOf("+")>-1)?song.title.substring(0,song.title.lastIndexOf("+")):song.title;	
+						song.name 	= (song.title.lastIndexOf("+")>-1)?song.title.substring(0,song.title.lastIndexOf("+")):song.title;	
 						
 						map[song.title] = song;
 						result.push(song.title);
@@ -91,11 +91,13 @@ initTypeAHead=function(){
 							// search from j.search api
 							$.each(data, function (i, song) {
 								if(i<10){															
+									song.id 		= song.Id;														
 									song.title 		= song.Id;														
 									song.artist 	= song.Artist;	
 									song.domain 	= song.HostName;						
 									song.name 		= (song.Title.lastIndexOf("+")>-1)?song.Title.substring(0,song.Title.lastIndexOf("+")):song.Title;	
 									song.source 	= song.UrlJunDownload;						
+														
 									map[song.title] = song;
 									result.push(song.title);
 								}	
@@ -122,13 +124,14 @@ initTypeAHead=function(){
 		},
 		
 		updater:function (item) {
-			console.log("select item >>",item,map[item]);
+			console.log("select item >>",item,map[item].id);
 			
 			var _song={};						
 				_song.title 	= map[item].name;
 				_song.artist 	= map[item].artist;
 				_song.domain 	= map[item].domain;
 				_song.source  	= map[item].source;
+				_song.mID  		= map[item].id;
 			
 				Meteor.call("addSongToPlaylist",_song,Session.get("currentRoom"),function(err,res){
 					if(res){

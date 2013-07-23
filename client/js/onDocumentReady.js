@@ -43,7 +43,8 @@ onDocumentReady = function (templatePage) {
 	
 	$('#albumList').slimScroll({
 		width: '540px',		
-		height: '495px'
+		height: '495px',
+		position:'left'
 	});
 	
 	$("#page2 .header").click( function(){
@@ -135,7 +136,7 @@ userJoinRoom=function(_albumID){
 	
 	joinTime    = Date.now();
 	
-	if(_albumID!=Session.get('currentRoom')){
+	if(_albumID!='' && _albumID!=Session.get('currentRoom')){
 		
 		var _album =  Album.findOne({_id: _albumID});
 			_album.alias   = AbsoluteUrl() + "a/"+title2Alias(_album.title) +"."+_album._id;    
@@ -152,8 +153,10 @@ userJoinRoom=function(_albumID){
 		// xoa het noi dung trong phong chat
 		$('#chatlist #realtimeChat li').remove();		
 		// current Room
-		Session.set('currentRoom',_albumID);
+		Session.set('currentRoom',_albumID);		
 		//Session.set('reviewRoom','');
+		
+		playActiveSong();
 		
 	}	
 	

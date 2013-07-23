@@ -34,7 +34,7 @@
         start : 'bottom',
 
         // sets scrollbar opacity
-        opacity : 0,
+        opacity : 1,
 
         // enables always-on mode for the scrollbar
         alwaysVisible : false,
@@ -49,7 +49,7 @@
         railColor : '#000',
 
         // sets rail opacity
-        railOpacity : 0,
+        railOpacity : 0.2,
 
         // whether  we should use jQuery UI Draggable to enable bar dragging
         railDraggable : true,
@@ -67,7 +67,7 @@
         allowPageScroll : false,
 
         // scroll amount applied to each mouse wheel step
-        wheelStep : 20,
+        wheelStep : 3,
 
         // scroll amount applied when user is using gestures
         touchScrollStep : 200
@@ -135,8 +135,7 @@
         var wrapper = $(divS)
           .addClass(o.wrapperClass)
           .css({
-            position: 'relative',
-            overflow: 'hidden',
+            position: 'relative',           
             width: o.width,
             height: o.height
           });

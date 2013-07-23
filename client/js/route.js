@@ -16,9 +16,15 @@ var MyRouter = Backbone.Router.extend({
 
 	case "a":
 		// đến trang album
-        if(_url.segment(2)){			  
+        if(_url.segment(2)){	
+			
+			if(_url.segment(3))
+				Session.set('currentSong',_url.segment(3));	
+			else 
+				Session.set('currentSong','');
+				
             var _albumID = _url.segment(2).substring(_url.segment(2).lastIndexOf(".")+1,_url.segment(2).length);            
-            gotoAlbum(_albumID);
+            gotoAlbum(_albumID);			
         }  
       break;
     }

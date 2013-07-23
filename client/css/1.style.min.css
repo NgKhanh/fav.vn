@@ -34,7 +34,7 @@ ul li{list-style:none;}
 .playListItem,.albumItem{cursor:pointer;font-size:14px;}
 .playListItem .remove{float:right;}
 #albumTitle{margin-bottom:15px;float:left;padding-bottom:10px;border-bottom:1px solid #aaa;width:100%;}
-#albumTitle p{margin:0px;font-size:22px;margin-bottom:5px;}
+#albumTitle p{margin:0px;font-size:22px;margin-bottom:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:450px;}
 #albumTitle small{font-size:80%;}
 #albumTitle #fbLike{float:left;margin-left:20px;}
 .table td{border:none;}
@@ -42,8 +42,9 @@ ul li{list-style:none;}
 .table-hover tbody tr:hover>td,.table-hover tbody tr:hover>th{background:rgba(225,225,225,0.1);}
 #Nav .slidebody{margin:20px}
 #Nav .slideHeader{margin:20px;}
-#Nav .slideHeader #songInfo{float:left;width:100%;}
-#page2 #gallery{width:100%;height:100%;padding:20px;padding-top:0px;max-height:475px;overflow:hidden;}
+#Nav .slideHeader #songInfo{float:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:450px;}
+#songInfo{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:450px;}
+#page2 #gallery{width:100%;height:100%;padding:20px;padding-top:0px;max-height:475px;}
 #page2 #gallery #cover:hover #changeCover{display:block;}
 #page2 #gallery #changeCover{position:relative;z-index:10;top:-30px;left:10px;display:none;background:rgba(0,0,0,0.6);width:90%;height:12px;font-size:11px;color:#fff;}
 .nav-tabs>.active>a,.nav-tabs>.active>a:hover,.nav-tabs>.active>a:focus{color:#fff;background:rgba(225,225,225,0.2);border:1px solid #ddd;border-bottom-color:transparent;cursor:default;}
@@ -51,7 +52,7 @@ ul li{list-style:none;}
 .nav-tabs>li>a{padding:0 10px;}
 .albumList{height:385px;width:515px;}
 .albumList li{padding:4px 10px;font-size:13px;cursor:pointer;line-height:17px;width:100%;float:left;}
-.albumList li .title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:300px;}
+.albumList li .title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:400px;}
 .albumList li .remove{float:right;margin-right:12px;padding:0 5px;margin-top:-22px;display:none;}
 .albumList li .remove:hover{background:rgba(225,225,225,0.3);}
 .albumList .active{background:rgba(225,225,225,0.2);}
@@ -63,8 +64,8 @@ ul li{list-style:none;}
 #searchChannel{width:145px;position:relative;z-index:0;left:-5px;}
 #gallery .playlist{max-width:500px;}
 #page2 .slideHeader{margin-bottom:20px;border-bottom:1px solid #ddd;padding-bottom:10px;}
-#page2 .slideBody{margin-bottom:20px;float:left;}
-#chatlist{width:380px;}
+#page2 .slideBody{margin-bottom:10px;float:left;}
+#chatlist{width:380px;height:300px}
 #chatlist li{margin-bottom:10px;margin-right:10px;display:block;float:left;}
 #chatlist li .thumbnail{float:left;width:28px;height:28px;padding:2px;}
 #chatlist li .info{float:left;display:block;width:280px;margin-left:10px;margin-top:-5px;font-size:12px;}
@@ -74,7 +75,7 @@ ul li{list-style:none;}
 #chatlist .sysMsg .message{width:100%;margin-bottom:0px;}
 #chatlist .popover{width:230px;margin-top:-10px;padding:5px;padding-top:0px;}
 #chatlist .popover a{color:#3b5998;font-weight:bold;}
-#chatInputForm #chatInput,#searchInput{width:97%;background:rgba(0,0,0,0.5);color:#fff;border:none;box-shadow:0px 0px 2px #fff;margin:1px;overflow:hidden;resize:none;}
+#chatInputForm #chatInput,#searchInput{width:95%;background:rgba(0,0,0,0.5);color:#fff;border:none;box-shadow:0px 0px 2px #fff;margin:1px;overflow:hidden;resize:none;}
 #notification{float:right;font-size:11px;margin-top:5px;display:none;}
 #notification button{font-size:11px;padding:0 4px;font-weight:bold;}
 #joinBtn{width:60px;float:left;}

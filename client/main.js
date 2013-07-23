@@ -7,7 +7,9 @@ Template.albumItem.rendered=function(){
 		//console.log("on rendered > albumItem ",this.data.title);
 		$('#albumList').slimScroll({
 			width: '540px',		
-			height: '495px'
+			height: '495px',
+			position:'left',
+			wheelStep : 20
 		});
 	}
 }
@@ -40,11 +42,13 @@ Template.playlistInfo.info=function(){
 	if(Session.get("currentRoom")=="")return null;
 	
 	var _album =  Album.findOne({_id:Session.get("currentRoom")});	
+		_album.artist		= _album.artist==''?'unknow':_album.artist;
 		_album.timeAgo 		=  timeAgo(_album.createTime);		
 		_album.length 		= _album.numSong;
 		_album.cover 		= (_album.cover)?_album.cover:getCoverAlbum(_album.genre);
 		_album.isAdmin   	= Session.get("isAdmin");		
-		_album.url   		= AbsoluteUrl() + "a/"+title2Alias(_album.title) +"."+_album._id;    
+		_album.url   		= AbsoluteUrl() + "a/"+title2Alias(_album.title) +"."+_album._id;
+		
 	return _album;
 }
 
@@ -126,13 +130,15 @@ Template.playlist.created=function(){
 	//console.log("-------------------------> playlist created");
 }
 
-Template.playlist.rendered=function(){
-	
-	console.log("-------------------------> Template.playlist.rendered");
-	
+Template.playlist.rendered=function(){	
+	//console.log("-------------------------> Template.playlist.rendered");	
 	$('#albumPlaylist').slimScroll({			
-		height: '355px'
+		height: '355px',
+		position:'left',		
+		distance : '-20px'
 	});
+	
+	playActiveSong();
 }
 
 /**
@@ -161,7 +167,7 @@ Template.playlistItem.events = {
 			// chưa đăng nhập > cho phép nghe tự do
 			Session.set("currentSong", $(e.currentTarget).attr("id"));
 			Session.set('currentSongSource',$(e.currentTarget).attr("data-source"));
-			activePlaylistItem();
+			playActiveSong();
 		}else{
 			//if(Session.get("isAdmin")==false) return false;
 			
@@ -174,7 +180,7 @@ Template.playlistItem.events = {
 				
 				console.log(" --->  play",$(e.currentTarget).attr("id"), " >> ",Session.get('currentSongSource'));
 				
-				activePlaylistItem();
+				playActiveSong();
 			}	
 		}		
 	}
@@ -250,11 +256,10 @@ Template.realtimeChat.data=function(){
 
 Template.realtimeChat.rendered=function(){	
 	console.log("-----------> RealtimeChat rendered");
-	/*$('#chatlist').slimScroll({			
-		opacity:1,
-		railOpacity:1,
+	$('#chatlist').slimScroll({	
+		height:$('#chatlist').height()+'px',		
 		scrollTo:$("#chatContent").height() + 'px'
-	});	*/
+	});	
 }
 
 Template.messageChat.created=function(){

@@ -13,18 +13,33 @@ Meteor.headly.config({tagsForRequest: function(req) {
 		
 	if(parts.length>1){
 		// re turn custome
-		switch(parts[1]){
-			case "a" :
-				var _albumID = parts[2].substring( parts[2].lastIndexOf(".")+1,parts[2].length);
-				var _album = Album.findOne({_id:_albumID});
+		if(parts[3] && parts[3]!='' && parts[1]=="a"){
+			var media = Song.findOne({_id:parts[3]});
+			var album = Album.findOne({_id:media.albumID});
+			
+			if(media.domain=='youtube.com')
+				meta += '<meta property="og:image" 		content="http://i1.ytimg.com/vi/'+media.mID+'/hqdefault.jpg"/>';
+			else
+				meta += '<meta property="og:image" 		content="http://fav.vn'+getCoverAlbum(album.genre)+'"/>';
 				
-				console.log("--- get albumID",_albumID,_album.genre,_album.title);
-				
-				meta += '<meta property="og:url" 		content="http://fav.vn/a/'+parts[2]+'" />';
-				meta += '<meta property="og:image" 		content="http://fav.vn'+getCoverAlbum(_album.genre)+'"/>';
-				meta += '<meta property="og:title" 		content="Album: '+_album.title+' - tạo bởi '+_album.owner.name+'"/>';
-				meta += '<meta property="og:description" content="Nghe nhạc và chia sẻ cảm xúc cùng '+_album.owner.name+' tại FAV.VN" />';
-			break;			
+			meta += '<meta property="og:url" 		content="http://fav.vn/a/'+parts[2]+'/'+media._id+'" />';
+			meta += '<meta property="og:title" 		content=" '+media.title+' trong playlist '+album.title +' - '+_album.owner.name+'"/>';
+			meta += '<meta property="og:description" content="Nghe nhạc và chia sẻ cảm xúc cùng '+_album.owner.name+' tại FAV.VN" />';
+		}else{
+			
+			switch(parts[1]){
+				case "a" :
+					var _albumID = parts[2].substring( parts[2].lastIndexOf(".")+1,parts[2].length);
+					var _album = Album.findOne({_id:_albumID});
+					
+					console.log("--- get albumID",_albumID,_album.genre,_album.title);
+					
+					meta += '<meta property="og:url" 		content="http://fav.vn/a/'+parts[2]+'" />';
+					meta += '<meta property="og:image" 		content="http://fav.vn'+getCoverAlbum(_album.genre)+'"/>';
+					meta += '<meta property="og:title" 		content="Album: '+_album.title+' - tạo bởi '+_album.owner.name+'"/>';
+					meta += '<meta property="og:description" content="Nghe nhạc và chia sẻ cảm xúc cùng '+_album.owner.name+' tại FAV.VN" />';
+				break;			
+			}
 		}
 	}else{
 		// return default
@@ -164,13 +179,15 @@ Meteor.startup(function(){
 
 		,addSongToPlaylist:function(_song,_albumID){
 
-			console.log(Meteor.user().profile.name ,"  add song",_song.title," to playlist",_albumID);
+			console.log(Meteor.user().profile.name ,"  add song",_song.title," to playlist",_albumID,_song.mID);
 			
 			Song.insert({	title		: _song.title
+							,mID		: _song.mID	
 							,artist		: _song.artist	
 							,shareBy	: {"name":Meteor.user().profile.name,"username":Meteor.user().username,"avatar":Meteor.user().profile.picture}
 							,domain		:_song.domain
 							,source		:_song.source
+							,image      :''
 							,albumID 	:_albumID
 							,createTime :Date.now()
 							,like 		:0
@@ -179,7 +196,7 @@ Meteor.startup(function(){
 			
 			Album.update({_id:_albumID},{ $inc: { numSong: 1 }});
 			
-			Meteor.call('sysMsg',Meteor.user().profile.name + " vừa thêm bài bát :  " + _song.title ,_albumID);
+			Meteor.call('sysMsg',Meteor.user().profile.name + " vừa thêm bài bát :  " + _song.title ,_albumID,_song.mID);
 
 		}
 		
@@ -215,9 +232,12 @@ Meteor.startup(function(){
 		,getSongInfo:function(_id,_domain){
 			var _url="";
 			switch(_domain){
-				case "mp3.zing.vn": _url = "http://mp3.zing.vn/bai-hat/-/"+_id+".html"; break;
-				case "nhaccuatui.com": _url = "http://m.nhaccuatui.com/bai-hat/-."+_id+".html"; break;				
+				case "mp3.zing.vn": 	_url = "http://mp3.zing.vn/bai-hat/-/"+_id+".html"; break;
+				case "nhaccuatui.com": 	_url = "http://m.nhaccuatui.com/bai-hat/-."+_id+".html"; break;				
+				case "youtube.com": 	_url = "http://www.youtube.com/watch?v="+_id; break;				
 			}
+			
+			console.log("--------------> get info from url", _domain, _id, _url);
 			
 			var result = Meteor.http.get(_url);
 			var str = result.content;
@@ -242,7 +262,14 @@ Meteor.startup(function(){
 						data.artist = str.substring(str.lastIndexOf("<title>")+7, str.lastIndexOf("</title>"));
 						data.artist = data.artist.substring(data.artist.indexOf("-")+1, data.artist.lastIndexOf("-"));
 						data.artist = data.artist.substring(0, data.artist.lastIndexOf("-"));
-					break;				
+					break;	
+					
+					case "youtube.com": 
+						data.source = _id;
+						data.title 	= str.substring(str.lastIndexOf("<title>")+7, str.lastIndexOf("</title>"));
+						data.title 	= data.title.substring(0,data.title.lastIndexOf('-') - 1);			
+						data.artist	= '';					
+					break;
 				}
 			}
 			
