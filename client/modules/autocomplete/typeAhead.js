@@ -76,7 +76,7 @@ initTypeAHead=function(){
 			}else{
 			
 				window.clearTimeout(timeOut);
-				timeOut = window.setTimeout(function(){	
+				timeOut = window.setTimeout(function(){
 				
 				
 					Meteor.call("searchMp3",query,function(err,res){
@@ -119,7 +119,7 @@ initTypeAHead=function(){
 						}
 					})
 					
-				},300); 
+				},1000); 
 			}
 		},
 		

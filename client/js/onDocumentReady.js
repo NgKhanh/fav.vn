@@ -225,3 +225,53 @@ notiSound = function() {
     $("#notiSound").remove();
     $('body').append('<embed id="notiSound" autostart="true" hidden="true" src="https://christiaanconover.com/wp-content/uploads/2011/03/GTalkNotify.mp3" />');
 }
+
+
+
+getCoverAlbum = function(_genre){
+	_genre = title2Alias(_genre);
+	
+	switch(_genre){
+		
+		case "tonghop":
+		case "tong-hop":
+			return "/covers/nhactre.jpg"; break
+			
+		case "nhactrinh":
+		case "nhac-trinh":
+			return "/covers/Trinh1.jpg"; break
+			
+		case "trutinh":
+		case "tru-tinh":
+			return "/covers/trutinh2.jpg" || "/covers/trutinh2.png"; break;
+			
+		case "nhactre":
+		case "nhac-tre":
+			return "/covers/nhactre.jpg"; break;
+		
+		case "nhacvang":
+		case "nhac-vang":
+			return "/covers/nhacvang1.jpg" || "/covers/nhacvang.jpg"; break;		
+		
+		case "nhacdo":
+		case "nhac-do":
+			return "/covers/nhac-do.jpg"; break;		
+		
+		case "cailuong":
+		case "cai-luong":
+			return "/covers/cai-luong.jpg"; break;
+			
+		case "rock":		
+			return "/covers/rock3.jpg" || "/covers/rock2.jpg"||  "/covers/rock1.jpg"; break;
+			
+		case "piano":		
+			return "/covers/piano.jpg"; break;
+		
+		case "guitar":		
+			return "/covers/guitar.jpg"; break;
+		
+		default:
+			return "/covers/cover.jpg";break;
+		
+	}
+}
