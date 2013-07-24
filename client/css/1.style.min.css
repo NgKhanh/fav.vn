@@ -18,7 +18,7 @@ ul li{list-style:none;}
 .Page .header{display:block;height:50px;}
 .Page .header #closeAlbum{border-right:1px solid #ddd;float:left;cursor:pointer;padding:5px 12px;}
 .Page .header #siteLogo{padding:6px;float:left;cursor:pointer;}
-.Page .left{float:left;width:430px;}
+.Page .left{float:left;width:650px;}
 .Page .right{float:right;width:450px;padding:0px;}
 .logo{text-align:center;padding-right:20px;}
 .logo p{margin:0px;font-size:22px;}
@@ -68,10 +68,10 @@ ul li{list-style:none;}
 #chatlist{width:380px;height:300px}
 #chatlist li{margin-bottom:10px;margin-right:10px;display:block;float:left;}
 #chatlist li .thumbnail{float:left;width:28px;height:28px;padding:2px;}
-#chatlist li .info{float:left;display:block;width:280px;margin-left:10px;margin-top:-5px;font-size:12px;}
+#chatlist li .info{float:left;display:block;width:390px;margin-left:10px;margin-top:-5px;font-size:12px;}
 #chatlist li .info a{color:rgb(21,172,219);font-weight:normal;}
-#chatlist li .message{float:left;display:block;width:280px;margin-left:10px;}
-#chatlist .sysMsg{width:100%;margin-bottom:0px;text-align:right;font-size:10px;opacity:0.3;float:right;}
+#chatlist li .message{float:left;margin-left:10px;max-width:380px;}
+#chatlist .sysMsg{width:100%;margin-bottom:0px;text-align:right;font-size:11px;opacity:0.6;float:right;}
 #chatlist .sysMsg .message{width:100%;margin-bottom:0px;}
 #chatlist .popover{width:230px;margin-top:-10px;padding:5px;padding-top:0px;}
 #chatlist .popover a{color:#3b5998;font-weight:bold;}
@@ -93,11 +93,12 @@ ul li{list-style:none;}
 #albumPlaylist{height:385px;width:460px}}
 @media (min-width:979px) and (max-width:1279px){#MainViewport,#PageContainer,.Page{max-width:950px;}
 #MainViewport{margin-bottom:0px;}
-#Nav{width:400px;}}
+#Nav{width:400px;}
+.Page .left{width:450px;}}
 @media (min-width:1200px){#MainViewport,#PageContainer,.Page{max-width:1180px;}
 #MainViewport{margin-bottom:30px;}
 #Nav{width:640px;}
-.Page .left{width:740px;}}
+.Page .left{width:650px;}}
 .slimScrollDiv{float:left;}
 #AnimationBG,#clouds{position:fixed;z-index:0;width:100%;height:1000px;top:0;left:0;}
 .cloud{position:relative;}

@@ -291,40 +291,6 @@
 	</ul>
 </template>
 
-<template name="oldchat">
-	<ul id="oldChat"> 
-	{{#each data}}
-		{{> messageChat}}
-	{{/each}}
-	</ul>
-</template>
-
-<template name="realtimeChat">
-	<ul id="realtimeChat">
-	{{#each data}}
-		{{> messageChat}}
-	{{/each}}
-	</ul>
-</template>
-
-
-<template name="messageChat">
-	{{#if sys}}
-		<li id="{{_id}}" class="sysMsg">	
-			{{{message}}}
-		</li>
-	{{else}}
-		<li id="{{_id}}" style="display:block">
-			<a class="thumbnail" data-toggle="popover" data-placement="right">
-				<img src="{{owner.avatar}}"></a>		
-			<p class="info" username="{{owner.username}}"><a><b>{{owner.name}}</b></a></p>
-			<small class="message">		
-				{{{message}}}
-			</small>		
-		</li>
-	{{/if}}
-</template>
-
 
 <template name="chatInput">
 

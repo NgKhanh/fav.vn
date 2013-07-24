@@ -14,7 +14,7 @@ Meteor.headly.config({tagsForRequest: function(req) {
 	if(parts.length>1){
 		// re turn custome
 		if(parts[3] && parts[3]!='' && parts[1]=="a"){
-			var media = Song.findOne({_id:parts[3]});
+			var media = Song.findOne({_id:parts[3]}); if(media==undefined)return;
 			var album = Album.findOne({_id:media.albumID});
 			
 			if(media.domain=='youtube.com')
@@ -23,8 +23,8 @@ Meteor.headly.config({tagsForRequest: function(req) {
 				meta += '<meta property="og:image" 		content="http://fav.vn'+getCoverAlbum(album.genre)+'"/>';
 				
 			meta += '<meta property="og:url" 		content="http://fav.vn/a/'+parts[2]+'/'+media._id+'" />';
-			meta += '<meta property="og:title" 		content=" '+media.title+' trong playlist '+album.title +' - '+_album.owner.name+'"/>';
-			meta += '<meta property="og:description" content="Nghe nhạc và chia sẻ cảm xúc cùng '+_album.owner.name+' tại FAV.VN" />';
+			meta += '<meta property="og:title" 		content=" '+media.title+' trong playlist '+album.title +' - '+album.owner.name+'"/>';
+			meta += '<meta property="og:description" content="Nghe nhạc và chia sẻ cảm xúc cùng '+album.owner.name+' tại FAV.VN" />';
 		}else{
 			
 			switch(parts[1]){
@@ -121,6 +121,10 @@ Meteor.startup(function(){
 			return mp3;
 		}
 		
+		,getCurrentTime:function(){
+			console.log('GET CURRENT TIME', Date.now());
+			return Date.now();
+		}
 			
 		,userJoinRoom:function(roomID){		
 			if(Meteor.userId()){

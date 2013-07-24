@@ -5,6 +5,11 @@ loadTopAlbumList =function(){
 							appendAlbumList();
 							Backbone.history.start({pushState: true});
 						});
+						
+	Meteor.call('getCurrentTime',function(err,res){
+		console.log("YOU JOIN THIS APP AT", res);
+		joinTime = res;
+	})
 }
 
 getMyAlbum = function(){
@@ -132,10 +137,7 @@ userJoinRoom=function(_albumID){
 	}else{
 		console.log('Update mot guest vao list user room');
 	}	
-	
-	
-	joinTime    = Date.now();
-	
+		
 	if(_albumID!='' && _albumID!=Session.get('currentRoom')){
 		
 		var _album =  Album.findOne({_id: _albumID});

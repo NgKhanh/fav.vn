@@ -1,38 +1,3 @@
-/*Template.video.source = function(){	
-	return Session.get("currentSongSource");
-}
-
-Template.video.created = function(){	
-	//console.log("-------> video created");
-}
-
-Template.video.rendered = function(){
-	//console.log("-------> video rendered");
-	setTimeout(function(){
-		var myVideo=document.getElementById("myVideo"); 			
-			myVideo.load();
-			myVideo.play();
-			myVideo.addEventListener('ended',nextSong,false);
-	},500);
-}
-*/
-/*
-var audio;
-
-Template.player.source = function(){	
-	return Session.get("currentSongSource");
-}
-
-
-
-Template.player.rendered = function(){
-	console.log("-------> player rendered");
-	if(audio && audio[0]){
-		audio[0].load(Session.get("currentSongSource"));
-		audio[0].play();
-	}
-}*/
-
 // Khai bao bien audio
 var audio;
 var player;
@@ -93,8 +58,11 @@ playSong=function(){
 		$('#chatlist').height(160);	
 		$('#chatlist').parent().height(160);	
 	
-		_youtube_video_id = media.mID;				
 		if(audio)audio.pause();
+		
+		_youtube_video_id = media.mID;		
+		if(player)player.loadVideoById(_youtube_video_id);
+		
 	}else{
 		// playaudio
 		$("#myytplayer").hide();
