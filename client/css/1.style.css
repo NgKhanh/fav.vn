@@ -134,9 +134,11 @@ ul li{list-style: none;}
 }
 
 #header{
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 	float: left;
 	width: 100%;
+	border-bottom: 1px solid rgba(221, 221, 221, 0.4);
+	padding-bottom: 10px;
 }
 
 #header #showAlbum{
@@ -164,14 +166,28 @@ ul li{list-style: none;}
 .noSelect { user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; }
 
 #albumList p{margin-bottom:0px;}
-#albumList #plLabel{margin-bottom:10px;}
 #albumList small{font-size:80%;}
 #albumList .active{background: rgba(0, 0, 0, 0.2);}
 
-.playListItem , .albumItem{cursor:pointer;font-size: 14px;}
+#albumList .listLabel{
+	margin-bottom: 10px;
+	font-weight: bold;
+	background: rgba(0, 0, 0, 0.57);
+	padding: 5px 10px;
+}
+
+.playListItem , .albumItem{
+		cursor:pointer;
+		font-size: 14px;
+		border-bottom: 1px solid rgba(221, 221, 221, 0.1);
+}
+
+.albump{
+	font-size: 16px;
+	font-weight: bold;
+}
+
 .playListItem .remove {float:right;}
-
-
 
 #albumTitle{
 	margin-bottom: 15px;
@@ -206,7 +222,7 @@ ul li{list-style: none;}
 	border-top: none;
 }
 .table-hover tbody tr:hover>td, .table-hover tbody tr:hover>th {
-	background:rgba(225, 225, 225, 0.1);
+	background:rgba(0, 0, 0, 0.1);
 }
 
 
@@ -229,14 +245,14 @@ ul li{list-style: none;}
 	width: 450px;
 	float:left;
 	margin-top: 5px;
-	min-height:41px;
+	min-height:45px;
 }
 
 
 #fbLike{ float: right;margin-right: 5px; }
 #songInfo #fbLike{ margin-top: -5px; }
 
-#songInfo #title{ font-size: 15px; font-weight: bold; }
+#songInfo #title{ font-size: 15px; font-weight: bold; display: block;}
 
 #page2 #gallery{
 	width: 100%;

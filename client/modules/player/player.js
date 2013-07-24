@@ -55,9 +55,9 @@ playSong=function(){
 		$(".audiojs").hide();
 		$("#adPlayer").hide();
 		
-		$('#chatlist').height(180);	
-		$('#chatlist').parent().height(180);	
-		$('#page2 .slideBody').height(180);		
+		$('#chatlist').height(175);	
+		$('#chatlist').parent().height(175);	
+		$('#page2 .slideBody').height(175);		
 	
 		if(audio)audio.pause();
 		
@@ -73,9 +73,9 @@ playSong=function(){
 		$("#adPlayer").show();		
 			
 		
-		$('#chatlist').height(315);	
-		$('#chatlist').parent().height(315);		
-		$('#page2 .slideBody').height(315);		
+		$('#chatlist').height(310);	
+		$('#chatlist').parent().height(310);		
+		$('#page2 .slideBody').height(310);		
 		
 		
 		if ( audio ) {

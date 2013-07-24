@@ -48,7 +48,7 @@ onDocumentReady = function (templatePage) {
 	
 	$('#albumList').slimScroll({
 		width: '540px',		
-		height: '495px',
+		height: '470px',
 		position:'left'
 	});
 	

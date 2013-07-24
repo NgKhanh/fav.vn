@@ -113,16 +113,16 @@
 					
 					<div id="page1" class="Page">		
 						{{> header}}							
-						<div id="albumList" class="pull-left" style="margin-left:10px">
+						<div id="albumList" class="pull-left">
 									
 							<table class="table table-hover ">	
-								<p id="myPlLabel" style="display:none">PLAYLIST CỦA BẠN : </p>	
+								<p id="myPlLabel" class="listLabel" style="display:none">PLAYLIST CỦA BẠN : </p>	
 								<tbody id="myAlbumList"></tbody>										
 							</table>
 							
 							
 							<table class="table table-hover ">
-								<p id="plLabel">PLAYLIST ĐANG PHÁT : </p>										
+								<p id="plLabel" class="listLabel">PLAYLIST ĐANG PHÁT : </p>										
 								<tbody id="realTimeAlbumList"></tbody>										
 							</table>
 							
@@ -230,7 +230,7 @@
 <template name="playlist"> 
 	<div>		
 		{{#isolate}}
-		<a id="header"><h5>{{data.length}} bài trong list</h5></a> 
+		<!--<a id="header"><h5>{{data.length}} bài trong list</h5></a> -->
 		<ul id="albumPlaylist" class="albumList">				
 			{{#each data}}
 				{{> playlistItem}}

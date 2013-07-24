@@ -7,7 +7,7 @@ Template.albumItem.rendered=function(){
 		//console.log("on rendered > albumItem ",this.data.title);
 		$('#albumList').slimScroll({
 			width: '540px',		
-			height: '495px',
+			height: '470px',
 			position:'left',
 			wheelStep : 20
 		});
@@ -140,7 +140,7 @@ Template.playlist.created=function(){
 Template.playlist.rendered=function(){	
 	//console.log("-------------------------> Template.playlist.rendered");	
 	$('#albumPlaylist').slimScroll({			
-		height: '355px',
+		height: '380px',
 		position:'left',		
 		distance : '-20px'
 	});
