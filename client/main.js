@@ -289,7 +289,10 @@ Template.currentRoomLogged.events={
 	'click #showAlbum':function(e){
 		e.preventDefault();
 		// show Room				
-		Router.navigate($(e.currentTarget).attr("href"),{trigger: true});  
+		if(Session.get('currentSong')!='')
+			Router.navigate($(e.currentTarget).attr("href")+'/'+Session.get('currentRoom'),{trigger: true});  
+		else 
+			Router.navigate($(e.currentTarget).attr("href"),{trigger: true});  
 	}
 }
 		

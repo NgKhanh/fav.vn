@@ -66,8 +66,13 @@ onDocumentReady = function (templatePage) {
 
 	$("#notification").click(function(){
 		$("#notification").hide();
-		if(Session.get("currentRoom")!="")
-			Router.navigate($("#showAlbum").attr("href"),{trigger: true});  
+		if(Session.get("currentRoom")!=""){
+			if(Session.get('currentSong')!='')
+				Router.navigate($("#showAlbum").attr("href")+'/'+Session.get('currentRoom'),{trigger: true});  
+			else 
+				Router.navigate($("#showAlbum").attr("href"),{trigger: true});  
+		}
+			 
 	});
 
 	console.log("ON READY");

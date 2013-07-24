@@ -215,16 +215,14 @@
 </template>
 
 
-<template name="songInfo"> 		
-	{{#with data}}	
-		<small id="songInfo"> 
-			<h5><a>{{title}}</a> <small> - ca sĩ: </small> <a>{{artist}}</a> </h5>
-			<small class="pull-left">Thêm vào bởi: <a>{{shareBy.name}}</a></small>
-			<div id="fbLike"></div>
-		</small> 
-		
-		
-	{{/with}}
+<template name="songInfo"> 	
+	<small id="songInfo"> 
+		{{#with data}}
+		<a id="title"> {{title}}</a> <small> - ca sĩ: </small> <a>{{artist}}</a>
+		<span class="pull-left">Thêm vào bởi: <a>{{shareBy.name}}</a></span>
+		<div id="fbLike"></div>
+		{{/with}}
+	</small> 
 </template>
 
 

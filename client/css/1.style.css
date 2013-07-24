@@ -194,8 +194,6 @@ ul li{list-style: none;}
 	font-size:80%;
 }
 
-#fbLike{ float: right;margin-right: 5px; }
-#songInfo #fbLike{ margin-top: -5px; }
 
 .table td {
 	border: none;
@@ -231,7 +229,14 @@ ul li{list-style: none;}
 	width: 450px;
 	float:left;
 	margin-top: 5px;
+	min-height:41px;
 }
+
+
+#fbLike{ float: right;margin-right: 5px; }
+#songInfo #fbLike{ margin-top: -5px; }
+
+#songInfo #title{ font-size: 15px; font-weight: bold; }
 
 #page2 #gallery{
 	width: 100%;
