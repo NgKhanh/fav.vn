@@ -61,11 +61,12 @@ Template.playlistInfo.rendered=function(){
 	var _album 		=  Album.findOne({_id:Session.get("currentRoom")});	
 		_album.url  = AbsoluteUrl() + "a/"+title2Alias(_album.title) +"."+_album._id;  
 		
-	var fbLikeDiv = $("#fbLike");	
-		fbLikeDiv.html('');
-		fbLikeDiv.html('<div class="fb-like" data-href="'+_album.url+'" data-send="true" data-layout="button_count" data-width="100" data-show-faces="false"></div>');
-		if(FB)FB.XFBML.parse(fbLikeDiv[0]); 
-	
+	setTimeout(function(){
+		var fbLikeDiv = $("#fbLike");	
+			fbLikeDiv.html('');
+			fbLikeDiv.html('<div class="fb-like" data-href="'+_album.url+'" data-send="true" data-layout="button_count" data-width="100" data-show-faces="false"></div>');
+			if(FB)FB.XFBML.parse(fbLikeDiv[0]); 
+	},1000);
 }
 
 
@@ -102,11 +103,12 @@ Template.songInfo.created = function(){
 
 Template.songInfo.rendered = function(){		
 	//console.log("-----> songInfo rendered");
-	var fbLikeDiv = $("#songInfo #fbLike");	
-		fbLikeDiv.html('');
-		fbLikeDiv.html('<div class="fb-like" data-href="'+window.location.href+'" data-layout="button_count" data-width="100" data-show-faces="false"></div>');
-		if(FB)FB.XFBML.parse(fbLikeDiv[0]); 
-	
+	setTimeout(function(){
+		var fbLikeDiv = $("#songInfo #fbLike");	
+			fbLikeDiv.html('');
+			fbLikeDiv.html('<div class="fb-like" data-href="'+window.location.href+'" data-layout="button_count" data-width="100" data-show-faces="false"></div>');
+			if(FB)FB.XFBML.parse(fbLikeDiv[0]); 
+	},1000);
 }
 
 /**
