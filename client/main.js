@@ -63,7 +63,7 @@ Template.playlistInfo.rendered=function(){
 		
 	var fbLikeDiv = $("#fbLike");	
 		fbLikeDiv.html('');
-		fbLikeDiv.html('<div class="fb-like" data-href="'+_album.url+'" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false"></div>');
+		fbLikeDiv.html('<div class="fb-like" data-href="'+_album.url+'" data-send="true" data-layout="button_count" data-width="100" data-show-faces="false"></div>');
 		if(FB)FB.XFBML.parse(fbLikeDiv[0]); 
 	
 }
@@ -102,6 +102,11 @@ Template.songInfo.created = function(){
 
 Template.songInfo.rendered = function(){		
 	//console.log("-----> songInfo rendered");
+	var fbLikeDiv = $("#songInfo #fbLike");	
+		fbLikeDiv.html('');
+		fbLikeDiv.html('<div class="fb-like" data-href="'+window.location.href+'" data-layout="button_count" data-width="100" data-show-faces="false"></div>');
+		if(FB)FB.XFBML.parse(fbLikeDiv[0]); 
+	
 }
 
 /**

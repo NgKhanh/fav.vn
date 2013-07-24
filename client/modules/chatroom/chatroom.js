@@ -80,9 +80,9 @@ Template.messageChat.created=function(){
 		
 		this.data.timeAgo = new Date(this.data.createTime);
 		if(!this.data.old){			
-			this.data.timeAgo = this.data.timeAgo.getHours()+':' + this.data.timeAgo.getMinutes();
-		}else{
 			this.data.message = emoticon(this.data.message);
+			this.data.timeAgo = this.data.timeAgo.getHours()+':' + this.data.timeAgo.getMinutes();
+		}else{			
 			this.data.timeAgo = this.data.timeAgo.getHours()+':' + this.data.timeAgo.getMinutes() + ' - ' + this.data.timeAgo.getDate() +'/'+this.data.timeAgo.getMonth()+'/'+this.data.timeAgo.getFullYear();
 		}
 				

@@ -55,8 +55,9 @@ playSong=function(){
 		$(".audiojs").hide();
 		$("#adPlayer").hide();
 		
-		$('#chatlist').height(160);	
-		$('#chatlist').parent().height(160);	
+		$('#chatlist').height(180);	
+		$('#chatlist').parent().height(180);	
+		$('#page2 .slideBody').height(180);		
 	
 		if(audio)audio.pause();
 		
@@ -72,8 +73,9 @@ playSong=function(){
 		$("#adPlayer").show();		
 			
 		
-		$('#chatlist').height(300);	
-		$('#chatlist').parent().height(300);		
+		$('#chatlist').height(315);	
+		$('#chatlist').parent().height(315);		
+		$('#page2 .slideBody').height(315);		
 		
 		
 		if ( audio ) {

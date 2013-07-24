@@ -194,7 +194,8 @@ ul li{list-style: none;}
 	font-size:80%;
 }
 
-#albumTitle #fbLike{ float:left; margin-left:20px;} 
+#fbLike{ float: right;margin-right: 5px; }
+#songInfo #fbLike{ margin-top: -5px; }
 
 .table td {
 	border: none;
@@ -224,11 +225,12 @@ ul li{list-style: none;}
 	width: 450px;
 } 
 
-#songInfo{
-	overflow: hidden;
+#songInfo{	
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	width: 450px;
+	float:left;
+	margin-top: 5px;
 }
 
 #page2 #gallery{
@@ -322,10 +324,10 @@ ul li{list-style: none;}
 
 #gallery .playlist{max-width:500px;}
 
-#page2 .slideHeader{ margin-bottom:20px;border-bottom: 1px solid #ddd;padding-bottom: 10px;}
+#page2 .slideHeader{ margin-bottom:10px;border-bottom: 1px solid #ddd;float:left;}
 #page2 .slideBody{ margin-bottom:10px;float:left;}
 
-#chatlist{width:380px;height:300px}
+#chatlist{width:380px}
 
 #chatlist li{
 	margin-bottom:10px;
