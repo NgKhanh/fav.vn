@@ -9,7 +9,7 @@ Template.albumItem.rendered=function(){
 			width: '540px',		
 			height: '470px',
 			position:'left',
-			wheelStep : 20
+			wheelStep : 30
 		});
 	}
 }
@@ -19,7 +19,7 @@ Template.albumItem.events = {
 		e.preventDefault();	
 		//gotoAlbum($(e.currentTarget).find(".albump").attr("href"));	
 		
-		console.log("select album",$(e.currentTarget).attr("id"),$(e.currentTarget).parent().attr("id"));
+		console.log("select album",$(e.currentTarget).parent().attr("id"));
 		
 		if($(e.currentTarget).parent().attr("id")=="myAlbumList"){
 			Router.navigate($(e.currentTarget).find(".albump").attr("href"),{trigger: true}); 
@@ -142,7 +142,8 @@ Template.playlist.rendered=function(){
 	$('#albumPlaylist').slimScroll({			
 		height: '380px',
 		position:'left',		
-		distance : '-20px'
+		distance : '-20px',
+		wheelStep : 10
 	});
 	
 	playActiveSong();

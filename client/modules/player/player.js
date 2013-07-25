@@ -19,7 +19,7 @@ Template.player.rendered = function(){
 	// Youtube
 	var params = { allowScriptAccess: "always" };
 	var atts = { id: "myytplayer" };
-	swfobject.embedSWF("http://www.youtube.com/v/M7lc1UVf-VE?enablejsapi=1&playerapiid=ytplayer&version=3",
+	swfobject.embedSWF("http://www.youtube.com/v/M7lc1UVf-VE?enablejsapi=1&playerapiid=ytplayer&version=3&html5=1",
 						"ytapiplayer", "448", "252", "8", null, null, params, atts);
 						
 	$("#myytplayer").hide();
@@ -59,7 +59,7 @@ playSong=function(){
 		$('#chatlist').parent().height(175);	
 		$('#page2 .slideBody').height(175);		
 	
-		if(audio)audio.pause();
+		if(audio && audio.pause)audio.pause();
 		
 		_youtube_video_id = media.mID;		
 		if(player)player.loadVideoById(_youtube_video_id);

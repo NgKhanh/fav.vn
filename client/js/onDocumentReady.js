@@ -49,7 +49,8 @@ onDocumentReady = function (templatePage) {
 	$('#albumList').slimScroll({
 		width: '540px',		
 		height: '470px',
-		position:'left'
+		position:'left',
+		wheelStep : 30
 	});
 	
 	$("#page2 .header").click( function(){
@@ -101,6 +102,8 @@ appendAlbumList =function(){
 				if(album.title)	album.alias  	= "a/"+title2Alias(album.title) +"."+album._id;
 								album.timeAgo 	= timeAgo(album.createTime);	
 								album.length    = album.numSong;
+								album.active  	= album._id == Session.get("reviewRoom")?true:false;
+								album.users		= Meteor.users.find({currentRoom:album._id}).count();
 			return Template["albumItem"](album);	   
 			    
 		});	
@@ -129,7 +132,7 @@ userJoinRoom=function(_albumID){
 	onRoom = true;
 	
 	// show Room				
-	$("#page2").transition({y:0});
+	$("#page2").transition({y:0},function(){$("#page2").css('transform','none')});
 	$("#page1").transition({y:0});
 	$("#Nav").transition({x:0});
 	

@@ -15,8 +15,7 @@ Accounts.loginServiceConfiguration.remove({
 Accounts.loginServiceConfiguration.insert({
 	service : "facebook",
 	
-	// fav.vn 
-	
+	// fav.vn 	
 	//appId	: "338611759532006",
 	//secret	:"08883488037ebc2491933b3ee3358fa0"
 	

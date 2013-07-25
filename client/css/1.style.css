@@ -18,6 +18,12 @@ html, body{
 	  background: -o-linear-gradient(left, rgb(5, 61, 87), rgb(29, 123, 160));
 }
 
+.one-line{
+	text-overflow: ellipsis;
+    white-space: nowrap;
+	overflow:hidden;
+	height: 25px;
+}
 
 h1, h2, h3, h5, p, span , small, td, .navbar .brand{color:#fff;font-weight: normal;padding: 0px;margin: 0px;}
 a{color:#fff;}
@@ -95,8 +101,14 @@ ul li{list-style: none;}
 }
 
 .Page .header{
-	display:block;
-	height:50px;
+	height: 30px;
+	display: inline-block;
+	background: rgba(248, 148, 6, 0.5);
+	margin-bottom: 20px;
+}
+
+.Page .header:hover{	
+	background: rgba(248, 148, 6, 1);
 }
 
 .Page .header #closeAlbum{
@@ -172,7 +184,7 @@ ul li{list-style: none;}
 #albumList .listLabel{
 	margin-bottom: 10px;
 	font-weight: bold;
-	background: rgba(0, 0, 0, 0.57);
+	background: rgba(225, 225, 225, 0.3);
 	padding: 5px 10px;
 }
 
@@ -183,7 +195,7 @@ ul li{list-style: none;}
 }
 
 .albump{
-	font-size: 16px;
+	font-size: 15px;
 	font-weight: bold;
 }
 
@@ -252,7 +264,7 @@ ul li{list-style: none;}
 #fbLike{ float: right;margin-right: 5px; }
 #songInfo #fbLike{ margin-top: -5px; }
 
-#songInfo #title{ font-size: 15px; font-weight: bold; display: block;}
+#songInfo #title{ font-size: 15px; font-weight: bold; display: inline;}
 
 #page2 #gallery{
 	width: 100%;
@@ -311,6 +323,7 @@ ul li{list-style: none;}
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	width: 400px;
+	font-weight:bold;
 }
 
 .albumList li .remove{

@@ -216,13 +216,16 @@
 
 
 <template name="songInfo"> 	
-	<small id="songInfo"> 
+	<div id="songInfo"> 
 		{{#with data}}
-		<a id="title"> {{title}}</a> <small> - ca sĩ: </small> <a>{{artist}}</a>
-		<span class="pull-left">Thêm vào bởi: <a>{{shareBy.name}}</a></span>
+		<p class="one-line">
+			<a id="title" class="one-line"> {{title}}</a>
+			<small> - ca sĩ: <a>{{artist}}</a></small>
+		</p>
+		<small class="pull-left">Thêm vào bởi: <a>{{shareBy.name}}</a></small>
 		<div id="fbLike"></div>
 		{{/with}}
-	</small> 
+	</div> 
 </template>
 
 
@@ -243,7 +246,7 @@
 
 <template name="playlistItem"> 	
 	<li class="playlistItem" id="{{_id}}" index="{{index}}" data-source="{{source}}" class="pull-left">
-		<p class="title"><strong>{{index1}} - {{title}}</strong> <small> - {{artist}}</small></p>
+		<p class="title">{{index1}} - <a>{{title}}</a> <small> - {{artist}}</small></p>
 		<small class="pull-left" style="margin-left:18px;opacity: 0.4;">Thêm vào bởi <a>{{shareBy.name}}</a> - {{timeAgo}}</small>   
 		{{#if allowRemove}}
 			<span id="{{_id}}" class="remove" > x <span>
@@ -264,7 +267,10 @@
 			</a>
 		</td>						
 		<td style="width: 400px;">
-			<p><a class="albump" href="{{alias}}" room-id="{{_id}}">{{title}}<small> - ({{length}} bài)</small></a></p>
+			<p>
+				<a class="albump" href="{{alias}}" room-id="{{_id}}">{{title}}</a>
+				<small> - ({{length}} bài)</small>
+			</p>
 			
 				<small class="albumDesc">{{timeAgo}}
 				- <a href="#">{{owner.name}}</a> 
