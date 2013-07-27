@@ -31,7 +31,7 @@ Meteor.headly.config({tagsForRequest: function(req) {
 					var _albumID = parts[2].substring( parts[2].lastIndexOf(".")+1,parts[2].length);
 					var _album = Album.findOne({_id:_albumID});
 					
-						if(album==undefined) meta;
+						if(_album==undefined) meta;
 					
 					console.log("--- get albumID",_albumID,_album.genre,_album.title);
 					
