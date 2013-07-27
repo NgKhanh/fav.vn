@@ -188,18 +188,12 @@ ul li{list-style: none;}
 	padding: 5px 10px;
 }
 
-.playListItem , .albumItem{
-		cursor:pointer;
-		font-size: 14px;
-		border-bottom: 1px solid rgba(221, 221, 221, 0.1);
-}
 
 .albump{
 	font-size: 15px;
 	font-weight: bold;
 }
 
-.playListItem .remove {float:right;}
 
 #albumTitle{
 	margin-bottom: 15px;
@@ -306,7 +300,10 @@ ul li{list-style: none;}
 	padding:0 10px;
 }
 
-.albumList {height:385px;width:515px;}
+.albumList {
+	height:385px;
+	width:515px;
+}
 
 .albumList li{
 	padding: 4px 10px;
@@ -338,6 +335,30 @@ ul li{list-style: none;}
 .albumList .active{	background:rgba(225, 225, 225, 0.2);}
 .albumList li:hover{background:rgba(225, 225, 225, 0.1);}
 .albumList li:hover .remove{display:block;}
+.albumList li:hover .allow{display:inline;}
+
+
+.playListItem , .albumItem{
+		cursor:pointer;
+		font-size: 14px;
+		border-bottom: 1px solid rgba(221, 221, 221, 0.1);
+}
+
+.playListItem , .allow{
+	padding: 0px 5px;
+	background: rgba(221,221,221,0.2);
+	float: right;
+	margin-right: 35px;
+	margin-top: -10px;
+	font-size: 11px;
+	text-shadow: none;
+	color: #aaa;
+	display:none;
+	
+}
+.playListItem , .ignore{font-style:italic;	color:#aaa;}
+.playListItem , .ignore a, .playListItem , .ignore p, .playListItem , .ignore small{color:#AD9F37;} 
+
 
 .tab-content {
 	overflow: hidden;
@@ -377,6 +398,8 @@ ul li{list-style: none;}
 	padding:2px;
 }
 
+
+
 #chatlist li .info{
 	float: left;
 	display: block;
@@ -414,10 +437,37 @@ ul li{list-style: none;}
 	padding-top: 0px;
 }
 
-#chatlist .popover a{
-	color:#3b5998;
-	font-weight:bold;
+#chatlist .popover .popover-content{
+	padding: 5px 0px;
 }
+
+#chatlist .popover a{
+	color: #3b5998;
+	font-weight: bold;	
+	float: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100%;
+}
+#chatlist .popover a img{
+	width:100px;
+	height:90px;
+	overflow:hidden;
+	margin-right: 5px;
+	float:left;
+}
+
+.popover .userAction {
+	display: inline;
+	float: right;
+	position: relative;
+	top: -60px;
+	font-size: 11px;
+	width: 120px;
+	height: 0px;
+}
+
 
 #chatInputForm #chatInput, #searchInput{
 	width: 95%;

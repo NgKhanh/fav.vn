@@ -183,12 +183,10 @@ Meteor.startup(function(){
 		}
 
 		,addSongToPlaylist:function(_song,_albumID){
-
-			console.log(Meteor.user().profile.name ,"  add song",_song.title," to playlist",_albumID,_song.mID);
-			
 			Song.insert({	title		: _song.title
 							,mID		: _song.mID	
 							,artist		: _song.artist	
+							,ignore		:_song.ignore
 							,shareBy	: {"name":Meteor.user().profile.name,"username":Meteor.user().username,"avatar":Meteor.user().profile.picture}
 							,domain		:_song.domain
 							,source		:_song.source
@@ -196,13 +194,28 @@ Meteor.startup(function(){
 							,albumID 	:_albumID
 							,createTime :Date.now()
 							,like 		:0
-							,unlike 	:0
+							,unlike 	:0							
 			});
 			
 			Album.update({_id:_albumID},{ $inc: { numSong: 1 }});
 			
 			Meteor.call('sysMsg',Meteor.user().profile.name + " vừa thêm bài bát :  " + _song.title ,_albumID,_song.mID);
 
+		}
+		
+		,allowSongToList:function(songID,albumID){
+			if(Meteor.userId()==undefined) return false;
+			//1. Check user is owner of Album
+			//2. Check song in album
+			var album = Album.findOne({_id:albumID});
+			if(album==undefined)return false;
+			if(Meteor.user().username!=album.owner.username)return false;
+			
+			var song = Song.findOne({_id:songID});
+			if(song==undefined)return false;
+			if(song.albumID!=albumID) return false;
+			
+			Song.update({_id:songID},{ $set: { ignore: false,createTime:Date.now()}});
 		}
 		
 		,removeSongFromPlaylist:function(_songID,_albumID){

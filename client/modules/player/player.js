@@ -11,9 +11,6 @@ Template.player.rendered = function(){
 			trackEnded: function() {
 				console.log("Hat xong roi"); 
 				nextSong();
-			},
-			loadStarted:function(){
-				console.log('on load start audio');
 			}
 		});		
 		audio = a[0];		
@@ -110,7 +107,7 @@ nextSong = function(){
 	if(Session.get("currentSong")!='')
 		next = parseInt($("#albumPlaylist").find("#"+Session.get("currentSong")).attr("index")) + 1;	
 	
-	var listSong = Song.find({albumID:Session.get('currentRoom')},{$sort:{createTime:-1}}).fetch();
+	var listSong = Song.find({albumID:Session.get('currentRoom'),ignore : { $ne: true}},{$sort:{createTime:-1}}).fetch();
 	
 	if(next==listSong.length || next==undefined)	
 		next = 0;	
@@ -122,8 +119,7 @@ nextSong = function(){
 	Session.set("currentSong", song._id);
 	Session.set('currentSongSource', song.source);
 	
-	activePlaylistItem();	
-	playSong(Session.get('currentSong'));
+	playActiveSong();
 }
 
 activePlaylistItem=function(){

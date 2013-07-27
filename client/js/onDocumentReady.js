@@ -75,6 +75,7 @@ onDocumentReady = function (templatePage) {
 		}
 			 
 	});
+	
 
 	console.log("ON READY");
 }

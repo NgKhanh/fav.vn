@@ -244,13 +244,17 @@
 </template>
 
 
-<template name="playlistItem"> 	
-	<li class="playlistItem" id="{{_id}}" index="{{index}}" data-source="{{source}}" class="pull-left">
+<template name="playlistItem"> 
+	{{#if ignore}}
+		<li class="playlistItem ignore" id="" index="{{index}}" data-source="" class="pull-left">
+	{{else}}
+		<li class="playlistItem" id="{{_id}}" index="{{index}}" data-source="{{source}}" class="pull-left">
+	{{/if}}
 		<p class="title">{{index1}} - <a>{{title}}</a> <small> - {{artist}}</small></p>
 		<small class="pull-left" style="margin-left:18px;opacity: 0.4;">Thêm vào bởi <a>{{shareBy.name}}</a> - {{timeAgo}}</small>   
-		{{#if allowRemove}}
-			<span id="{{_id}}" class="remove" > x <span>
-		{{/if}}
+		
+		{{#if allowRemove}}<span id="{{_id}}" class="remove" > x </span>{{/if}}		
+		{{#if allow}}<span id="{{_id}}" class="allow btn" > chấp nhận </span>{{/if}}
 	</li>	
 </template>
 

@@ -124,7 +124,6 @@ initTypeAHead=function(){
 		},
 		
 		updater:function (item) {
-			console.log("select item >>",item,map[item].id);
 			
 			var _song={};						
 				_song.title 	= map[item].name;
@@ -132,12 +131,17 @@ initTypeAHead=function(){
 				_song.domain 	= map[item].domain;
 				_song.source  	= map[item].source;
 				_song.mID  		= map[item].id;
+				_song.ignore	= Session.get('isAdmin')?false:true;
+				
+			var album = Album.findOne({_id:Session.get('currentRoom')});
+				// Nếu album riêng tư > cho phép tự do add bài hát
+				if(album.policy==1)_song.ignore==false;
 			
-				Meteor.call("addSongToPlaylist",_song,Session.get("currentRoom"),function(err,res){
-					if(res){
-						console.log(">> addSongToPlaylist success");
-					}
-				});
+			Meteor.call("addSongToPlaylist",_song,Session.get("currentRoom"),function(err,res){
+				if(res){
+					console.log(">> addSongToPlaylist success");
+				}
+			});
 			
 			return _song.title + " - "+ _song.artist;
 					

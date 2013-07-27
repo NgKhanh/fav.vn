@@ -118,7 +118,7 @@ Template.songInfo.rendered = function(){
 Template.playlist.data=function(){	
 	if(Session.get("currentRoom")=="")return null;		
 	
-	var playlist = Song.find({albumID:Session.get("currentRoom")}).fetch();
+	var playlist = Song.find({albumID:Session.get("currentRoom")},{	sort:{ignore:1,createTime:1}}).fetch();
 	listSongInMyListeningAlbum = [];
 	var song;
 	for (var i=0;i<playlist.length;i++) {
@@ -126,8 +126,10 @@ Template.playlist.data=function(){
 		song.index			= i;
 		song.index1 		= i+1;
 		song.isAdmin 		= Session.get("isAdmin");
+		song.allow 			= song.ignore==true && Session.get("isAdmin")==true ? true :false;
 		song.allowRemove  	= (Session.get("isAdmin") || (Meteor.user() && Meteor.user().username == song.shareBy.username))?true:false;		
 		song.timeAgo		= timeAgo(song.createTime);	
+			
 		listSongInMyListeningAlbum.push(song);
 	}	
 	return listSongInMyListeningAlbum;
@@ -155,6 +157,7 @@ Template.playlist.rendered=function(){
 
 Template.playlistItem.created=function(){	
 	//console.log("playlistItem created",this.data.title);
+	
 }
 
 Template.playlistItem.rendered=function(){	
@@ -172,7 +175,9 @@ Template.playlistItem.events = {
 		console.log("Template.playlistItem.events --> ",$(e.target).attr("class"),Session.get("isAdmin"));
 		
 		if(Meteor.userId()==null){
-			// chưa đăng nhập > cho phép nghe tự do
+			// Nếu không có id > chưa active bài hát
+			if($(e.currentTarget).attr("id")==undefined)return false;
+			// chưa đăng nhập > cho phép nghe tự do			
 			Session.set("currentSong", $(e.currentTarget).attr("id"));
 			Session.set('currentSongSource',$(e.currentTarget).attr("data-source"));
 			playActiveSong();
@@ -182,12 +187,20 @@ Template.playlistItem.events = {
 			if($(e.target).attr("class")=="remove"){
 				console.log("remove song from playlist",$(e.target).attr("id"));
 				Meteor.call("removeSongFromPlaylist", $(e.target).attr("id"),Session.get("currentRoom"));
-			}else{				
+			
+			}else if($(e.target).attr("class")=="allow btn"){
+				if(Session.get('isAdmin')){
+					Meteor.call('allowSongToList',$(e.target).attr("id"),Session.get('currentRoom'),function(err, res){
+						console.log("allow song --> SUCCESS");
+					});
+				}
+			}else{			
+				// Nếu không có id > chưa active bài hát
+				console.log('--------> current song',$(e.currentTarget).attr("id"));
+				if($(e.currentTarget).attr("id")==undefined)return false;
+				
 				Session.set("currentSong", $(e.currentTarget).attr("id"));
 				Session.set('currentSongSource',$(e.currentTarget).attr("data-source"));
-				
-				console.log(" --->  play",$(e.currentTarget).attr("id"), " >> ",Session.get('currentSongSource'));
-				
 				playActiveSong();
 			}	
 		}		
