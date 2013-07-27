@@ -1,26 +1,3 @@
-
-timeAgo = function (time){
-	var t="timeAgo";
-	
-  var _second = parseInt((Date.now() - time)/1000);
-  var _min    = parseInt( _second/60);
-  var _hour   = parseInt(_second/3600);
-	var _day	  = parseInt(_hour/24);
-
-  //console.log("> time ago",_second,_min,_hour,_day);
-	
-  if(_second<60)
-		  return t = "vừa mới đây";
-	if(_second <3600)
-		  return t = "cách đây "+_min+" phút";
-	if(_hour <24)
-		  return t = "cách đây "+ _hour +" giờ";
-	if(_day <30)
-		  return t = "cách đây " + _day +" ngày";
-  if(_day >30)
-      return t = "tháng trước";
-}
-
 title2Alias = function (s) {
   if (typeof s == "undefined")  return;
  

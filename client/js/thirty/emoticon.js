@@ -1,80 +1,97 @@
-emoticon = function(_txt){
+emoticonEncode = function(selfTxt){
 	
-	_txt = replaceRegExp(_txt,{':))'	:'chuoimahoaregExp_21.gif_endChuoimahoaregExp'});
+	selfTxt = replaceRegExp(selfTxt,{'>:)'	:'regExp19.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':(('	:'regExp20.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':))'	:'regExp21.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'/:)'	:'regExp23.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{';;)'	:'regExp5.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'(:|'	:'regExp37.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'<):)'	:'regExp48.gif_endRegExp'});
 	
-	_txt = replaceRegExp(_txt,{':)'		:'chuoimahoaregExp_1.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':('		:'chuoimahoaregExp_2.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{';)'		:'chuoimahoaregExp_3.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':D'		:'chuoimahoaregExp_4.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':d'		:'chuoimahoaregExp_4.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{';;)'	:'chuoimahoaregExp_5.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'>:D<'	:'chuoimahoaregExp_6.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':-/'	:'chuoimahoaregExp_7.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':x'		:'chuoimahoaregExp_8.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':X'		:'chuoimahoaregExp_8.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':">'	:'chuoimahoaregExp_9.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':P'		:'chuoimahoaregExp_10.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':p'		:'chuoimahoaregExp_10.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':-*'	:'chuoimahoaregExp_11.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'=(('	:'chuoimahoaregExp_12.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':-O'	:'chuoimahoaregExp_13.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'X('		:'chuoimahoaregExp_14.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':>'		:'chuoimahoaregExp_15.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'B-)'	:'chuoimahoaregExp_16.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':-S'	:'chuoimahoaregExp_17.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'#:-S'	:'chuoimahoaregExp_18.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'>:)'	:'chuoimahoaregExp_19.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':(('	:'chuoimahoaregExp_20.gif_endChuoimahoaregExp'});
+	selfTxt = replaceRegExp(selfTxt,{':)'		:'regExp1.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':('		:'regExp2.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{';)'		:'regExp3.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':D'		:'regExp4.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':d'		:'regExp4.gif_endRegExp'});
 	
-	_txt = replaceRegExp(_txt,{':|'		:'chuoimahoaregExp_22.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'/:)'	:'chuoimahoaregExp_23.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'=))'	:'chuoimahoaregExp_24.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'O:-)'	:'chuoimahoaregExp_25.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':-B'	:'chuoimahoaregExp_26.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'=;'		:'chuoimahoaregExp_27.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'I-)'	:'chuoimahoaregExp_28.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'8-|'	:'chuoimahoaregExp_29.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'L-)'	:'chuoimahoaregExp_30.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':-&'	:'chuoimahoaregExp_31.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':-$'	:'chuoimahoaregExp_32.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'[-('	:'chuoimahoaregExp_33.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':O)'	:'chuoimahoaregExp_34.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'8-}'	:'chuoimahoaregExp_35.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'<:-P'	:'chuoimahoaregExp_36.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'(:|'	:'chuoimahoaregExp_37.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'=P~'	:'chuoimahoaregExp_38.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':-?'	:'chuoimahoaregExp_39.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'#-o'	:'chuoimahoaregExp_40.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'=D>'	:'chuoimahoaregExp_41.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':-SS'	:'chuoimahoaregExp_42.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'@-)'	:'chuoimahoaregExp_43.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':^o'	:'chuoimahoaregExp_44.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':-w'	:'chuoimahoaregExp_45.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':-<'	:'chuoimahoaregExp_46.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'>:P'	:'chuoimahoaregExp_47.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'<):)'	:'chuoimahoaregExp_48.gif_endChuoimahoaregExp'});
-	
-	_txt = replaceRegExp(_txt,{':-c'	:'chuoimahoaregExp_101.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':)]'	:'chuoimahoaregExp_100.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'~X('	:'chuoimahoaregExp_102.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':-h'	:'chuoimahoaregExp_103.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':-t'	:'chuoimahoaregExp_104.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'8->'	:'chuoimahoaregExp_105.gif_endChuoimahoaregExp'});
+	selfTxt = replaceRegExp(selfTxt,{'>:D<'	:'regExp6.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':-/'	:'regExp7.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':x'		:'regExp8.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':X'		:'regExp8.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':">'	:'regExp9.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':P'		:'regExp10.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':p'		:'regExp10.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':-*'	:'regExp11.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'=(('	:'regExp12.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':-O'	:'regExp13.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'X('		:'regExp14.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':>'		:'regExp15.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'B-)'	:'regExp16.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':-S'	:'regExp17.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'#:-S'	:'regExp18.gif_endRegExp'});
+
 	
 	
-	_txt = replaceRegExp(_txt,{'X_X'	:'chuoimahoaregExp_109.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':!!'	:'chuoimahoaregExp_110.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'\m/'	:'chuoimahoaregExp_111.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':-q'	:'chuoimahoaregExp_112.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':-bd'	:'chuoimahoaregExp_113.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{'^#(^'	:'chuoimahoaregExp_114.gif_endChuoimahoaregExp'});
-	_txt = replaceRegExp(_txt,{':ar!'	:'chuoimahoaregExp_115.gif_endChuoimahoaregExp'});
+	selfTxt = replaceRegExp(selfTxt,{':|'	:'regExp22.gif_endRegExp'});
 	
-	_txt = _txt.replace('chuoimahoaregExp_', '<img class="emoticon" src="http://l.yimg.com/us.yimg.com/i/mesg/emoticons7/');
-	_txt = _txt.replace('_endChuoimahoaregExp', '"/>');
+	selfTxt = replaceRegExp(selfTxt,{'=))'	:'regExp24.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'O:-)'	:'regExp25.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':-B'	:'regExp26.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'=;'	:'regExp27.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'I-)'	:'regExp28.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'8-|'	:'regExp29.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'L-)'	:'regExp30.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':-&'	:'regExp31.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':-$'	:'regExp32.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'[-('	:'regExp33.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':O)'	:'regExp34.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'8-}'	:'regExp35.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'<:-P'	:'regExp36.gif_endRegExp'});
+
+	selfTxt = replaceRegExp(selfTxt,{'=P~'	:'regExp38.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':-?'	:'regExp39.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'#-o'	:'regExp40.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'=D>'	:'regExp41.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':-SS'	:'regExp42.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'@-)'	:'regExp43.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':^o'	:'regExp44.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':-w'	:'regExp45.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':-<'	:'regExp46.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'>:P'	:'regExp47.gif_endRegExp'});
 	
-	return _txt;
 	
+	selfTxt = replaceRegExp(selfTxt,{':-c'	:'regExp101.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':)]'	:'regExp100.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'~X('	:'regExp102.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':-h'	:'regExp103.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':-t'	:'regExp104.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'8->'	:'regExp105.gif_endRegExp'});
+	
+	
+	selfTxt = replaceRegExp(selfTxt,{'X_X'	:'regExp109.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':!!'	:'regExp110.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'\m/'	:'regExp111.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':-q'	:'regExp112.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':-bd'	:'regExp113.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{'^#(^'	:'regExp114.gif_endRegExp'});
+	selfTxt = replaceRegExp(selfTxt,{':ar!'	:'regExp115.gif_endRegExp'});
+	
+	//remove all html tag
+	selfTxt = selfTxt.safeString();
+	
+	return selfTxt;
+	
+}
+
+emoticonDecode=function(selfTxt){ console.log('--->', selfTxt);
+	// remove all html tag
+	selfTxt = selfTxt.safeString();
+	
+	// show emoticon
+	selfTxt = selfTxt.replaceAll('regExp', '<img class="emoticon" src="http://l.yimg.com/us.yimg.com/i/mesg/emoticons7/');
+	selfTxt = selfTxt.replaceAll('_endRegExp', '"/>');
+	
+	return selfTxt;
 }
 
 replaceRegExp = function(str, obj){	

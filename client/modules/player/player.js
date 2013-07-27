@@ -11,6 +11,9 @@ Template.player.rendered = function(){
 			trackEnded: function() {
 				console.log("Hat xong roi"); 
 				nextSong();
+			},
+			loadStarted:function(){
+				console.log('on load start audio');
 			}
 		});		
 		audio = a[0];		
@@ -40,11 +43,15 @@ onPlayerStateChange = function(event){
 }
 
 var _youtube_video_id='';
-playSong=function(){	
-		
+var _currentMedia;
+
+playSong=function(mediaID){	
+	if(_currentMedia==mediaID)return false;
+	
+	_currentMedia = mediaID;
 	// check video || mp3
 	
-	var media = Song.findOne({_id:Session.get('currentSong')});
+	var media = Song.findOne({_id:mediaID});
 	
 	if(media.domain=='youtube.com'){
 		// playvideo 		
@@ -116,7 +123,7 @@ nextSong = function(){
 	Session.set('currentSongSource', song.source);
 	
 	activePlaylistItem();	
-	playSong();
+	playSong(Session.get('currentSong'));
 }
 
 activePlaylistItem=function(){
@@ -135,6 +142,6 @@ playActiveSong = function(){
 		nextSong();
 	else{
 		activePlaylistItem();	
-		playSong();
+		playSong(Session.get('currentSong'));
 	}
 }

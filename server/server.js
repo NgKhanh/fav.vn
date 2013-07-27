@@ -3,10 +3,6 @@ Meteor.headly.config({tagsForRequest: function(req) {
 	
 	var parts = url.parse(req.url).pathname.split('/');
 	
-	console.log("###############################");
-	console.log("facebook request url",parts[0],parts );
-	console.log("###############################");
-	
 	var meta='';
 		meta += '<meta property="og:site_name" content="FAVorite music" />';
 	
@@ -14,8 +10,11 @@ Meteor.headly.config({tagsForRequest: function(req) {
 	if(parts.length>1){
 		// re turn custome
 		if(parts[3] && parts[3]!='' && parts[1]=="a"){
-			var media = Song.findOne({_id:parts[3]}); if(media==undefined)return;
+			var media = Song.findOne({_id:parts[3]}); 
+				if(media==undefined) meta;
+				
 			var album = Album.findOne({_id:media.albumID});
+				if(album==undefined) meta;
 			
 			if(media.domain=='youtube.com')
 				meta += '<meta property="og:image" 		content="http://i1.ytimg.com/vi/'+media.mID+'/hqdefault.jpg"/>';
@@ -31,6 +30,8 @@ Meteor.headly.config({tagsForRequest: function(req) {
 				case "a" :
 					var _albumID = parts[2].substring( parts[2].lastIndexOf(".")+1,parts[2].length);
 					var _album = Album.findOne({_id:_albumID});
+					
+						if(album==undefined) meta;
 					
 					console.log("--- get albumID",_albumID,_album.genre,_album.title);
 					

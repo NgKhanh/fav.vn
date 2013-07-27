@@ -10,8 +10,11 @@ Template.chatInput.events = {
 			
 			//console.log("submit chat ",$(e.currentTarget).val(), $(e.currentTarget).val()=="");
 			// send content to chat
-			if($(e.currentTarget).val()!=""){
-				Meteor.call("chat", $(e.currentTarget).val() , Session.get("currentRoom"), Session.get("currentSong"), function(err, res){
+			var chatMsg = $(e.currentTarget).val();
+				chatMsg = emoticonEncode(chatMsg);
+				
+			if(chatMsg!=""){
+				Meteor.call("chat", chatMsg , Session.get("currentRoom"), Session.get("currentSong"), function(err, res){
 					if(res){
 						// chat thanh cong
 						//console.log("Chat ok", res);								
@@ -40,7 +43,7 @@ Template.oldchat.data=function(){
 	
 	if(_arr.length < 1) return [];	
 	var _chat = _arr[0];	
-		_chat.message = emoticon(_chat.message);
+		_chat.message = emoticonDecode(String(_chat.message));
 		_chat.old=true;
 		
 	var _listChat=[];
@@ -48,7 +51,7 @@ Template.oldchat.data=function(){
 		
 	for(var i = 1;i<_arr.length;i++){
 		_chat = _arr[i];		
-		_chat.message = emoticon(_chat.message);
+		_chat.message = emoticonDecode(String(_chat.message));
 		_chat.old=true;
 		
 		if(_chat.owner.username == _listChat[_listChat.length-1].owner.username){
@@ -80,7 +83,7 @@ Template.messageChat.created=function(){
 		
 		this.data.timeAgo = new Date(this.data.createTime);
 		if(!this.data.old){			
-			this.data.message = emoticon(this.data.message);
+			this.data.message = emoticonDecode(this.data.message);
 			this.data.timeAgo = this.data.timeAgo.getHours()+':' + this.data.timeAgo.getMinutes();
 		}else{			
 			this.data.timeAgo = this.data.timeAgo.getHours()+':' + this.data.timeAgo.getMinutes() + ' - ' + this.data.timeAgo.getDate() +'/'+this.data.timeAgo.getMonth()+'/'+this.data.timeAgo.getFullYear();
