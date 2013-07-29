@@ -11,10 +11,10 @@ Meteor.headly.config({tagsForRequest: function(req) {
 		// re turn custome
 		if(parts[3] && parts[3]!='' && parts[1]=="a"){
 			var media = Song.findOne({_id:parts[3]}); 
-				if(media==undefined) meta;
+				if(media==undefined) return meta;
 				
 			var album = Album.findOne({_id:media.albumID});
-				if(album==undefined) meta;
+				if(album==undefined) return meta;
 			
 			if(media.domain=='youtube.com')
 				meta += '<meta property="og:image" 		content="http://i1.ytimg.com/vi/'+media.mID+'/hqdefault.jpg"/>';
@@ -31,9 +31,7 @@ Meteor.headly.config({tagsForRequest: function(req) {
 					var _albumID = parts[2].substring( parts[2].lastIndexOf(".")+1,parts[2].length);
 					var _album = Album.findOne({_id:_albumID});
 					
-						if(_album==undefined) meta;
-					
-					console.log("--- get albumID",_albumID,_album.genre,_album.title);
+						if(_album==undefined) return meta;
 					
 					meta += '<meta property="og:url" 		content="http://fav.vn/a/'+parts[2]+'" />';
 					meta += '<meta property="og:image" 		content="http://fav.vn'+getCoverAlbum(_album.genre)+'"/>';
@@ -409,7 +407,25 @@ Meteor.startup(function(){
 			return data;
 		}
 		
-		
+		,changeCurrentMedia:function(roomID,nextSongID){
+			
+			if(nextSongID==null || nextSongID==undefined) return false;
+			
+			// Kiểm tra để chắc chắn user đăng nhập và đang trong phòng
+			if(Meteor.userId()==undefined || Meteor.user().currentRoom=='') return false;
+			
+			var album = Album.findOne({_id:roomID});
+			
+			// Kiểm tra để chắc chắn user là admin
+			if(Meteor.user().username!=album.owner.username) return false;
+			
+						// Nếu thỏa mãn các điều kiện > active bài hát mới
+			Album.update({_id:roomID},{$set:{currentSong:nextSongID}});
+			
+			console.log(Meteor.user().username, "Update new song ---> ",nextSongID);
+			
+			return nextSongID;
+		}
 		
 		,chat:function(_message,_roomID, _objectID){
 			//var user = ["KhacThanh","KhanhNguyen","BaTung","LeY","LeNhu","KhoaDo","ThienNguyen"];

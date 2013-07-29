@@ -49,6 +49,17 @@ Template.playlistInfo.info=function(){
 		_album.isAdmin   	= Session.get("isAdmin");		
 		_album.url   		= AbsoluteUrl() + "a/"+title2Alias(_album.title) +"."+_album._id;
 		
+		if(_album.currentSong==undefined)_album.currentSong='';
+		Session.set('currentSong',_album.currentSong);
+		
+		console.log('--->Update bài hát mới cho tất cả user',Session.get('currentSong'));
+		
+		if(Session.get('currentSong')!=''){
+			playActiveSong();
+			
+		}
+		
+		
 	return _album;
 }
 
@@ -57,14 +68,13 @@ Template.playlistInfo.created=function(){
 }
 
 Template.playlistInfo.rendered=function(){
-	if(Session.get("currentRoom")=="")return null;
-	var _album 		=  Album.findOne({_id:Session.get("currentRoom")});	
-		_album.url  = AbsoluteUrl() + "a/"+title2Alias(_album.title) +"."+_album._id;  
-		
+	if(Session.get("currentRoom")=="" || this.data==undefined)return false;
+	
+	var _url = this.data.url;
 	setTimeout(function(){
 		var fbLikeDiv = $("#fbLike");	
 			fbLikeDiv.html('');
-			fbLikeDiv.html('<div class="fb-like" data-href="'+_album.url+'" data-send="true" data-layout="button_count" data-width="100" data-show-faces="false"></div>');
+			fbLikeDiv.html('<div class="fb-like" data-href="'+_url+'" data-send="true" data-layout="button_count" data-width="100" data-show-faces="false"></div>');
 			if(FB)FB.XFBML.parse(fbLikeDiv[0]); 
 	},1000);
 }
@@ -196,12 +206,18 @@ Template.playlistItem.events = {
 				}
 			}else{			
 				// Nếu không có id > chưa active bài hát
-				console.log('--------> current song',$(e.currentTarget).attr("id"));
+				//console.log('--------> update current Song to server',$(e.currentTarget).attr("id"));
 				if($(e.currentTarget).attr("id")==undefined)return false;
 				
-				Session.set("currentSong", $(e.currentTarget).attr("id"));
+				// When user select bài hát > gọi xuống server để update
+				
+				/*Session.set("currentSong", $(e.currentTarget).attr("id"));
 				Session.set('currentSongSource',$(e.currentTarget).attr("data-source"));
-				playActiveSong();
+				playActiveSong();*/
+				
+				Meteor.call('changeCurrentMedia',Session.get('currentRoom'),$(e.currentTarget).attr("id"),function(err,res){
+					console.log('---->changeSong success',err,res);						
+				})	
 			}	
 		}		
 	}

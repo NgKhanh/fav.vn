@@ -171,8 +171,6 @@ userJoinRoom=function(_albumID){
 		Session.set('currentRoom',_albumID);		
 		//Session.set('reviewRoom','');
 		
-		playActiveSong();
-		
 	}	
 	
 }

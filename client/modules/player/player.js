@@ -43,12 +43,17 @@ var _youtube_video_id='';
 var _currentMedia;
 
 playSong=function(mediaID){	
+
 	if(_currentMedia==mediaID)return false;
 	
 	_currentMedia = mediaID;
 	// check video || mp3
 	
 	var media = Song.findOne({_id:mediaID});
+	
+	if(!media)return false;
+	
+	console.log("play song on", media);
 	
 	if(media.domain=='youtube.com'){
 		// playvideo 		
@@ -94,7 +99,7 @@ playSong=function(mediaID){
 	// reset url 
 	var url = "a/"+title2Alias(album.title)+"."+album._id+"/"+media._id;
 	
-	console.log('reset url -------------->', url);
+	//console.log('reset url -------------->', url);
 	
 	Router.navigate(url); 
 }
@@ -109,17 +114,19 @@ nextSong = function(){
 	
 	var listSong = Song.find({albumID:Session.get('currentRoom'),ignore : { $ne: true}},{$sort:{createTime:-1}}).fetch();
 	
-	if(next==listSong.length || next==undefined)	
+	if(next==listSong.length || next==undefined || next==NaN)	
 		next = 0;	
 	
 	var song = listSong[next];	
 	
+	
 	console.log(" ---> end song >> next", next);
 	
-	Session.set("currentSong", song._id);
-	Session.set('currentSongSource', song.source);
-	
-	playActiveSong();
+	/*Session.set("currentSong", song._id);
+	Session.set('currentSongSource', song.source);*/
+
+		
+	playActiveSong(song._id);
 }
 
 activePlaylistItem=function(){
@@ -134,10 +141,10 @@ activePlaylistItem=function(){
 }
 
 playActiveSong = function(){
-	if(Session.get('currentSong')=='')		
-		nextSong();
-	else{
-		activePlaylistItem();	
-		playSong(Session.get('currentSong'));
-	}
+	
+	// Kiểm tra Admin > chỉ có Admin mới cho phép thay đổi bài hát
+	//if(Session.get('isAdmin')==false) return;
+	
+	activePlaylistItem();	
+	playSong(Session.get('currentSong'));		
 }
