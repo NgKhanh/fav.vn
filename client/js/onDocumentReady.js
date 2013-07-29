@@ -140,7 +140,7 @@ userJoinRoom=function(_albumID){
 	if(_albumID!='' && _albumID==Session.get('currentRoom')){return false;}
 		
 	if(Meteor.userId()){		
-		Meteor.call('userJoinRoom',_albumID,function(err,res){
+		Meteor.call('ImJoinRoom',_albumID,function(err,res){
 			console.log(Meteor.user().profile.name, "login room");			
 		});
 	}else{
@@ -154,8 +154,12 @@ userJoinRoom=function(_albumID){
 			_album.timeAgo = timeAgo(_album.createTime);
 		
 		// admin room ?		
-		if(Meteor.userId() && Meteor.user().profile.username==_album.owner.username)
-			Session.set("isAdmin",true);
+		if(Meteor.userId() && Meteor.user().profile.username==_album.owner.username){	
+			// đổi quyền chủ phòng lại cho user này > update server để thông báo cho những người khác
+			Meteor.call("updateAdminRoom",_albumID,function(err,res){
+				Session.set("isAdmin",true);				
+			});
+		}
 		else 
 			Session.set("isAdmin",false);
 		
@@ -189,7 +193,7 @@ openReview=function(_albumID){
 			Meteor.subscribe('OneAlbum', _albumID, function () {			
 				Session.set('reviewRoom',_albumID);		
 			})
-		}	
+		}
 	}
 }
 
@@ -216,20 +220,6 @@ returnHome = function(){
 	
 	if(Session.get('reviewRoom')!=Session.get('currentRoom'))
 		Session.set('reviewRoom',Session.get('currentRoom'));
-}
-
-userExitRoom=function(){
-	if(Meteor.userId()){
-		Meteor.call('userExitRoom',Session.get('currentRoom'),function(err,res){
-			console.log(Meteor.user().profile.name, "exit room");
-		});
-	}	
-	
-}
-
-onPrepareExitApp=function(){
-	returnHome();
-	userExitRoom();
 }
 
 notiSound = function() {

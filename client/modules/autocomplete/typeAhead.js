@@ -140,6 +140,7 @@ initTypeAHead=function(){
 			Meteor.call("addSongToPlaylist",_song,Session.get("currentRoom"),function(err,res){
 				if(res){
 					console.log(">> addSongToPlaylist success");
+					$('#searchInput').val('');
 				}
 			});
 			

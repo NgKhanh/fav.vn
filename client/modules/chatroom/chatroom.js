@@ -117,14 +117,13 @@ Template.messageChat.rendered=function(){
 				$.titleAlert(this.data.owner.name + ' vừa chát');
 			}			
 			// add sound
-			if(this.data.owner.username!="SYS" && inRoom==false)notiSound();			
+			if(this.data.owner.username!="SYS" && onRoom==false)notiSound();			
 			
 			// show notification
 			$("#notification").show();
 			
 		}
-		
-		$("#"+this.data._id +" .thumbnail").popover({"content":'<a class="largeAvatar" href="https://www.facebook.com/'+this.data.owner.username+'" target="_blank"><img src="https://graph.facebook.com/'+this.data.owner.username+'/picture?type=large" />'+this.data.owner.name+'</a><small class="userAction"><a href="#"> + Block<a><a href=""> + Kích khỏi phòng</a></small>',"html":true,'contaier':'body','trigger':'click'});
+		$("#"+this.data._id +" .thumbnail").clickover({"content":'<a class="largeAvatar" href="https://www.facebook.com/'+this.data.owner.username+'" target="_blank"><img src="https://graph.facebook.com/'+this.data.owner.username+'/picture?type=large" />'+this.data.owner.name+'</a><small class="userAction"><a href="#"> + Block<a><a href=""> + Kích khỏi phòng</a></small>','html':true});
 	}
 }
 

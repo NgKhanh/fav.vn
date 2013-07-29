@@ -24,3 +24,5 @@ Message = {};
 		roomID 		:String ID
 		createTime	:Date.now();
 */
+
+UserSession = new Meteor.Collection('userSession');

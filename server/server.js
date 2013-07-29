@@ -55,15 +55,78 @@ Meteor.headly.config({tagsForRequest: function(req) {
 
 Meteor.publish("Album", function (_step) { 
 	// thêm 1 user online
-	if(this.userId){
-		console.log(this.userId, " --> login");
-	}else{
-		console.log( " --> one user go in site");
+	if(!this.userId){		
+		console.log(this.userId, " --> login",this._session.socket._session.session_id);
 	}
+	
+	this._session.socket.on("connection", function() {
+		console.log("###################### SOCKET CONNECTION #############################");
+		//console.log('---->',this._session);	
+		//console.log('---->',this.meteor_session.userId );
+		//console.log("##################### END SOCKET ON ###########################");
+		
+	});
+	
+	
 	// 1 user out 
 	this._session.socket.on("close", function() {
-		//console.log("One user out", this);
-		console.log("One user out");
+		/**
+			1. Lấy và lưu lại thông tin user dựa vào socket sessionID
+			2. Remove record chứa thông tin user dựa trên socket sessionID
+			3. Delay 3s : trong khoảng thời gian này nếu user vào lại > sẽ được cấp sessionID mới
+			4. Sau 3s sẽ kiểm tra lại record chứa thông tin user
+				> nếu tìm thấy nghĩa là user đã trở lại
+				> Nếu không tìm thấy > user đã thoát hẳn khỏi ứng dụng
+			
+		*/
+		
+		var sessionID = this._session.session_id;
+		
+		Fiber(function() {				
+			//remove this record			
+			var uSid = UserSession.findOne({sID:sessionID});
+			
+			console.log("###################### SOCKET CLOSE ############################# ->",uSid);
+		
+			if(uSid){				
+				UserSession.remove({sID:sessionID});					
+				Meteor.setTimeout(function(){
+					var newSid = UserSession.findOne({userId:uSid.userId});					
+							
+					if(newSid){
+						// User vẫn tồn tại >> user đã vào lại chỉ trong 3s, chắc là reFresh
+						console.log("User co id", newSid.userId, 'vua fresh');
+					}else{						
+						
+						var _user = Meteor.users().findOne({_id:uSid});
+						// Nếu ko tìm thấy thông tin mới>  chắc là user đã out luôn rồi > do something else
+						console.log(_user.profile.username, '---> vua out khoi ung dung');
+						
+						/** 
+							1.Set lại currentRoom của phòng này là rỗng
+							2.Kiểm tra xem user này phải chủ phòng nào hay không
+							2.Tìm user vào phòng này lâu nhất > set Admin cho nó
+						
+						*/
+						
+						var _currentRoom = _user.currentRoom;
+						
+						if(_currentRoom!=''){
+							// set currentRoom = rỗng
+							Meteor.users().update({_id:_user.userId},{$set:{currentRoom:''}});						
+							
+							// Tìm user vào phòng lâu nhất							
+							var newAdmin = Meteor.findOne({currentRoom:_currentRoom})
+							
+							// Nếu tìm ra newAdmin >> set cho nó 
+							if(newAdmin)Meteor.call('setAdminRoom', _currentRoom);
+							
+						}
+					}	
+				},3000);		
+			}			
+		}).run(); 	
+		
 	});
 	
 	return [	Album.find({policy:0},{sort:{createTime:-1},limit:_step})
@@ -71,7 +134,23 @@ Meteor.publish("Album", function (_step) {
 			]
 });
 
-Meteor.publish("myAlbum", function (_username) { 	
+
+Meteor.publish("myAlbum", function (_username) { 
+	
+	var sessionID = this._session.socket._session.session_id
+	var uSid = UserSession.findOne({userId:this.userId});
+	
+	console.log("###################### LOGIN #############################",this.userId," > sessionID >" ,sessionID);
+		
+	if(uSid){
+		// Nếu user đã tồn tại > trường hợp mở tab mới > không thêm record nữa, cũng ko đếm để tăng user
+		// Hoặc có thể close connection cũ > chỉ active 1 tab mới mà thôi
+	}else{
+		// Nếu chưa tồn tại >> vừa trở vào App > add thông tin vào DB
+		console.log("add User to UserSession as Dictionnay");
+		UserSession.insert({sID:sessionID, userId:this.userId});
+	}
+	
 	return Album.find({"owner.username":_username},{sort:{createTime:-1}});	
 });
 
@@ -94,6 +173,8 @@ Meteor.startup(function(){
 	/*Album.remove({});
 	Song.remove({});
 	Message.remove({});*/
+	
+	UserSession.remove({});
 	
 	//__meteor_runtime_config__.ROOT_URL = "http://fav.vn";
 	
@@ -127,15 +208,20 @@ Meteor.startup(function(){
 			return Date.now();
 		}
 			
-		,userJoinRoom:function(roomID){		
+		,ImJoinRoom:function(roomID){		
 			if(Meteor.userId()){
 				
 				// Kiểm tra phòng hiện tại > thông báo thoát khỏi phòng
 				if(Meteor.user().currentRoom!=""){
+					
+					//TODO: Set lại admin cho user khác
+					
 					Meteor.call("sysMsg", Meteor.user().profile.name + ' ra khỏi phòng' , Meteor.user().currentRoom);
 				}
 				// Update phòng mới
-				Meteor.users.update({_id:Meteor.userId()},{$set:{currentRoom:roomID}});				
+				Meteor.users.update({_id:Meteor.userId()},{$set:{currentRoom:roomID}});	
+				
+				//TODO: Kiểm tra nếu là tôi Owner của phòng > set lại Admin
 			}
 			
 			var _sysMsg = '';
@@ -153,6 +239,33 @@ Meteor.startup(function(){
 			if(Meteor.userId())	_sysMsg = Meteor.user().profile.name + ' ra khỏi phòng';
 			else 				_sysMsg = 'Có một khách không biết tên vừa ra khỏi phòng';			
 			Meteor.call("sysMsg", _sysMsg , roomID);
+			
+			//TODO: Kiểm tra nếu là Owner của phòng > set quyền Admin cho người khác
+		}
+		
+		,adminMyRoom:function(){
+			if(Meteor.userId()){
+				// find albumID
+				var _album = Album.findOne({_id:roomID});
+				if(_album && _album.owner.username==Meteor.user().username){
+					// Nếu là album tôi tạo ra >> xác thực admin
+					Album.update({_id:roomID},{$set:{admin:{username:Meteor.user().username,name:Meteor.user().profile.name}}});
+				}
+			}
+		}
+		
+		,setAdminRoom:function(roomID){
+			//TODO: Tìm tất cả user trong phòng này. đứa vào vào lâu nhất > set Admin cho nó
+			
+			
+			/*if(Meteor.userId() && Meteor.user().currentRoom!=''){				
+				// find albumID
+				var _album = Album.findOne({_id:Meteor.user().currentRoom});
+				if(_album){
+					// Nếu là album tôi tạo ra >> xác thực admin
+					Album.update({_id:roomID},{$set:{admin:{username:Meteor.user().username,name:Meteor.user().profile.name}}});
+				}
+			}*/
 		}
 
 		,createAlbum:function(_album){
@@ -161,6 +274,7 @@ Meteor.startup(function(){
 										title 		: _album.title
 										,genre 		: _album.genre
 										,owner 		:  {"name":Meteor.user().profile.name,"username":Meteor.user().username,"avatar":Meteor.user().profile.picture}
+										,admin 		:  {"name":Meteor.user().profile.name,"username":Meteor.user().username,"avatar":Meteor.user().profile.picture}
 										,policy		: _album.policy
 										,cover		: _album.cover
 										,createTime : Date.now()
