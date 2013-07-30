@@ -452,17 +452,12 @@ Meteor.startup(function(){
 						,message 	: _messageID
 						,roomID 	: _roomID
 						,createTime : Date.now()
-			})
+			});
 		}
 
-	})
+	});
 
-})
-
-
-
-
-
+});
 
 getCoverAlbum = function(_genre){
 	_genre = title2Alias(_genre);
@@ -510,7 +505,7 @@ getCoverAlbum = function(_genre){
 			return "/covers/cover.jpg";break;
 		
 	}
-}
+};
 
 
 
