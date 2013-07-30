@@ -1,4 +1,4 @@
-FAV.VN - FAVorite music network (FA Vietnam Network)
+Favorite music network (FA Vietnam Network)
 =========
 
 ### Version 0.1
@@ -8,3 +8,4 @@ FAV.VN - FAVorite music network (FA Vietnam Network)
 3. Add url bài hát vào mỗi playlist
 4. Chat notification 
 5. Hiển thị playlist bên trái, chat bên phải
+See our in action [FAV.VN](fav.vn)
