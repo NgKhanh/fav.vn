@@ -70,7 +70,7 @@ Template.realtimeChat.data=function(){
 }
 
 Template.realtimeChat.rendered=function(){	
-	console.log("-----------> RealtimeChat rendered");
+	//console.log("-----------> RealtimeChat rendered");
 	$('#chatlist').slimScroll({	
 		height:$('#chatlist').height()+'px',		
 		scrollTo:$("#chatContent").height() + 'px'

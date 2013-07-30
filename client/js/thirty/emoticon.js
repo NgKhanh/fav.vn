@@ -83,7 +83,7 @@ emoticonEncode = function(selfTxt){
 	
 }
 
-emoticonDecode=function(selfTxt){ console.log('--->', selfTxt);
+emoticonDecode=function(selfTxt){
 	// remove all html tag
 	selfTxt = selfTxt.safeString();
 	

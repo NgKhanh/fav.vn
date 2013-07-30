@@ -53,7 +53,7 @@ playSong=function(mediaID){
 	
 	if(!media)return false;
 	
-	console.log("play song on", media);
+	//console.log("play song on", media);
 	
 	if(media.domain=='youtube.com'){
 		// playvideo 		
@@ -126,7 +126,7 @@ nextSong = function(){
 	Session.set('currentSongSource', song.source);*/
 
 		
-	playActiveSong(song._id);
+	playCurrentSong(song._id);
 }
 
 activePlaylistItem=function(){
@@ -140,10 +140,9 @@ activePlaylistItem=function(){
 	});
 }
 
-playActiveSong = function(){
+playCurrentSong = function(){
 	
-	// Kiểm tra Admin > chỉ có Admin mới cho phép thay đổi bài hát
-	//if(Session.get('isAdmin')==false) return;
+	console.log("--->Play current Song", Session.get('currentSong'));
 	
 	activePlaylistItem();	
 	playSong(Session.get('currentSong'));		

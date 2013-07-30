@@ -137,11 +137,9 @@ initTypeAHead=function(){
 				// Nếu album riêng tư > cho phép tự do add bài hát
 				if(album.policy==1)_song.ignore==false;
 			
-			Meteor.call("addSongToPlaylist",_song,Session.get("currentRoom"),function(err,res){
-				if(res){
-					console.log(">> addSongToPlaylist success");
-					$('#searchInput').val('');
-				}
+			Meteor.call("addSongToPlaylist",_song,Session.get("currentRoom"),function(err,res){				
+				console.log(">> addSongToPlaylist success");
+				$('#searchInput').val('');				
 			});
 			
 			return _song.title + " - "+ _song.artist;

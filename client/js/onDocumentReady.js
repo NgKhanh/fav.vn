@@ -115,64 +115,44 @@ appendAlbumList =function(){
 
 gotoAlbum = function(_albumID){
 		
-	//userJoinRoom(_albumID);
+	// Nếu trở lại phòng hiện tại > Không cần là subscribe, chỉ cần hiện lại phòng
+	if(_albumID!='' && _albumID==Session.get('currentRoom')){		
+		returnRoom();
+		return false;
+	}		
 	
 	
+	// Kiểm tra xem phòng này đã được subscribe chưa
 	if(Song.find({albumID:_albumID}).count()>0 ||  Message.find({roomID:_albumID}).count()>0){
-		userJoinRoom(_albumID);
-	}else{		
+		ImJoinRoom(_albumID);
+	}else{	
+		// Nếu chưa thì bắt đầu subscribe
 		Meteor.subscribe('OneAlbum', _albumID, function () {
-			userJoinRoom(_albumID);
+			ImJoinRoom(_albumID);
 		})
-	}
-	
+	}	
 }
 
-userJoinRoom=function(_albumID){
-
-	onRoom = true;
+ImJoinRoom=function(_albumID){
 	
-	// show Room				
-	$("#page2").transition({y:0},function(){$("#page2").css('transform','none')});
-	$("#page1").transition({y:0});
-	$("#Nav").transition({x:0});
+	var _album =  Album.findOne({_id: _albumID});
 	
-	if(_albumID!='' && _albumID==Session.get('currentRoom')){return false;}
+	// Nếu không tìm thấy phòng này > báo lỗi
+	if(_album==undefined){
+		console.error("Không tìm thấy phòng này");
+		return false;
+	}
 		
-	if(Meteor.userId()){		
-		Meteor.call('ImJoinRoom',_albumID,function(err,res){
-			console.log(Meteor.user().profile.name, "login room");			
-		});
-	}else{
-		console.log('Update mot guest vao list user room');
-	}	
-		
-	if(_albumID!='' && _albumID!=Session.get('currentRoom')){
-		
-		var _album =  Album.findOne({_id: _albumID});
-			_album.alias   = AbsoluteUrl() + "a/"+title2Alias(_album.title) +"."+_album._id;    
-			_album.timeAgo = timeAgo(_album.createTime);
-		
-		// admin room ?		
-		if(Meteor.userId() && Meteor.user().profile.username==_album.owner.username){	
-			// đổi quyền chủ phòng lại cho user này > update server để thông báo cho những người khác
-			Meteor.call("updateAdminRoom",_albumID,function(err,res){
-				Session.set("isAdmin",true);				
-			});
-		}
-		else 
-			Session.set("isAdmin",false);
-		
-		
-		// vao phong chat khac;		
-		// xoa het noi dung trong phong chat
-		$('#chatlist #realtimeChat li').remove();		
-		// current Room
+	Meteor.call('ImJoinRoom',_albumID,function(err,res){		
+		// Update currentRoom
 		Session.set('currentRoom',_albumID);		
-		//Session.set('reviewRoom','');
 		
-	}	
-	
+		// Xóa hết nội dung phòng chat để cập nhật mới
+		$('#chatlist #realtimeChat li').remove();	
+				
+		returnRoom();
+		
+	});	
 }
 
 openReview=function(_albumID){
@@ -208,7 +188,17 @@ parseMp3Source = function(_id, _domain){
 	return arr[ran];
 }
 
-
+returnRoom=function(){
+	// show Room				
+	$("#page2").transition({y:0},function(){$("#page2").css('transform','none')});
+	$("#page1").transition({y:0});
+	$("#Nav").transition({x:0});
+	
+	// Vào phòng
+	onRoom = true;
+	
+	console.log(Meteor.user().profile.name, "login room");
+}
 
 returnHome = function(){
 	onRoom = false;

@@ -1,7 +1,7 @@
 Accounts.onCreateUser(function(options, user) {
 
 	////////////////////////////////////////////////
-	var _profile = {};
+	var _profile ={}
 
 	var _service = user.services.google;
 
@@ -22,7 +22,7 @@ Accounts.onCreateUser(function(options, user) {
 		_profile.gender 	= _service.gender;
 		_profile.locale 	= _service.locale;
 
-	user.role 		= "";
+	user.role 		= ""
 	user.username 	= _profile.username;
 	user.profile 	= _profile;
 	user.currentRoom= "";
@@ -43,7 +43,7 @@ getUserFromFacebook = function(options,user){
 
 	var result = Meteor.http.get("https://graph.facebook.com/me",{ 
 					params:{ access_token:accessToken}
-				});
+				})
 
 	if(result.error)
   		throw result.error;
@@ -52,4 +52,4 @@ getUserFromFacebook = function(options,user){
   	user.profile = result.data;
 
 	return user ;
-};
+}
