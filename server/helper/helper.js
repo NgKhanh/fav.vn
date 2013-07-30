@@ -1,8 +1,7 @@
 title2Alias = function (s) {
-  if (typeof s == "undefined")  return;
+  if (typeof s === undefined)  return;
  
-  var i=0,arr;
-  var newclean=s;
+  var i = 0, arr, newclean = s;
   
   arr = ["à","á","ạ","ả","ã","â","ầ","ấ","ậ","ẩ","ẫ","ă","ằ","ắ","ặ","ẳ","ẵ","À","Á","Ạ","Ả","Ã","Â","Ầ","Ấ","Ậ","Ẩ","Ẫ","Ă","Ằ","Ắ","Ặ","Ẳ","Ẵ","A"];
   for (i=0; i<arr.length; i++) newclean = newclean.replace(arr[i],'a');
@@ -28,10 +27,7 @@ title2Alias = function (s) {
   /* arr = [".","=",")","(","|","!","~",">","<",":","!","^","%","#","*","&","+"]; 
   for (i=0; i<arr.length; i++) newclean = newclean.replace(arr[i],''); */
   
-  newclean = newclean.replace(/\./g,'');
-  
-  newclean = newclean.toLowerCase()
-  ret = newclean.replace(/[\&]/g, '-and-').replace(/[^a-zA-Z0-9._-]/g, '-').replace(/[-]+/g, '-').replace(/-$/, '');
- 
-  return ret;
-} 
+  return newclean.replace(/\./g,'').newclean.toLowerCase().newclean.replace(/[\&]/g, '-and-').replace(/[^a-zA-Z0-9._-]/g, '-').replace(/[-]+/g, '-').replace(/-$/, '');
+};
+//end 
+//file server/helper/helper.js
