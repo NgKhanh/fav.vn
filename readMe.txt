@@ -1,4 +1,4 @@
-Favorite music network
+FAV.VN - FAVorite music network
 =========
 
 *** Version 0.1
