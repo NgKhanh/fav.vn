@@ -9,4 +9,4 @@ Your favorite (f) music, video in the list
 5. Hiển thị playlist bên trái, chat bên phải
 
 =========
-> FAV also means `FA Vietnam`, so would you like to see our work in action? Let's go: [FAV.VN](http://fav.vn)
+> **FAV** also means `FA Vietnam`. Would you like to see our work in action? Let's go to the *favorite* list [FAV.VN](http://fav.vn)
