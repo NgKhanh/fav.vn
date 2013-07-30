@@ -10,4 +10,4 @@ Favorite music network
 5. Hiển thị playlist bên trái, chat bên phải
 
 =========
-FAV also means "FA Vietnam Network", so would you like to see our work in action? Go ---> [FAV.VN](fav.vn)
+FAV also means "FA Vietnam Network", so would you like to see our work in action? Let's go: [FAV.VN](http://fav.vn)
