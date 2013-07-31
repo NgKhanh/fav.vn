@@ -143,6 +143,7 @@ activePlaylistItem=function(){
 }
 
 changeSong=function(songID){	
+	// Hàm này chỉ cho Admin sử dụng
 	if(songID==undefined || songID==''){
 		console.warn('Song not found!');
 		return;
@@ -164,7 +165,7 @@ changeSong=function(songID){
 }
 
 playCurrentSong = function(){
-	
+	// Hàm này để play song khi thay đổi bài hát
 	console.log("--->Play current Song", Session.get('currentSong'));
 	
 	activePlaylistItem();	
