@@ -183,7 +183,7 @@ Template.playlistItem.events = {
 			playCurrentSong();
 		}else{
 			if(!Session.get("isAdmin")){
-				console.error('Bạn không được quyền làm thao tác này!');
+				console.error('Have not permission to do action!');
 				return false;
 			}
 			
@@ -202,12 +202,12 @@ Template.playlistItem.events = {
 				if($(e.currentTarget).attr("id")==undefined)return false;
 				
 				// Chỉ cho phép Admin thay đổi bài hát
-				if(Session.get('isAdmin')){
+				if(Session.get('isAdmin')==true && $(e.currentTarget).attr("id")!=Session.get('currentSong')){
 					Meteor.call('changeCurrentMedia',Session.get('currentRoom'),$(e.currentTarget).attr("id"),function(err,res){
-						console.log('---->changeSong success',err,res);						
+						//console.log('---->changeSong success',err,res);						
 					})	
 				}else{
-					console.error('Bạn không được quyền play bài hát')
+					console.error('Have not permission to do action!');
 				}
 			}	
 		}		

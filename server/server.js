@@ -53,9 +53,9 @@ Meteor.headly.config({tagsForRequest: function(req) {
 
 Meteor.publish("Album", function (_step) { 
 	// thêm 1 user online
-	if(!this.userId){		
-		console.log(this.userId, " --> login",this._session.socket._session.session_id);
-	}
+	/*if(this.userId){		
+		console.log(this.userId, " --> login",this._session.socket.id);
+	}*/
 	
 	this._session.socket.on("connection", function() {
 		console.log("###################### SOCKET CONNECTION #############################");
@@ -78,27 +78,35 @@ Meteor.publish("Album", function (_step) {
 			
 		*/
 		
-		var sessionID = this._session.session_id;
+		var socketID = this.id;
 		
 		Fiber(function() {				
-			//remove this record			
-			var uSid = UserSession.findOne({sID:sessionID});
+			// GET userId in connection list
+			var uSid = UserSession.findOne({sID:socketID});
 			
-			console.log("###################### SOCKET CLOSE ############################# ->",uSid);
+			console.log('');
+			console.log(">>>>>>>> SOCKET CLOSE :",uSid);
+			console.log('');
 		
 			if(uSid){				
-				UserSession.remove({sID:sessionID});					
+				//remove this record		
+				UserSession.remove({sID:socketID});					
 				Meteor.setTimeout(function(){
+					
+					// Lấy toàn bộ thông tin của user dựa trên userId
+					var user = Meteor.users.findOne({_id:uSid.userId});					
+					
+					// Sau 3s kiểm tra lại thông tin user trong danh sách kết nối > Nếu vẫn tồn tại > user vừa vào trở lại
 					var newSid = UserSession.findOne({userId:uSid.userId});					
-							
+					
 					if(newSid){
 						// User vẫn tồn tại >> user đã vào lại chỉ trong 3s, chắc là reFresh
-						console.log("User co id", newSid.userId, 'vua fresh');
+						console.log('>>',user.username, ' --> vua fresh');
 					}else{						
 						
-						var _user = Meteor.users.findOne({_id:uSid});
+						
 						// Nếu ko tìm thấy thông tin mới>  chắc là user đã out luôn rồi > do something else
-						console.log(_user.profile.username, '---> vua out khoi ung dung');
+						console.log('>>',user.username, ' --> vua out khoi ung dung');
 						
 						/** 
 							1.Set lại currentRoom của phòng này là rỗng
@@ -107,17 +115,17 @@ Meteor.publish("Album", function (_step) {
 						
 						*/
 						
-						var _currentRoom = _user.currentRoom;
+						var _currentRoom = user.currentRoom;
 						
 						if(_currentRoom!=''){
 							// set currentRoom = rỗng
-							Meteor.users.update({_id:_user.userId},{$set:{currentRoom:''}});						
+							Meteor.users.update({_id:user._id},{$set:{currentRoom:''}});						
 							
 							// Tìm user vào phòng lâu nhất							
-							var newAdmin = Meteor.findOne({currentRoom:_currentRoom})
+							//var newAdmin = Meteor.findOne({currentRoom:_currentRoom})
 							
 							// Nếu tìm ra newAdmin >> set cho nó 
-							if(newAdmin)Meteor.call('setAdminRoom', _currentRoom);
+							//if(newAdmin)Meteor.call('setAdminRoom', _currentRoom);
 							
 						}
 					}	
@@ -135,18 +143,18 @@ Meteor.publish("Album", function (_step) {
 
 Meteor.publish("myAlbum", function (_username) { 
 	
-	var sessionID = this._session.socket._session.session_id
-	var uSid = UserSession.findOne({userId:this.userId});
+	if(_username==undefined || _username==null) return null;
 	
-	console.log("###################### LOGIN #############################",this.userId," > sessionID >" ,sessionID);
+	var uSid = UserSession.findOne({userId:this.userId});
 		
 	if(uSid){
 		// Nếu user đã tồn tại > trường hợp mở tab mới > không thêm record nữa, cũng ko đếm để tăng user
 		// Hoặc có thể close connection cũ > chỉ active 1 tab mới mà thôi
 	}else{
 		// Nếu chưa tồn tại >> vừa trở vào App > add thông tin vào DB
-		console.log("add User to UserSession as Dictionnay");
-		UserSession.insert({sID:sessionID, userId:this.userId});
+		var socketID = this._session.socket.id;
+		console.log('>> Add +'+_username+'+ to connection list with socketID:', socketID);
+		UserSession.insert({sID:socketID, userId:this.userId});
 	}
 	
 	return Album.find({"owner.username":_username},{sort:{createTime:-1}});	
@@ -202,7 +210,7 @@ Meteor.startup(function(){
 		}
 		
 		,getCurrentTime:function(){
-			console.log('GET CURRENT TIME', Date.now());
+			//console.log('GET CURRENT TIME', Date.now());
 			return Date.now();
 		}
 			
@@ -447,7 +455,7 @@ Meteor.startup(function(){
 						// Nếu thỏa mãn các điều kiện > active bài hát mới
 			Album.update({_id:roomID},{$set:{currentSong:nextSongID}});
 			
-			console.log(Meteor.user().username, "Update new song ---> ",nextSongID);
+			console.log(Meteor.user().username, "play song --> ",nextSongID);
 			
 			return nextSongID;
 		}
