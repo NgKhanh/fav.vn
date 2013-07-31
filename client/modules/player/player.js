@@ -3,6 +3,7 @@ var audio;
 var player;
 Template.player.rendered = function(){	
 	console.log("-------------------------------------------> Template.player.rendered");
+	
 	audiojs.events.ready(function() {
 		var a  = audiojs.createAll({		
 			autoplay:true,
@@ -12,6 +13,10 @@ Template.player.rendered = function(){
 				console.log("Hat xong roi"); 
 				nextSong();
 			}
+			,loadError:function(){
+				console.error("Load song error!");
+			}
+			
 		});		
 		audio = a[0];		
 	});	
@@ -165,7 +170,7 @@ changeSong=function(songID){
 }
 
 playCurrentSong = function(){
-	// Hàm này để play song khi thay đổi bài hát
+	// Hàm này để play song khi client nhận được thay đổi bài hát từ server
 	console.log("--->Play current Song", Session.get('currentSong'));
 	
 	activePlaylistItem();	

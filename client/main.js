@@ -144,6 +144,7 @@ Template.playlist.created=function(){
 Template.playlist.rendered=function(){	
 	//console.log("-------------------------> Template.playlist.rendered");	
 	$('#albumPlaylist').slimScroll({			
+		width: $('#albumPlaylist').width() +'px',
 		height: '380px',
 		position:'left',		
 		distance : '-20px',

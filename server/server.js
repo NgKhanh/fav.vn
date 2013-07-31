@@ -130,7 +130,9 @@ Meteor.publish("Album", function (_step) {
 						}
 					}	
 				},3000);		
-			}			
+			}else{
+				// Không tìm được id của user ứng với socketID này ??? tại sao?
+			}	
 		}).run(); 	
 		
 	});

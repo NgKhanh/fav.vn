@@ -302,7 +302,7 @@ ul li{list-style: none;}
 
 .albumList {
 	height:385px;
-	width:515px;
+	width:100%;
 }
 
 .albumList li{
@@ -552,7 +552,7 @@ ul li{list-style: none;}
 
 @media (max-width: 978px) {
   #MainViewport, #PageContainer, .Page{		
-		max-width: 950px;				
+		max-width: 850px;				
 		margin-bottom:0px;
 	}
 
@@ -560,7 +560,12 @@ ul li{list-style: none;}
 		width:240px;	
 	}
 	
-	#albumPlaylist {height:385px;width:460px}
+	#albumPlaylist {height:385px;width:350px}
+	
+	.Page .left {
+		float: left;
+		width: 350px;
+	}
 }
 
 @media (min-width: 979px) and (max-width: 1279px) {
