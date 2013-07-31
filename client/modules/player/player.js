@@ -118,15 +118,10 @@ nextSong = function(){
 		next = 0;	
 	
 	var song = listSong[next];	
+					
+	console.log(" ---> end song >> next", song._id);	
 	
-	
-	console.log(" ---> end song >> next", next);
-	
-	/*Session.set("currentSong", song._id);
-	Session.set('currentSongSource', song.source);*/
-
-		
-	playCurrentSong(song._id);
+	if(song)changeSong(song._id);
 }
 
 activePlaylistItem=function(){
@@ -138,6 +133,27 @@ activePlaylistItem=function(){
    				$(this).removeClass("active");
    			}
 	});
+}
+
+changeSong=function(songID){	
+	if(songID==undefined || songID==''){
+		console.warn('Song not found!');
+		return;
+	}
+	
+	if(songID==Session.get('currentSong')){
+		console.warn('This song is playing!');
+		return;
+	}
+	
+	if(Session.get('isAdmin')==false ){
+		console.error('Have not permission to do action!');
+		return;
+	}
+	
+	Meteor.call('changeCurrentMedia',Session.get('currentRoom'),songID,function(err,res){
+				
+	})
 }
 
 playCurrentSong = function(){

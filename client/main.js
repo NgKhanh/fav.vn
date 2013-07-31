@@ -198,17 +198,8 @@ Template.playlistItem.events = {
 					});
 				}
 			}else{			
-				
-				if($(e.currentTarget).attr("id")==undefined)return false;
-				
-				// Chỉ cho phép Admin thay đổi bài hát
-				if(Session.get('isAdmin')==true && $(e.currentTarget).attr("id")!=Session.get('currentSong')){
-					Meteor.call('changeCurrentMedia',Session.get('currentRoom'),$(e.currentTarget).attr("id"),function(err,res){
-						//console.log('---->changeSong success',err,res);						
-					})	
-				}else{
-					console.error('Have not permission to do action!');
-				}
+				// change song
+				changeSong($(e.currentTarget).attr("id"));
 			}	
 		}		
 	}
