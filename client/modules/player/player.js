@@ -57,35 +57,42 @@ playSong=function(mediaID){
 	
 	if(media.domain=='youtube.com'){
 		// playvideo 		
-	
-		$("#myytplayer").show();
-		$("#ytapiplayer").show();
+		_youtube_video_id = media.mID;
 		
-		$(".audiojs").hide();
-		$("#adPlayer").hide();
+		if($("#myytplayer").css('display')=='none'){
+			// Nếu đang ẩn > hiện ra
+			$("#myytplayer").show();
+			
+			// ẩn và stop audio					
+			$(".audiojs").hide();
+			$("#adPlayer").hide();
+			audio.pause();
+		}else{
+			// đang hiện > play liền
+			if(_youtube_video_id!='')player.loadVideoById(_youtube_video_id);
+		}
 		
+		// resize chat
 		$('#chatlist').height(175);	
 		$('#chatlist').parent().height(175);	
-		$('#page2 .slideBody').height(175);		
-	
-		if(audio && audio.pause)audio.pause();
-		
-		_youtube_video_id = media.mID;		
-		if(player)player.loadVideoById(_youtube_video_id);
+		$('#page2 .slideBody').height(175);	
 		
 	}else{
-		// playaudio
-		$("#myytplayer").hide();
-		$("#ytapiplayer").hide();
-		
-		$(".audiojs").show();
-		$("#adPlayer").show();		
-			
 		
 		$('#chatlist').height(310);	
 		$('#chatlist').parent().height(310);		
 		$('#page2 .slideBody').height(310);		
 		
+		if($(".audiojs").css('display')=='none'){
+			// Nếu đang ẩn > hiện ra và play
+			$(".audiojs").show();
+			$("#adPlayer").show();	
+			
+			// Ẩn player
+			$("#myytplayer").hide();	
+		}else{
+			// Nếu đang hiện > thôi
+		}
 		
 		if ( audio ) {
 			audio.load(media.source);
