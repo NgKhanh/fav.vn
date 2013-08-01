@@ -263,17 +263,43 @@ Meteor.startup(function(){
 			Meteor.call("sysMsg", _sysMsg , roomID);
 		}
 		
-		,userExitRoom:function(roomID){			
+		,userExitRoom:function(roomID){	
+			var _sysMsg = '';
+			
 			if(Meteor.userId()){
-				Meteor.users.update({_id:Meteor.userId()},{$set:{currentRoom:''}});					
+				// Nếu là user đăng nhập 
+				// 1. Xem đang ở phòng nào, có phải là Admin ko
+				//		> Nếu là Admin > live = false
+				// 2. Set currentRoom = ''
+				// 3. Update lại lượng user trong phòng đó
+				// 4. Update thông báo trong phòng đó
+				
+				
+				if(roomID!='' && Meteor.user().currentRoom==roomID){
+					var room = Album.findOne({_id:roomID});
+					if(room && room.owner.username == Meteor.user().username){
+						// là owner ra khỏi phòng > bỏ chế độ đồng bộ
+						Album.update({_id:roomID},{$set:{live:false}});
+					}
+					
+				}else{
+					console.log(Meteor.user().username,' not found in this room', roomID);
+				}				
+				
+				Meteor.users.update({_id:Meteor.userId()},{$set:{currentRoom:''}});	
+				
+				_sysMsg = Meteor.user().profile.name + ' ra khỏi phòng';
+				
+			}else{
+				// Nếu là khách vãng lai
+				// 1. Update lại user trong phòng
+				// 2. Update thông báo trong phòng
+				
+				_sysMsg = 'Có một khách không biết tên vừa ra khỏi phòng';	
 			}
 			
-			var _sysMsg = '';
-			if(Meteor.userId())	_sysMsg = Meteor.user().profile.name + ' ra khỏi phòng';
-			else 				_sysMsg = 'Có một khách không biết tên vừa ra khỏi phòng';			
-			Meteor.call("sysMsg", _sysMsg , roomID);
 			
-			//TODO: Kiểm tra nếu là Owner của phòng > set quyền Admin cho người khác
+			Meteor.call("sysMsg", _sysMsg , roomID);
 		}
 		
 		,adminMyRoom:function(){
@@ -303,26 +329,24 @@ Meteor.startup(function(){
 
 		,createAlbum:function(_album){
 			
-			var album = Album.insert({				
-										title 		: _album.title
+			var album = Album.insert({	 title 		: _album.title
 										,genre 		: _album.genre
 										,owner 		:  {"name":Meteor.user().profile.name,"username":Meteor.user().username,"avatar":Meteor.user().profile.picture}
-										,admin 		:  {"name":Meteor.user().profile.name,"username":Meteor.user().username,"avatar":Meteor.user().profile.picture}
-										,policy		: _album.policy
+										,policy		: _album.policy										
 										,cover		: _album.cover
 										,createTime : Date.now()
+										,live		: true 
 										,liked		: 0
-										,unlike		: 0			
+										,unlike		: 0	
+										,online		: 0
 										,playlist	: []
 										,numSong 	: 0
 										,currentSong : 0
 										,startSongTime:0
-										,online		: 0
-
 			})
 
-			console.log(Meteor.user().profile.name , " create album", _album.title);
-			return album;
+			console.log('>>',Meteor.user().username , ' create album' , _album.title);
+			return album._id;
 		}
 		
 		,updateAlbumCover:function(_cover,_albumID){

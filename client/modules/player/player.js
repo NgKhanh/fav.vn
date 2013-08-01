@@ -149,6 +149,10 @@ activePlaylistItem=function(){
 
 changeSong=function(songID){	
 	// Hàm này chỉ cho Admin sử dụng
+	
+	//TODO: Kiểm tra xem live is true|false
+	//TODO: Kiểm tra xem có user nào khác hay không. Nếu ko ko cần gọi server
+	
 	if(songID==undefined || songID==''){
 		console.warn('Song not found!');
 		return;
