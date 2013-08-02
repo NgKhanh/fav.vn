@@ -25,4 +25,4 @@ Message = {};
 		createTime	:Date.now();
 */
 
-UserSession = new Meteor.Collection('userSession');
+UsersConnect = new Meteor.Collection('users_connect');

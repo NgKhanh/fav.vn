@@ -1,4 +1,6 @@
 loadTopAlbumList =function(){	
+	Meteor.subscribe('OnlineUser');
+	
 	Meteor.subscribe(	'Album', loadStep,
 						function () {
 							onDocumentReady();

@@ -175,25 +175,26 @@ Template.playlistItem.events = {
 		
 		console.log("Template.playlistItem.events --> ",$(e.target).attr("class"),Session.get("isAdmin"));
 		
+		
+		
 		if(Meteor.userId()==null){
 			// Nếu không có id > chưa active bài hát
-			if($(e.currentTarget).attr("id")==undefined)return false;
-			// chưa đăng nhập > cho phép nghe tự do			
-			Session.set("currentSong", $(e.currentTarget).attr("id"));
-			Session.set('currentSongSource',$(e.currentTarget).attr("data-source"));
-			playCurrentSong();
+			if($(e.currentTarget).attr("id")==undefined)return false;		
+			changeSong($(e.currentTarget).attr("id"));
 		}else{
-			if(!Session.get("isAdmin")){
-				console.error('Have not permission to do action!');
-				return false;
-			}
 			
 			if($(e.target).attr("class")=="remove"){
-				console.log("remove song from playlist",$(e.target).attr("id"));
-				Meteor.call("removeSongFromPlaylist", $(e.target).attr("id"),Session.get("currentRoom"));
+				if(!Session.get("isAdmin")){
+					console.error('Have not permission to do remove song!');					
+				}else{
+					console.log("remove song from playlist",$(e.target).attr("id"));
+					Meteor.call("removeSongFromPlaylist", $(e.target).attr("id"),Session.get("currentRoom"));
+				}
 			
 			}else if($(e.target).attr("class")=="allow btn"){
-				if(Session.get('isAdmin')){
+				if(!Session.get("isAdmin")){
+					console.error('Have not permission to do allow song!');					
+				}else{
 					Meteor.call('allowSongToList',$(e.target).attr("id"),Session.get('currentRoom'),function(err, res){
 						console.log("allow song --> SUCCESS");
 					});
@@ -331,16 +332,16 @@ Handlebars.registerHelper('equal', function(lvalue, rvalue, options) {
 Deps.autorun(function () {
 	// Update mỗi lần trong phòng có thay đổi
 	var album = Album.findOne({_id:Session.get('currentRoom')});
-	if (album){
+	if (album && album.live){
 		
-		console.log('################## >> UPDATE ROOM DATA << ####################',album.admin);
-		
-		Session.set('currentSong', album.currentSong);
-		// start play bai hát
-		if(Session.get('currentSong')!='')playCurrentSong();
-		
+		if(album.live){
+			Session.set('currentSong', album.currentSong);
+			// start play bai hát
+			if(Session.get('currentSong')!='')playCurrentSong();
+		}
+			
 		// Set quyền Admin cho user
-		if(Meteor.user() && album.admin.username==Meteor.user().username)
+		if(Meteor.user() && album.owner.username == Meteor.user().username)
 			Session.set('isAdmin',true);
 		else 
 			Session.set('isAdmin',false);

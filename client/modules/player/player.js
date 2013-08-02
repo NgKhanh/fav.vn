@@ -150,9 +150,6 @@ activePlaylistItem=function(){
 changeSong=function(songID){	
 	// Hàm này chỉ cho Admin sử dụng
 	
-	//TODO: Kiểm tra xem live is true|false
-	//TODO: Kiểm tra xem có user nào khác hay không. Nếu ko ko cần gọi server
-	
 	if(songID==undefined || songID==''){
 		console.warn('Song not found!');
 		return;
@@ -163,20 +160,36 @@ changeSong=function(songID){
 		return;
 	}
 	
-	if(Session.get('isAdmin')==false ){
-		console.error('Have not permission to do action!');
-		return;
-	}
+	var album = Album.findOne({_id:Session.get('currentRoom')});
 	
-	Meteor.call('changeCurrentMedia',Session.get('currentRoom'),songID,function(err,res){
+	if(album){
+		//TODO: Kiểm tra xem live is true|false
+		
+		console.warn(" album is live ", album.live);
+		
+		if(album.live){
+			// Nếu live > chỉ có admin mới được play
+			if(Session.get('isAdmin')){
+				Meteor.call('changeCurrentMedia',Session.get('currentRoom'),songID,function(err,res){
+					
+				})
+			}else{
+				console.error('Have not permission to do action!');
+			}
 				
-	})
+		}else{
+			// Không ở chế độ live > nghe tự do
+			Session.set('currentSong',songID); 
+			playCurrentSong();
+		}
+	}else{
+		console.error("Album not found");
+	}
 }
 
 playCurrentSong = function(){
 	// Hàm này để play song khi client nhận được thay đổi bài hát từ server
-	console.log("--->Play current Song", Session.get('currentSong'));
-	
+	console.log("--->Play current Song", Session.get('currentSong'));	
 	activePlaylistItem();	
 	playSong(Session.get('currentSong'));		
 }
