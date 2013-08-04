@@ -152,7 +152,7 @@ userExitRoom = function(_userId, _roomID){
 				Meteor._debug('Exception: Album ' + _roomID + ' not found!');
 			}
 		}else{
-			Meteor._debug('Exception: ' + user.username + ' not in room ' + room.title);		
+			Meteor._debug('Exception: ' + user.username + ' not in room ');		
 		}
 		
 		Meteor.users.update({_id:user._id}, {$set:{currentRoom:''}});
