@@ -215,7 +215,6 @@ returnHome = function(){
 	onRoom = false;
 	$("#page2").transition({y:-$("#page2").height()});
 	$("#page1").transition({y:-$("#page1").height()});
-	$("#Nav").transition({x:-$("#Nav").width()});
 	
 	if(Session.get('reviewRoom')!=Session.get('currentRoom'))
 		Session.set('reviewRoom',Session.get('currentRoom'));

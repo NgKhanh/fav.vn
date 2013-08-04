@@ -54,7 +54,7 @@ Meteor.headly.config({tagsForRequest: function(req) {
 
 
 Meteor.publish("Album", function (_step) { 	
-	return [	Album.find({policy:0},{sort:{createTime:-1},limit:_step})
+	return [	Album.find({policy:0,numSong:{$gt:0}},{sort:{createTime:-1},limit:_step})
 				,Meteor.users.find({currentRoom:{ $ne: "" }},{fields:{username:1,profile:1,role:1,currentRoom:1}})
 			]
 });

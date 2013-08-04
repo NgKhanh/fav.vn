@@ -93,6 +93,7 @@ ul li{list-style: none;}
 	/*background:rgba(190, 66, 221, 0.4);*/
 }
 
+
 #page2{
 	background: rgba(0, 0, 0, 0.4);
 	/*-webkit-border-radius: 10px;
@@ -165,6 +166,12 @@ ul li{list-style: none;}
 
 #header #showAlbum span{	
 	font-size: 12px;	
+}
+
+#onlineNum{
+	font-size: 10px;
+	line-height: 10px;
+	position: relative;
 }
 
 #createAlbum{
@@ -316,7 +323,7 @@ ul li{list-style: none;}
 }
 
 
-#fbLike{ float: right;margin-right: 5px; width:100px;height:20px;position:relative; }
+#fbLike{ float: right;margin-right: 5px; height:20px;position:relative;}
 #songInfo #fbLike{ margin-top: -5px; }
 
 #songInfo #title{ font-size: 15px; font-weight: bold; display: inline;}
@@ -607,6 +614,14 @@ ul li{list-style: none;}
 
 .dropdown-menu li span{color:#666;}
 .dropdown-menu li:hover span, .dropdown-menu .active span{color:#fff;}
+
+
+/*##########################################################################*/
+
+#page1 .right{
+	width:330px;
+}
+
 
 
 /*##########################################################################*/

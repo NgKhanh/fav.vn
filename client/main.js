@@ -59,12 +59,16 @@ Template.playlistInfo.created=function(){
 Template.playlistInfo.rendered=function(){
 	if(Session.get("currentRoom")=="")return false;
 	
-	console.log(" --- > playlistInfo rendered",window.location.href);
+	
+	var album = Album.findOne({_id:Session.get('currentRoom')});
+		album.url = Meteor.absoluteUrl('a/') + title2Alias(album.title) + '.' + album._id; 
+		
+		console.log(" --- > playlistInfo rendered",album.url);
 		
 	setTimeout(function(){
 		var fbLikeDiv = $("#albumTitle #fbLike");	
 			fbLikeDiv.html('');
-			fbLikeDiv.html('<div class="fb-like" data-href="'+window.location.href+'" data-send="true" data-layout="button_count" data-width="100" data-show-faces="false"></div>');
+			fbLikeDiv.html('<div class="fb-like" data-href="'+ album.url +'" data-send="true" data-layout="button_count" data-width="100" data-show-faces="false"></div>');
 			if(FB)FB.XFBML.parse(fbLikeDiv[0]); 
 	},1000);
 	
