@@ -76,7 +76,3 @@ Meteor.publish("MessageAndSong", function (_roomID) {
 				,Meteor.users.find({},{fields:{username:1,profile:1,role:1,currentRoom:1}})
 			]
 });
-
-
-
-

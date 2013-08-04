@@ -3,6 +3,39 @@
  * @author khacthanh.1985@gmail.com
  */
 
+Template.addSongInput.data = function(){
+	if(Session.get('currentRoom')!=''){
+		
+		var _album =  Album.findOne({_id:Session.get("currentRoom")});	
+			_album.allow = false;
+			
+			if(Meteor.userId()==undefined){
+				// Nếu không đăng nhập > ko hiện ra luôn
+				_album.allow = false;
+				return _album;
+			}
+			
+			if(Meteor.user().username == _album.owner.username || _album.allowAddSong==true){
+				// Nếu là owner hoặc cho phép > hiện ra cho phép add
+				console.log('---------------------> allow add song');
+				_album.allow = true;
+				return _album;
+			}
+			
+		return _album;
+	}
+}
+ 
+Template.addSongInput.created=function(){		
+	console.log('Template addSongInput created');
+}
+
+Template.addSongInput.rendered=function(){
+	console.log('Template addSongInput rendered');
+	initTypeAHead();
+}
+
+
 checkURL = function(str){
 	
 	str = str.replace(".html","");
@@ -86,7 +119,7 @@ initTypeAHead=function(){
 							var data = $.parseJSON(res);						
 							var result = [];
 							
-							console.log("search complete",query,data);
+							//console.log("search complete",query,data);
 							
 							// search from j.search api
 							$.each(data, function (i, song) {
@@ -134,8 +167,8 @@ initTypeAHead=function(){
 				_song.ignore	= Session.get('isAdmin')?false:true;
 				
 			var album = Album.findOne({_id:Session.get('currentRoom')});
-				// Nếu album riêng tư > cho phép tự do add bài hát
-				if(album.policy==1)_song.ignore==false;
+				// Nếu là Admin hoặc album cho phép > active luôn khỏi duyệt
+				_song.ignore = album.allowActiveSong == true || isAdmin() == true?false:true;
 			
 			Meteor.call("addSongToPlaylist",_song,Session.get("currentRoom"),function(err,res){				
 				console.log(">> addSongToPlaylist success");
@@ -168,9 +201,9 @@ initTypeAHead=function(){
 
 		highlighter: function (item) {
 			if(map[item].artist!="")
-				return map[item].name + ' - <span>'+map[item].artist+'</span>' + '<small class="pull-right" style="color:#ddd">'+map[item].domain+'</small>';		
+				return '<span class="pull-left">' + map[item].name + ' </span><span class="pull-left">  - '+map[item].artist+'</span>' + '<small class="pull-right" style="color:#ddd">'+map[item].domain+'</small>';		
 			else 
-				return map[item].name + '<small class="pull-right" style="color:#ddd">'+map[item].domain+'</small>';			
+				return '<span class="pull-left">' + map[item].name + ' </span>  <small class="pull-right" style="color:#ddd">'+map[item].domain+'</small>';			
 		}
 	});
 

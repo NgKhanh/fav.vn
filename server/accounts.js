@@ -1,6 +1,5 @@
 Accounts.onCreateUser(function(options, user) {
 
-	////////////////////////////////////////////////
 	var _profile ={}
 
 	var _service = user.services.google;

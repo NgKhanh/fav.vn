@@ -70,7 +70,7 @@ Template.realtimeChat.data=function(){
 }
 
 Template.realtimeChat.rendered=function(){	
-	//console.log("-----------> RealtimeChat rendered");
+	console.log("-----------> RealtimeChat rendered");
 	$('#chatlist').slimScroll({	
 		height:$('#chatlist').height()+'px',		
 		scrollTo:$("#chatContent").height() + 'px'
@@ -79,7 +79,7 @@ Template.realtimeChat.rendered=function(){
 
 Template.messageChat.created=function(){
 	if(this.data){
-		//console.log("-----------> messageChat created",this.data.owner.name,this.data.owner.name!="SYS");
+		console.log("-----------> messageChat created",this.data.owner.name);
 		
 		this.data.timeAgo = new Date(this.data.createTime);
 		if(!this.data.old){			

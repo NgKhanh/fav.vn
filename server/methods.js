@@ -64,25 +64,48 @@ Meteor.startup(function(){
 		}
 		
 		,createAlbum:function(_album){
-			
-			var album = Album.insert({	 title 		: _album.title
-										,genre 		: _album.genre
-										,owner 		:  {"name":Meteor.user().profile.name,"username":Meteor.user().username,"avatar":Meteor.user().profile.picture}
-										,policy		: _album.policy										
-										,cover		: _album.cover
-										,createTime : Date.now()
-										,live		: true 
-										,liked		: 0
-										,unlike		: 0	
-										,online		: 0
-										,playlist	: []
-										,numSong 	: 0
-										,currentSong : 0
-										,startSongTime:0
+			var _allowAddSong 		= _album.policy == 0 ? false :true; // Nếu public thì ko cho phép tự thêm bài hát
+			var albumID = Album.insert({	 title 			: _album.title
+											,genre 			: _album.genre
+											,owner 			:  {"name":Meteor.user().profile.name,"username":Meteor.user().username,"avatar":Meteor.user().profile.picture}
+											,policy			: _album.policy	 	// public show		
+											,live			: true 				// play song same time
+											,allowAddSong	: _allowAddSong 	// allow user add song to playlist
+											,allowActiveSong: true 			// allow song enable
+											,liked			: 0
+											,unlike			: 0	
+											,online			: 0
+											,playlist		: []
+											,numSong 		: 0
+											,currentSong 	: 0
+											,startSongTime	:0
+											,cover			: _album.cover
+											,createTime 	: Date.now()
 			})
 
 			console.log('>>',Meteor.user().username , ' create album' , _album.title);
-			return album._id;
+			return albumID;
+		}
+		
+		,updateAlbumInfo:function(_album){
+			// Kiểm tra owner mới có quyền update
+			var album = Album.findOne({_id:_album.id});
+			if(album){				
+				if(Meteor.userId() && Meteor.user().username == album.owner.username){
+					
+					try{
+						Album.update({_id:_album.id}, {$set:{title:_album.title, policy:_album.policy, live:_album.live, allowAddSong:_album.allowAddSong, allowActiveSong : _album.allowActiveSong}});
+					
+						Meteor._debug(Meteor.user().username + " update album ", album._id);
+					
+						return album._id;
+						
+					}catch(e){
+						Meteor._debug('update album err', e);
+						return false;
+					}
+				}
+			}
 		}
 		
 		,updateAlbumCover:function(_cover,_albumID){

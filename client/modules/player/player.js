@@ -171,10 +171,10 @@ changeSong=function(songID){
 			// Nếu live > chỉ có admin mới được play
 			if(Session.get('isAdmin')){
 				Meteor.call('changeCurrentMedia',Session.get('currentRoom'),songID,function(err,res){
-					
+					console.warn("Active song", res);
 				})
 			}else{
-				console.error('Have not permission to do action!');
+				console.error('Have not permission to set active song!');
 			}
 				
 		}else{

@@ -1,0 +1,11 @@
+<template name="numOnline"> 	
+	{{#isolate}}
+		{{#with data}}
+			<div id="onlineNum" class="pull-left" style="width:150px">
+				<p>Có {{all}} người đang online</p>
+				<p> + {{mem}} thành viên</p>
+				<p> + {{guest}} khách</p>
+			</div>
+		{{/with}}
+	{{/isolate}}
+</template>		

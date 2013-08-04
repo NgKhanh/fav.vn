@@ -29,6 +29,7 @@ getMyAlbum = function(){
 										album.timeAgo 	= timeAgo(album.createTime);	
 										album.length    = album.numSong;
 										album.users		= Meteor.users.find({currentRoom:album._id}).count();
+										album.myOwn		= true;
 									return Template["albumItem"](album);
 							});	
 							
@@ -42,9 +43,7 @@ getMyAlbum = function(){
 
 onDocumentReady = function (templatePage) {  
 	currentPath = window.location.pathname;
-	initTypeAHead();
-	
-	
+		
 	$("#page2").css("height",$("#PageContainer").height());
 	$("#page1").css("height",$("#PageContainer").height());	
 	
@@ -144,16 +143,17 @@ ImJoinRoom=function(_albumID){
 		console.error("Không tìm thấy phòng này");
 		return false;
 	}
-		
+	
 	Meteor.call('ImJoinRoom',_albumID,function(err,res){		
+		returnRoom();		
 		// Update currentRoom
-		Session.set('currentRoom',_albumID);		
+		Session.set('currentRoom',_albumID);
 		
-		// Xóa hết nội dung phòng chat để cập nhật mới
-		$('#chatlist #realtimeChat li').remove();	
-				
-		returnRoom();
-		
+		// Tự động tìm và play bài hát
+		if(_album.currentSong!=''){				
+			Session.set('currentSong', _album.currentSong);
+			playCurrentSong();
+		}
 	});	
 }
 
@@ -199,7 +199,16 @@ returnRoom=function(){
 	// Vào phòng
 	onRoom = true;
 	
-	console.log(Meteor.user().profile.name, "login room");
+	
+	// Xóa hết nội dung phòng chat để cập nhật mới
+	$('#chatlist #realtimeChat li').remove();	
+		
+	
+	// Nếu đang edit > remove nó đi
+	Session.set('edit',false);
+	// Trở lại playlist
+	$('#page2 #gallery').show();
+	
 }
 
 returnHome = function(){
@@ -210,6 +219,8 @@ returnHome = function(){
 	
 	if(Session.get('reviewRoom')!=Session.get('currentRoom'))
 		Session.set('reviewRoom',Session.get('currentRoom'));
+		
+	Session.set('edit',false);
 }
 
 notiSound = function() {
@@ -217,7 +228,15 @@ notiSound = function() {
     $('body').append('<embed id="notiSound" autostart="true" hidden="true" src="https://christiaanconover.com/wp-content/uploads/2011/03/GTalkNotify.mp3" />');
 }
 
-
+isAdmin = function(){
+	var room = Album.findOne({_id:Session.get('currentRoom')});
+	if(room && Meteor.userId() && Meteor.user().username == room.owner.username){
+		return true;
+	}else{
+		console.error("You have not permission!");
+		return false;
+	}
+}
 
 getCoverAlbum = function(_genre){
 	_genre = title2Alias(_genre);

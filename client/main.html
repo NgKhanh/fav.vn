@@ -21,7 +21,7 @@
 		  var js, fjs = d.getElementsByTagName(s)[0];
 		  if (d.getElementById(id)) return;
 		  js = d.createElement(s); js.id = id;
-		  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=338611759532006";
+		  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=338611759532006";		 
 		  fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
 		
@@ -68,27 +68,20 @@
 								{{> playlistInfo}}	
 								
 								<div class="tab-pane active playlist" id="tab1">
-									
-									{{#isolate}}
-										<div id="addSong" class="input-append"> 
-											{{#if currentUser}}
-											<input id="searchInput"  type="text" data-provide="typeahead" data-items="5"  
-												placeholder="Nhập tên bài hát để thêm vào playlist"/>	
-											{{else}}
-											<input id="searchInput"  type="text" data-provide="typeahead" data-items="5"  
-												placeholder="Đăng nhập để thêm vào playlist"/>
-											{{/if}}
-										</div>	
-									{{/isolate}}
-									
+									{{> addSongInput}}
 									{{> playlist}}
 									
 								</div>
-							</div>							
+							</div>	
+							
+							{{#isolate}}
+								{{> albumEdit}}
+							{{/isolate}}
+							
 						</div>
 						
 						<div class="right">
-							<div class="slideHeader">
+							<div class="slideHeader">								
 								{{> player}} 
 								{{> songInfo}} 
 								
@@ -127,7 +120,10 @@
 							</table>
 							
 						</div>
-							
+						
+						<div class="pull-right">
+							{{> numOnline}}
+						</div>	
 						
 					</div>
 					
@@ -166,12 +162,24 @@
 	</div>
 </template>
 
-
-
 <template name="playlistInfo">
 	{{#with info}}
 	<div id="albumTitle">
-		<p><a class="albump">{{title}}<small> - ({{length}} bài)</small></a></p>
+		<p>
+			<a class="albump pull-left">{{title}}</a> <small class="pull-left"> - ({{length}} bài)</small>
+				
+			{{#if live}}
+				<i id="live" class="live pull-right"></i>
+			{{else}}
+				<i id="live" class="nolive pull-right"></i>
+			{{/if}}
+			
+			{{#if isAdmin}}
+			<a id="albumEditBtn" href="" class="pull-right">
+				<i class="icon-wrench icon-white"></i>edit
+			</a>
+			{{/if}}
+		</p>
 									
 		<small class="albumDesc pull-left">{{timeAgo}} 
 		- <a href="#">{{owner.name}}</a> 
@@ -179,6 +187,7 @@
 		
 		<div id="fbLike"></div>
 		
+				
 	</div>
 	
 	<!--<div id="cover" class="pull-left">
@@ -229,6 +238,19 @@
 
 
 
+<template name="addSongInput"> 	
+	{{#isolate}}
+		{{#with data}}
+			{{#if allow}}
+			<div id="addSong" class="input-append"> 
+				<input id="searchInput"  type="text" data-provide="typeahead" data-items="5"  
+					placeholder="Nhập tên bài hát để thêm vào playlist"/>
+			</div>	
+			{{/if}}
+		{{/with}}
+	{{/isolate}}
+</template>									
+	
 <template name="playlist"> 
 	<div>		
 		{{#isolate}}
@@ -284,6 +306,8 @@
 			{{#if active}}
 				<button type="button" class="btn btn-info joinRoomBtn">Vào nghe &raquo;</button>	
 			{{/if}}
+			
+			<!--{{#if myOwn}}<span id="{{_id}}" class="remove" > x </span>{{/if}}	-->
 		</td>
 	</tr>		
 </template>	
@@ -436,6 +460,46 @@
 </template>
 
 
+<template name="albumEdit">
+	{{#if edit}}
+	<div id="albumEdit" class="pull-left">
+		
+		<input id="title" type="text" placeholder="Chủ đề album…" value="">
+						
+		<label class="radio">
+			<input type="radio" name="policy" value="0">
+			Chia sẻ - với tất cả mọi người yêu thích 
+		</label>
+		<label class="radio">
+			<input type="radio" name="policy" value="1">
+			Riêng tư - Chỉ cho những người tôi muốn chia sẻ
+		</label>
+		
+		<label class="checkbox">
+			<input type="checkbox" name="live">			
+			Mọi người nghe cùng lúc
+		</label>
+		
+		
+		<label class="checkbox">
+			<input type="checkbox" name="addSong">
+			Cho phép mọi người thêm bài hát vào playlist
+		</label>
+		
+			<label id="activeSong" class="checkbox" style="padding-left: 40px;">
+				<input type="checkbox" name="activeSong">
+				Tự động chấp nhận thêm bài vào playlist không cần duyệt
+			</label>
+		
+		<div class="pull-right" style="margin-top: 30px;">
+			<button class="btn cancel" type="button">Trở về</button>
+			<button class="btn btn-primary save" type="button">Lưu thay đổi</button>
+		</div>
+		
+	</div>
+	{{/if}}
+</template>
+
 
 <template name="footer">
   <div class="">
@@ -453,7 +517,7 @@
 				<span style="opacity: 0.1;">& coffee</span>
 			</small>
 		</span>
-									
+		
 		{{> currentRoomLogged}}
 		
 		{{#isolate}}			

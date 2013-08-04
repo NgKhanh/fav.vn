@@ -13,7 +13,7 @@ Meteor.publish("OnlineUser", function () {
 		userExitApp(this.id);
 	});	
 	
-	return  UsersConnect.find({});
+	return  UsersConnect.find({},{fields:{userId:1}});
 });
 
 
@@ -89,11 +89,8 @@ userExitApp = function(_socketID){
 						userExitRoom(user._id, user.currentRoom);
 					}	
 				},3000);		
-			}
-			
+			}			
 		}).run(); 	
-		
-	
 }
 
 userJoinRoom = function(_userId, _roomID){
@@ -107,8 +104,8 @@ userJoinRoom = function(_userId, _roomID){
 		
 		if(room){
 			if(room.owner.username == user.username){
-				// Nếu là chủ phòng > chuyển trạng thái phòng sang live = false
-				Album.update({_id:_roomID}, {$set:{live:true}});
+				//TODO Nếu là chủ phòng > chuyển trạng thái phòng sang live = false
+				//Album.update({_id:_roomID}, {$set:{live:true}});
 				Meteor._debug(user.username + ' join his room ' + room.title);	
 			}else{
 				Meteor._debug(user.username + ' join room ' + room.title);	
@@ -145,7 +142,7 @@ userExitRoom = function(_userId, _roomID){
 			var room = Album.findOne({_id:_roomID});
 			if(room){
 				if(room.owner.username == user.username){
-					// Nếu là chủ phòng > chuyển trạng thái phòng sang live = false
+					//Nếu là chủ phòng > chuyển trạng thái phòng sang live = false
 					Album.update({_id:_roomID}, {$set:{live:false}});
 				}
 				
@@ -160,7 +157,7 @@ userExitRoom = function(_userId, _roomID){
 		
 		Meteor.users.update({_id:user._id}, {$set:{currentRoom:''}});
 		
-		//TODO: Hiện thông báo user exit room		;
+		//TODO: Hiện thông báo user exit room;
 		Meteor.call('sysMsg', user.profile.name + ' vừa ra khỏi phòng' , _roomID);
 	}else{
 		// Thông báo một khách vào phòng		

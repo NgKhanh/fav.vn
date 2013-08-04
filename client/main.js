@@ -57,18 +57,17 @@ Template.playlistInfo.created=function(){
 }
 
 Template.playlistInfo.rendered=function(){
-	if(Session.get("currentRoom")=="" || this.data==undefined)return false;
+	if(Session.get("currentRoom")=="")return false;
 	
-	var _url = this.data.url;
+	console.log(" --- > playlistInfo rendered",window.location.href);
+		
 	setTimeout(function(){
-		var fbLikeDiv = $("#fbLike");	
+		var fbLikeDiv = $("#albumTitle #fbLike");	
 			fbLikeDiv.html('');
-			fbLikeDiv.html('<div class="fb-like" data-href="'+_url+'" data-send="true" data-layout="button_count" data-width="100" data-show-faces="false"></div>');
+			fbLikeDiv.html('<div class="fb-like" data-href="'+window.location.href+'" data-send="true" data-layout="button_count" data-width="100" data-show-faces="false"></div>');
 			if(FB)FB.XFBML.parse(fbLikeDiv[0]); 
 	},1000);
 	
-	// Vì template render sau khi data update nên khi session thay đổi chưa active được > gọi lại
-	activePlaylistItem();
 }
 
 
@@ -83,12 +82,102 @@ Template.playlistInfo.events = {
 	,'click #changeCover':function(e){	
 		$(e.currentTarget).select();
 	}
+	
+	,'click #albumEditBtn':function(e){	
+		e.preventDefault();
+		
+		if(isAdmin()){
+			// Hide playlist
+			$('#page2 #gallery').hide();
+			Session.set('edit',true);			
+		}		
+	}
 }
 
 /**
 ##############################################################################################
 */
 
+Template.albumEdit.edit=function(){	
+	return Session.get('edit');	
+}
+
+Template.albumEdit.created=function(){	
+	console.log('Template albumEdit created');
+}
+
+Template.albumEdit.rendered=function(){
+	
+	if(isAdmin() == true && Session.get('currentRoom') != '' && Session.get('edit')==true){		
+		var album = Album.findOne({_id:Session.get('currentRoom')})
+		if(album){
+			//console.log('Template albumEdit rendered',title2Alias(album.genre),album.policy,album.live);
+			
+			$("#albumEdit #title").val(album.title);
+			//$("#albumEdit #genre option:selected").val(title2Alias(this.data.genre));
+			
+			$('#albumEdit input:radio[name=policy][value='+album.policy+']').prop('checked', true);		
+			$('#albumEdit input:checkbox[name=live]').prop('checked', album.live);
+			$('#albumEdit input:checkbox[name=addSong]').prop('checked', album.allowAddSong);
+			
+			$('#albumEdit input:checkbox[name=activeSong]').prop('checked', album.allowActiveSong);
+			
+			if(album.allowAddSong)$('#albumEdit #activeSong').css('opacity',1);
+			else $('#albumEdit #activeSong').css('opacity',0.1);	
+			
+			$("#albumEdit input:checkbox[name=addSong]").change(function() {				
+				if(this.checked){
+					$('#albumEdit #activeSong').css('opacity',1);					
+				}else{
+					$('#albumEdit #activeSong').css('opacity',0.1);	
+					$('#albumEdit input:checkbox[name=activeSong]').prop('checked', false);
+				}
+			});
+			
+		}
+	}
+	
+}
+
+Template.albumEdit.destroyed=function(){
+	console.log('Remove album edit html');
+}
+
+Template.albumEdit.events = {
+	'click .cancel':function(e){	
+		e.preventDefault();
+		console.log('Khong luu thay doi');
+		// remove this template		
+		Session.set('edit',false);
+		// Tro lai playlist
+		$('#page2 #gallery').show();
+	}
+	
+	,'click .save':function(e){	
+		e.preventDefault();
+				
+		if(isAdmin()){			
+		
+			var _album={};
+				_album.id = Session.get('currentRoom');
+				_album.title = $("#albumEdit #title").val();
+				_album.policy= parseInt($('#albumEdit input:radio[name=policy]:checked').val());
+				_album.live = $('#albumEdit input:checkbox[name=live]').is(':checked') ? true : false;
+				
+				_album.allowAddSong = $('#albumEdit input:checkbox[name=addSong]').is(':checked') ? true : false;
+				_album.allowActiveSong = $('#albumEdit input:checkbox[name=activeSong]').is(':checked') ? true : false;
+							
+				Meteor.call('updateAlbumInfo', _album, function(err, res){
+					if(res){
+						console.log('Đã cập nhật thay đổi', res);
+						Session.set('edit',false);						
+						// Tro lai playlist
+						$('#page2 #gallery').show();
+					}				
+				});
+		}
+	}
+}
 
 /**
 ##############################################################################################
@@ -184,17 +273,16 @@ Template.playlistItem.events = {
 		}else{
 			
 			if($(e.target).attr("class")=="remove"){
-				if(!Session.get("isAdmin")){
-					console.error('Have not permission to do remove song!');					
-				}else{
-					console.log("remove song from playlist",$(e.target).attr("id"));
-					Meteor.call("removeSongFromPlaylist", $(e.target).attr("id"),Session.get("currentRoom"));
+				var song = Song.findOne({_id:$(e.target).attr("id")});
+				if(song){
+					if(song.shareBy.username==Meteor.user().username || isAdmin()){
+						console.log("remove song from playlist",$(e.target).attr("id"));
+						Meteor.call("removeSongFromPlaylist", $(e.target).attr("id"),Session.get("currentRoom"));
+					}
 				}
 			
 			}else if($(e.target).attr("class")=="allow btn"){
-				if(!Session.get("isAdmin")){
-					console.error('Have not permission to do allow song!');					
-				}else{
+				if(isAdmin()){
 					Meteor.call('allowSongToList',$(e.target).attr("id"),Session.get('currentRoom'),function(err, res){
 						console.log("allow song --> SUCCESS");
 					});
@@ -247,7 +335,9 @@ Template.createAlbumForm.events={
 					// goto Album
 					console.log("goto album", res);
 					Router.navigate("a/"+title2Alias(_album.title)+"."+res,{trigger: true});
-				}			
+				}else{
+					
+				}	
 			});
 		}
 	}
@@ -332,12 +422,14 @@ Handlebars.registerHelper('equal', function(lvalue, rvalue, options) {
 Deps.autorun(function () {
 	// Update mỗi lần trong phòng có thay đổi
 	var album = Album.findOne({_id:Session.get('currentRoom')});
-	if (album && album.live){
+	if (album){
 		
-		if(album.live){
-			Session.set('currentSong', album.currentSong);
+		if(album.live){		
 			// start play bai hát
-			if(Session.get('currentSong')!='')playCurrentSong();
+			if(album.currentSong!=''){				
+				Session.set('currentSong', album.currentSong);
+				playCurrentSong();
+			}
 		}
 			
 		// Set quyền Admin cho user

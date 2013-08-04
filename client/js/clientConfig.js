@@ -21,6 +21,7 @@ Session.set('reviewRoom',"");
 Session.set('currentSong',"");
 Session.set('currentSongSource',"");
 Session.set('isAdmin',false);
+Session.set('edit',false);
 
 // Cau hinh url ung dung
 AbsoluteUrl = function(){	
