@@ -145,7 +145,10 @@ ImJoinRoom=function(_albumID){
 	}
 	
 	Meteor.call('ImJoinRoom',_albumID,function(err,res){		
-		returnRoom();		
+		
+		// Vào phòng chat mới > Xóa hết nội dung phòng chat cũ để cập nhật mới
+		$('#chatlist #realtimeChat li').remove();
+		
 		// Update currentRoom
 		Session.set('currentRoom',_albumID);
 		
@@ -154,6 +157,9 @@ ImJoinRoom=function(_albumID){
 			Session.set('currentSong', _album.currentSong);
 			playCurrentSong();
 		}
+		
+		returnRoom();
+			
 	});	
 }
 
@@ -198,12 +204,7 @@ returnRoom=function(){
 	
 	// Vào phòng
 	onRoom = true;
-	
-	
-	// Xóa hết nội dung phòng chat để cập nhật mới
-	$('#chatlist #realtimeChat li').remove();	
 		
-	
 	// Nếu đang edit > remove nó đi
 	Session.set('edit',false);
 	// Trở lại playlist
