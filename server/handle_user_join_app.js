@@ -104,7 +104,7 @@ userJoinRoom = function(_userId, _roomID){
 		
 		if(room){
 			if(room.owner.username == user.username){
-				//TODO Nếu là chủ phòng > chuyển trạng thái phòng sang live = false
+				//TODO Nếu là chủ phòng > chuyển trạng thái phòng sang live = true
 				//Album.update({_id:_roomID}, {$set:{live:true}});
 				Meteor._debug(user.username + ' join his room ' + room.title);	
 			}else{

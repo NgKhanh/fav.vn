@@ -243,6 +243,9 @@ Template.playlist.rendered=function(){
 		distance : '-20px',
 		wheelStep : 10
 	});
+	
+	// active lại item khi reActive ( như thêm hoặc xóa bài hát)
+	activePlaylistItem();
 }
 
 /**
